@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class GotwoLogin extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  State<GotwoLogin> createState() => _GotwoLoginState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _GotwoLoginState extends State<GotwoLogin> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -17,8 +17,8 @@ class _GotwoLoginState extends State<GotwoLogin> {
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
         colors: [
-          Colors.white,
-          Colors.white,
+          Colors.blue,
+          Colors.red,
         ],
       )),
       child: Scaffold(
@@ -36,16 +36,11 @@ class _GotwoLoginState extends State<GotwoLogin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _icon(),
-            const Text(
-              "LOGIN",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 46, color: Color(0xff1a1c43)),
-            ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             _inputField("Username", usernameController),
             const SizedBox(height: 20),
             _inputField("Password", passwordController, isPassword: true),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             _loginBtn(),
             const SizedBox(height: 20),
             _extraText(),
@@ -56,21 +51,26 @@ class _GotwoLoginState extends State<GotwoLogin> {
   }
 
   Widget _icon() {
-    return Image.asset('asset/images/pngegg.png');
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 2),
+          shape: BoxShape.circle),
+      child: const Icon(Icons.person, color: Colors.white, size: 120),
+    );
   }
 
   Widget _inputField(String hintText, TextEditingController controller,
       {isPassword = false}) {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
-        borderSide: const BorderSide(color: Color(0xff1a1c43)));
+        borderSide: const BorderSide(color: Colors.white));
 
     return TextField(
-      style: const TextStyle(color: Color(0xff1a1c43)),
+      style: const TextStyle(color: Colors.white),
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: Color(0xff1a1c43)),
+        hintStyle: const TextStyle(color: Colors.white),
         enabledBorder: border,
         focusedBorder: border,
       ),
@@ -84,19 +84,17 @@ class _GotwoLoginState extends State<GotwoLogin> {
         debugPrint("Username : " + usernameController.text);
         debugPrint("Password : " + passwordController.text);
       },
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.blue,
-        backgroundColor: Color(0xff1a1c43),
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
       child: const SizedBox(
           width: double.infinity,
           child: Text(
-            "LOG IN ",
+            "Sign in ",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20 , color: Colors.white),
+            style: TextStyle(fontSize: 20),
           )),
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.blue, backgroundColor: Colors.white, shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
     );
   }
 
@@ -104,7 +102,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
     return const Text(
       "Can't access to your account?",
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16, color: Color(0xff1a1c43)),
+      style: TextStyle(fontSize: 16, color: Colors.white),
     );
   }
 }
