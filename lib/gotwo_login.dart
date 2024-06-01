@@ -36,11 +36,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _icon(),
-            const Text(
-              "LOGIN",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 46, color: Color(0xff1a1c43)),
-            ),
+             _loginText(),
             const SizedBox(height: 20),
             _inputField("Username", usernameController),
             const SizedBox(height: 20),
@@ -57,6 +53,14 @@ class _GotwoLoginState extends State<GotwoLogin> {
 
   Widget _icon() {
     return Image.asset('asset/images/pngegg.png');
+  }
+
+  Widget _loginText() {
+    return const Text(
+      "LOGIN",
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 46, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
+    );
   }
 
   Widget _inputField(String hintText, TextEditingController controller,
@@ -95,7 +99,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
           child: Text(
             "LOG IN ",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20 , color: Colors.white),
+            style: TextStyle(fontSize: 20, color: Colors.white),
           )),
     );
   }

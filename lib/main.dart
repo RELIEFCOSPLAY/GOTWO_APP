@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/gotwo_Register.dart';
 import 'package:gotwo_app/gotwo_login.dart';
-import 'package:gotwo_app/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: GotwoLogin(),
+      home: Rider_Register(),
     );
   }
 }
