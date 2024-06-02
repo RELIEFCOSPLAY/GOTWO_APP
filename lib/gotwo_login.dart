@@ -89,6 +89,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
         debugPrint("Password : " + passwordController.text);
       },
       style: ElevatedButton.styleFrom(
+        fixedSize: Size(120, 34),
         foregroundColor: Colors.blue,
         backgroundColor: Color(0xff1a1c43),
         shape: const StadiumBorder(),

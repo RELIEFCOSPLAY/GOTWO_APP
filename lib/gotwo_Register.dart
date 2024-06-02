@@ -149,6 +149,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
         debugPrint("Gender: " + dropdownValue);
       },
       style: ElevatedButton.styleFrom(
+        fixedSize: Size(120, 34),
         foregroundColor: Colors.blue,
         backgroundColor: Color(0xff1a1c43),
         shape: const StadiumBorder(),
