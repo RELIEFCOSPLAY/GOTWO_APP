@@ -60,15 +60,16 @@ class _GotwoConditionState extends State<GotwoCondition> {
   }
 
   Widget _condition() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 350,
-          width: 250,
-          child: Text(loremIpsum(
-              words: 60, paragraphs: 3, initWithLorem: true)), // Text test
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(loremIpsum(
+                words: 100, paragraphs: 5, initWithLorem: true)), // Text test
+          ],
         ),
-      ],
+      ),
     );
   }
 
