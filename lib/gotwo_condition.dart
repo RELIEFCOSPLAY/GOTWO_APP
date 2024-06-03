@@ -65,8 +65,8 @@ class _GotwoConditionState extends State<GotwoCondition> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Text(loremIpsum(
-                words: 100, paragraphs: 5, initWithLorem: true)), // Text test
+            Text(loremIpsum(words: 100, paragraphs: 5, initWithLorem: true)), 
+                // Text test
           ],
         ),
       ),
