@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:gotwo_app/gotwo_Information.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_Register.dart';
+import 'package:gotwo_app/gotwo_condition.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_login.dart';
 
@@ -19,11 +21,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home: GotwoInformation(),
+      home: GotwoCondition(),
     );
   }
 }
