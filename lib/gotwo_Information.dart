@@ -39,81 +39,83 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
   Widget _page() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _aText(),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: _idcardBtn(),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _licenseBtn(),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _carPictureBtn(),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child:
-                      _carRegistrationBtn(),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _carACTBtn(),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _inputField("Expiration date", expirationController),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _inputField("Car registration", carRegistrationController),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _inputField("Car brand", carBrandController),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Divider(
-              color: Color(0xff1a1c43),
-              height: 2,
-              thickness: 1,
-              indent: 10,
-              endIndent: 1,
-            ),
-            const SizedBox(height: 10),
-            _bText(),
-            const SizedBox(height: 10),
-            _dropdown(),
-            const SizedBox(height: 10),
-            _inputField2("Bank account name", namebankAccountController),
-            const SizedBox(height: 10),
-            _inputField2("Enter account number", accountNumberController),
-            const SizedBox(height: 5),
-            _nextBtn(),
-          ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _aText(),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: _idcardBtn(),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _licenseBtn(),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: _carPictureBtn(),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child:
+                        _carRegistrationBtn(),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: _carACTBtn(),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _inputField("Expiration date", expirationController),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: _inputField("Car registration", carRegistrationController),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _inputField("Car brand", carBrandController),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              const Divider(
+                color: Color(0xff1a1c43),
+                height: 2,
+                thickness: 1,
+                indent: 10,
+                endIndent: 1,
+              ),
+              const SizedBox(height: 10),
+              _bText(),
+              const SizedBox(height: 10),
+              _dropdown(),
+              const SizedBox(height: 10),
+              _inputField2("Bank account name", namebankAccountController),
+              const SizedBox(height: 10),
+              _inputField2("Enter account number", accountNumberController),
+              const SizedBox(height: 5),
+              _nextBtn(),
+            ],
+          ),
         ),
       ),
     );

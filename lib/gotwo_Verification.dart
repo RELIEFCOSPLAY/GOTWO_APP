@@ -35,26 +35,28 @@ class _GotwoVerificationState extends State<GotwoVerification> {
   }
 
   Widget _page() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _aText(),
-            const SizedBox(height: 20),
-            _verificationText(),
-            const SizedBox(height: 20),
-            _numberText(),
-            const SizedBox(height: 20),
-            _verifyBox(),
-            const SizedBox(height: 20),
-            _timerText(),
-            const SizedBox(height: 20),
-            _bText(),
-            const SizedBox(height: 20),
-            _verifyBtn(),
-          ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _aText(),
+              const SizedBox(height: 20),
+              _verificationText(),
+              const SizedBox(height: 20),
+              _numberText(),
+              const SizedBox(height: 20),
+              _verifyBox(),
+              const SizedBox(height: 20),
+              _timerText(),
+              const SizedBox(height: 20),
+              _bText(),
+              const SizedBox(height: 20),
+              _verifyBtn(),
+            ],
+          ),
         ),
       ),
     );
@@ -99,7 +101,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
 
   Widget _verifyBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 130),
+      padding: const EdgeInsets.only(top: 120),
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(

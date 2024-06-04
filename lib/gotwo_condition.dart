@@ -29,20 +29,22 @@ class _GotwoConditionState extends State<GotwoCondition> {
   }
 
   Widget _page() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _aText(),
-            const SizedBox(height: 20),
-            _condition(),
-            const SizedBox(height: 20),
-            _checkbox(),
-            const SizedBox(height: 20),
-            _confirmBtn(),
-          ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _aText(),
+              const SizedBox(height: 20),
+              _condition(),
+              const SizedBox(height: 20),
+              _checkbox(),
+              const SizedBox(height: 20),
+              _confirmBtn(),
+            ],
+          ),
         ),
       ),
     );
@@ -60,13 +62,11 @@ class _GotwoConditionState extends State<GotwoCondition> {
   Widget _condition() {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(loremIpsum(words: 100, paragraphs: 5, initWithLorem: true)), 
-                // Text test
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(loremIpsum(words: 100, paragraphs: 5, initWithLorem: true)), 
+              // Text test
+        ],
       ),
     );
   }

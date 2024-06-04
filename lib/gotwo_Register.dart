@@ -39,32 +39,34 @@ class _Rider_RegisterState extends State<Rider_Register> {
   }
 
   Widget _page() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _registerText(),
-            const SizedBox(height: 5),
-            _icon(),
-            const SizedBox(height: 10),
-            _inputField("Username", usernameController),
-            const SizedBox(height: 5),
-            _inputField("Email", emaiController),
-            const SizedBox(height: 5),
-            _inputField("Phone number", phoneController),
-            const SizedBox(height: 5),
-            _dropdown(),
-            const SizedBox(height: 5),
-            _inputField("Create Password", createPasswordController,
-                isPassword: true),
-            const SizedBox(height: 5),
-            _inputField("Confirm Password", confirmPasswordController,
-                isPassword: true),
-            const SizedBox(height: 5),
-            _registerBtn(),
-          ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _registerText(),
+              const SizedBox(height: 5),
+              _icon(),
+              const SizedBox(height: 10),
+              _inputField("Username", usernameController),
+              const SizedBox(height: 5),
+              _inputField("Email", emaiController),
+              const SizedBox(height: 5),
+              _inputField("Phone number", phoneController),
+              const SizedBox(height: 5),
+              _dropdown(),
+              const SizedBox(height: 5),
+              _inputField("Create Password", createPasswordController,
+                  isPassword: true),
+              const SizedBox(height: 5),
+              _inputField("Confirm Password", confirmPasswordController,
+                  isPassword: true),
+              const SizedBox(height: 5),
+              _registerBtn(),
+            ],
+          ),
         ),
       ),
     );
