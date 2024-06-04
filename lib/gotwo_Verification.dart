@@ -14,6 +14,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final isRunning = timer == null ? false : timer!.isActive;
 
     return Container(
