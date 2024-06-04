@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -7,10 +8,14 @@ class GotwoVerification extends StatefulWidget {
 }
 
 class _GotwoVerificationState extends State<GotwoVerification> {
-  static const maxSeconds = 60;
+  static const maxSeconds = 30;
   int seconds = maxSeconds;
+  Timer? timer;
+
   @override
   Widget build(BuildContext context) {
+    final isRunning = timer == null ? false : timer!.isActive;
+
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -33,7 +38,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
       padding: const EdgeInsets.all(32.0),
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _aText(),
             const SizedBox(height: 20),
@@ -45,8 +50,9 @@ class _GotwoVerificationState extends State<GotwoVerification> {
             const SizedBox(height: 20),
             _timerText(),
             const SizedBox(height: 20),
-            _verifyBtn(),
+            _bText(),
             const SizedBox(height: 20),
+            _verifyBtn(),
           ],
         ),
       ),
@@ -54,11 +60,16 @@ class _GotwoVerificationState extends State<GotwoVerification> {
   }
 
   Widget _aText() {
-    return const Text(
-      "Verification",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontSize: 26, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 100),
+      child: Text(
+        "Verification",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 50,
+            color: Color(0xff1a1c43),
+            fontWeight: FontWeight.bold),
+      ),
     );
   }
 
@@ -86,22 +97,25 @@ class _GotwoVerificationState extends State<GotwoVerification> {
   }
 
   Widget _verifyBtn() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        fixedSize: const Size(120, 24),
-        foregroundColor: Colors.blue,
-        backgroundColor: const Color(0xff1a1c43),
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(vertical: 2),
+    return Padding(
+      padding: const EdgeInsets.only(top: 130),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(120, 24),
+          foregroundColor: Colors.blue,
+          backgroundColor: const Color(0xff1a1c43),
+          shape: const StadiumBorder(),
+          padding: const EdgeInsets.symmetric(vertical: 2),
+        ),
+        child: const SizedBox(
+            width: double.infinity,
+            child: Text(
+              "Verify",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            )),
       ),
-      child: const SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Verify",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.white),
-          )),
     );
   }
 
@@ -143,8 +157,23 @@ class _GotwoVerificationState extends State<GotwoVerification> {
   }
 
   Widget _timerText() {
+    // timer = Timer.periodic(Duration(seconds: 1), (_) {
+    //   setState(() => seconds--);
+    // });
     return Text(
-      '$seconds',
+      '00 : $seconds',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 24,
+        color: Color(0xff1a1c43),
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _bText() {
+    return const Text(
+      'Resend OTP',
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 16,
