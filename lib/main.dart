@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gotwo_app/gotwo_Information.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_Register.dart';
+import 'package:gotwo_app/gotwo_Verification.dart';
+// ignore: unused_import
 import 'package:gotwo_app/gotwo_condition.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_login.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home: GotwoCondition(),
+      home: GotwoVerification(),
     );
   }
 }

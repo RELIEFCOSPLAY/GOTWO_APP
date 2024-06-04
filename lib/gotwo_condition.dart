@@ -31,20 +31,18 @@ class _GotwoConditionState extends State<GotwoCondition> {
   Widget _page() {
     return Padding(
       padding: const EdgeInsets.all(32.0),
-      child: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _aText(),
-              const SizedBox(height: 20),
-              _condition(),
-              const SizedBox(height: 20),
-              _checkbox(),
-              const SizedBox(height: 20),
-              _confirmBtn(),
-            ],
-          ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _aText(),
+            const SizedBox(height: 20),
+            _condition(),
+            const SizedBox(height: 20),
+            _checkbox(),
+            const SizedBox(height: 20),
+            _confirmBtn(),
+          ],
         ),
       ),
     );
