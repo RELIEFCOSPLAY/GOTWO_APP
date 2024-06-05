@@ -91,7 +91,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
         debugPrint("Password : ${passwordController.text}");
       },
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(120, 34),
+        fixedSize: const Size(120, 50),
         foregroundColor: Colors.blue,
         backgroundColor: const Color(0xff1a1c43),
         shape: const StadiumBorder(),
@@ -102,7 +102,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
           child: Text(
             "LOG IN ",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: TextStyle(fontSize: 16, color: Colors.white),
           )),
     );
   }
