@@ -66,8 +66,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             const SizedBox(height: 20),
             const CircleAvatar(
-              radius: 30,
-              child: Icon(Icons.account_circle_outlined, size: 70),
+              child: Icon(Icons.account_circle_outlined, size: 40),
             ),
             const SizedBox(height: 10),
             const Text("Name Lastname",
