@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class GotwoLogin extends StatefulWidget {
-  const GotwoLogin({super.key});
-
   @override
   State<GotwoLogin> createState() => _GotwoLoginState();
 }
@@ -38,7 +36,11 @@ class _GotwoLoginState extends State<GotwoLogin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _icon(),
-             _loginText(),
+            const Text(
+              "LOGIN",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 46, color: Color(0xff1a1c43)),
+            ),
             const SizedBox(height: 20),
             _inputField("Username", usernameController),
             const SizedBox(height: 20),
@@ -55,14 +57,6 @@ class _GotwoLoginState extends State<GotwoLogin> {
 
   Widget _icon() {
     return Image.asset('asset/images/pngegg.png');
-  }
-
-  Widget _loginText() {
-    return const Text(
-      "LOGIN",
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 46, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
-    );
   }
 
   Widget _inputField(String hintText, TextEditingController controller,
@@ -87,13 +81,12 @@ class _GotwoLoginState extends State<GotwoLogin> {
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
-        debugPrint("Username : ${usernameController.text}");
-        debugPrint("Password : ${passwordController.text}");
+        debugPrint("Username : " + usernameController.text);
+        debugPrint("Password : " + passwordController.text);
       },
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(120, 34),
         foregroundColor: Colors.blue,
-        backgroundColor: const Color(0xff1a1c43),
+        backgroundColor: Color(0xff1a1c43),
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
@@ -102,7 +95,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
           child: Text(
             "LOG IN ",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: TextStyle(fontSize: 20 , color: Colors.white),
           )),
     );
   }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -83,13 +81,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
-        debugPrint("Username : ${usernameController.text}");
-        debugPrint("Password : ${passwordController.text}");
+        debugPrint("Username : " + usernameController.text);
+        debugPrint("Password : " + passwordController.text);
       },
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.blue, backgroundColor: Colors.white, shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
       child: const SizedBox(
           width: double.infinity,
           child: Text(
@@ -97,6 +91,10 @@ class _LoginPageState extends State<LoginPage> {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20),
           )),
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.blue, backgroundColor: Colors.white, shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
     );
   }
 
