@@ -8,8 +8,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // ignore: unused_field
   final TextEditingController _startLocationController =
       TextEditingController();
+  // ignore: unused_field
   final TextEditingController _endLocationController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   Future<void> _showDialog() async {
