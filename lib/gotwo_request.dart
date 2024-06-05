@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: const Text('Yes'),
             ),
           ],
         );
@@ -60,6 +60,13 @@ class _HomeState extends State<Home> {
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Color(0xff1a1c43),
+        leading: IconButton(color: Colors.white,
+          onPressed: () {},
+          icon: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {},
+            ),
+          ),
       ),
       body: Center(
         child: Column(
@@ -76,7 +83,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.male,
+                  Icons.transgender,
                   size: 16,
                 ),
                 SizedBox(width: 5),
