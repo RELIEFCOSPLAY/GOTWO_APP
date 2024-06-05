@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GotwoInformation extends StatefulWidget {
+  const GotwoInformation({super.key});
+
   @override
   State<GotwoInformation> createState() => _GotwoInformationState();
 }

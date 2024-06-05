@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GotwoLogin extends StatefulWidget {
+  const GotwoLogin({super.key});
+
   @override
   State<GotwoLogin> createState() => _GotwoLoginState();
 }
@@ -85,13 +87,13 @@ class _GotwoLoginState extends State<GotwoLogin> {
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
-        debugPrint("Username : " + usernameController.text);
-        debugPrint("Password : " + passwordController.text);
+        debugPrint("Username : ${usernameController.text}");
+        debugPrint("Password : ${passwordController.text}");
       },
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(120, 34),
+        fixedSize: const Size(120, 34),
         foregroundColor: Colors.blue,
-        backgroundColor: Color(0xff1a1c43),
+        backgroundColor: const Color(0xff1a1c43),
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),

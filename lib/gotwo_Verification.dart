@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 class GotwoVerification extends StatefulWidget {
+  const GotwoVerification({super.key});
+
   @override
   State<GotwoVerification> createState() => _GotwoVerificationState();
 }
@@ -131,19 +133,19 @@ class _GotwoVerificationState extends State<GotwoVerification> {
           color: Color.fromRGBO(30, 60, 87, 1),
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+        border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
         borderRadius: BorderRadius.circular(20),
       ),
     );
 
     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
+      border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
       borderRadius: BorderRadius.circular(8),
     );
 
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration?.copyWith(
-        color: Color.fromRGBO(234, 239, 243, 1),
+        color: const Color.fromRGBO(234, 239, 243, 1),
       ),
     );
     return Pinput(
@@ -166,7 +168,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
     return Text(
       '00 : $seconds',
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 24,
         color: Color(0xff1a1c43),
         fontWeight: FontWeight.bold,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lorem_ipsum/lorem_ipsum.dart';
 
 class GotwoCondition extends StatefulWidget {
+  const GotwoCondition({super.key});
+
   @override
   State<GotwoCondition> createState() => _GotwoConditionState();
 }
@@ -81,7 +83,7 @@ class _GotwoConditionState extends State<GotwoCondition> {
           ),
           "I accept and agree to the Terms of Use."),
       checkColor: Colors.white,
-      activeColor: Color(0xff1a1c43),
+      activeColor: const Color(0xff1a1c43),
       value: isChecked,
       controlAffinity: ListTileControlAffinity.leading,
       onChanged: (bool? value) {

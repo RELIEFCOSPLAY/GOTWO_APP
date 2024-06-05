@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Rider_Register extends StatefulWidget {
+  const Rider_Register({super.key});
+
   @override
   State<Rider_Register> createState() => _Rider_RegisterState();
 }
@@ -84,7 +86,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
   Widget _icon() {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Color(0xff1a1c43), width: 2),
+          border: Border.all(color: const Color(0xff1a1c43), width: 2),
           shape: BoxShape.circle),
       child: const Icon(Icons.person, color: Color(0xff1a1c43), size: 50),
     );
@@ -143,17 +145,17 @@ class _Rider_RegisterState extends State<Rider_Register> {
   Widget _registerBtn() {
     return ElevatedButton(
       onPressed: () {
-        debugPrint("Username : " + usernameController.text);
-        debugPrint("Emai : " + emaiController.text);
-        debugPrint("Phone : " + phoneController.text);
-        debugPrint("Create Password : " + createPasswordController.text);
-        debugPrint("Confirm Password : " + confirmPasswordController.text);
-        debugPrint("Gender: " + dropdownValue);
+        debugPrint("Username : ${usernameController.text}");
+        debugPrint("Emai : ${emaiController.text}");
+        debugPrint("Phone : ${phoneController.text}");
+        debugPrint("Create Password : ${createPasswordController.text}");
+        debugPrint("Confirm Password : ${confirmPasswordController.text}");
+        debugPrint("Gender: $dropdownValue");
       },
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(120, 34),
+        fixedSize: const Size(120, 34),
         foregroundColor: Colors.blue,
-        backgroundColor: Color(0xff1a1c43),
+        backgroundColor: const Color(0xff1a1c43),
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 6),
       ),
