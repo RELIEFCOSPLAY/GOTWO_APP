@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Color(0xFF2084B6),
+        backgroundColor: Color(0xff1a1c43),
       ),
       body: Center(
         child: Column(
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
             const CircleAvatar(
               radius: 30,
-              child: Icon(Icons.person, size: 30),
+              child: Icon(Icons.account_circle_outlined, size: 70),
             ),
             const SizedBox(height: 10),
             const Text("Name Lastname",
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.attach_money,
+                  Icons.credit_card_outlined,
                   size: 16,
                 ),
                 SizedBox(width: 5),
@@ -182,7 +182,7 @@ class _HomeState extends State<Home> {
                     const SizedBox(height: 20),
                     const Text(
                       "Bring your own a helmet.",
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 14, color: Colors.red),
                     ),
                     const SizedBox(height: 20),
                     Row(
