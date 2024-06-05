@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-// ignore: unused_import
+
 import 'package:gotwo_app/gotwo_Information.dart';
-// ignore: unused_import
+
 import 'package:gotwo_app/gotwo_Register.dart';
-// ignore: unused_import
+
 import 'package:gotwo_app/gotwo_Verification.dart';
-// ignore: unused_import
+
 import 'package:gotwo_app/gotwo_condition.dart';
-// ignore: unused_import
+
 import 'package:gotwo_app/gotwo_login.dart';
 
 void main() {
