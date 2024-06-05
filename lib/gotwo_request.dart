@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 32, 132, 182),
+        backgroundColor: Color(0xFF2084B6),
       ),
       body: Center(
         child: Column(
