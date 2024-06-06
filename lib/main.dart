@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/gotwo_DashbordRider.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_Information.dart';
 // ignore: unused_import
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home: GotwoVerification(),
+      home: GotwoDashbordrider(),
     );
   }
 }

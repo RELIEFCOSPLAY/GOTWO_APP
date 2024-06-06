@@ -255,7 +255,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
   }
 
   Widget _timerText() {
-    // timer = Timer.periodic(Duration(seconds: 1), (_) {
+    // timer = Timer.periodic(const Duration(seconds: 1), (_) {
     //   setState(() => seconds--);
     // });
     return Text(
@@ -295,12 +295,13 @@ class _GotwoVerificationState extends State<GotwoVerification> {
           padding: const EdgeInsets.symmetric(vertical: 2),
         ),
         child: const SizedBox(
-            width: double.infinity,
-            child: Text(
-              "Verify",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            )),
+          width: double.infinity,
+          child: Text(
+            "Verify",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        ),
       ),
     );
   }
