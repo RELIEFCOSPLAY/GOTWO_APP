@@ -8,8 +8,10 @@ class GotwoRequest extends StatefulWidget {
 }
 
 class _GotwoRequestState extends State<GotwoRequest> {
+  // ignore: unused_field
   final TextEditingController _startLocationController =
       TextEditingController();
+  // ignore: unused_field
   final TextEditingController _endLocationController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
