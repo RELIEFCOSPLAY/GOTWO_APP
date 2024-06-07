@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class GotwoRequest extends StatefulWidget {
+  const GotwoRequest({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  _GotwoRequestState createState() => _GotwoRequestState();
 }
 
-class _HomeState extends State<Home> {
+class _GotwoRequestState extends State<GotwoRequest> {
   final TextEditingController _startLocationController =
       TextEditingController();
   final TextEditingController _endLocationController = TextEditingController();
