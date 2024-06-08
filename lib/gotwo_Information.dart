@@ -69,8 +69,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child:
-                        _carRegistrationBtn(),
+                    child: _carRegistrationBtn(),
                   )
                 ],
               ),
@@ -90,7 +89,8 @@ class _GotwoInformationState extends State<GotwoInformation> {
               Row(
                 children: [
                   Expanded(
-                    child: _inputField("Car registration", carRegistrationController),
+                    child: _inputField(
+                        "Car registration", carRegistrationController),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -247,11 +247,16 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: ElevatedButton(
         onPressed: () {},
         style: ButtonStyle(
-            backgroundColor: const WidgetStatePropertyAll(Colors.white),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Color(0xff1a1c43))))),
+          backgroundColor: const WidgetStatePropertyAll(Colors.white),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: const BorderSide(
+                color: Color(0xff1a1c43),
+              ),
+            ),
+          ),
+        ),
         child: const SizedBox(
             width: double.infinity,
             child: Row(
