@@ -225,7 +225,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
               _dropdownPickup(),
               Padding(
                 padding: const EdgeInsets.only(left: 50),
-                child: _inputField2("Comment Pickup", commentController1),
+                child: _commentField("Comment Pickup", commentController1),
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 40),
@@ -240,7 +240,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
               _dropdownDrop(),
               Padding(
                 padding: const EdgeInsets.only(left: 50),
-                child: _inputField2("Comment Drop", commentController2),
+                child: _commentField("Comment Drop", commentController2),
               ),
             ],
           ),
@@ -249,7 +249,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     );
   }
 
-  Widget _inputField2(
+  Widget _commentField(
     String hintText,
     TextEditingController controller,
   ) {
