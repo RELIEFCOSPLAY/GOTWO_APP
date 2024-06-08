@@ -184,7 +184,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         Padding(
           padding: EdgeInsets.only(top: 8, left: 40),
           child: Text(
-            "Book your Ride",
+            "Book Your Ride",
             textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: 24,
