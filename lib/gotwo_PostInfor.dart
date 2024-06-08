@@ -11,6 +11,8 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController commentController1 = TextEditingController();
+  TextEditingController commentController2 = TextEditingController();
   static const List<String> list = <String>[
     'Select Location',
     'Mae Fah Luang(D1)',
@@ -43,7 +45,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
 
   Widget _page() {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.only(top: 10),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -96,7 +98,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   Widget _inputBox() {
     return Container(
       width: double.infinity,
-      height: 547,
+      height: 565,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -201,20 +203,68 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
       children: [
         Container(
           width: 300,
-          height: 200,
+          height: 220,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: const Color(0xff1a1c43))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 40),
+                child: Text(
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Color(0xff1a1c43),
+                    ),
+                    "Pickup"),
+              ),
               _dropdownPickup(),
+              Padding(
+                padding: const EdgeInsets.only(left: 50),
+                child: _inputField2("Comment Pickup", commentController1),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 40),
+                child: Text(
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Color(0xff1a1c43),
+                    ),
+                    "Drop"),
+              ),
               _dropdownDrop(),
+              Padding(
+                padding: const EdgeInsets.only(left: 50),
+                child: _inputField2("Comment Drop", commentController2),
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _inputField2(
+    String hintText,
+    TextEditingController controller,
+  ) {
+    return SizedBox(
+      height: 20,
+      width: 200,
+      child: TextField(
+        textAlign: TextAlign.start,
+        style: const TextStyle(color: Color(0xff1a1c43), fontSize: 12),
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.grey),
+        ),
+      ),
     );
   }
 
@@ -264,6 +314,8 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
             hintStyle: const TextStyle(color: Color(0xff1a1c43)),
             enabledBorder: border,
             focusedBorder: border,
+            prefixIcon:
+                const Icon(Icons.price_change, color: Color(0xff17C8B1)),
           ),
         ),
       ),
@@ -301,38 +353,37 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Color(0xff1a1c43)));
 
-    return Column(
-      children: [
-        Text('oooooo'),
-        Container(
-        padding: const EdgeInsets.fromLTRB(60, 5, 60, 5),
-        child: DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            enabledBorder: border,
-            focusedBorder: border,
+    return Container(
+      padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          enabledBorder: border,
+          focusedBorder: border,
+          prefixIcon: const Icon(
+            Icons.my_location,
+            color: Color(0xff30E483),
           ),
-          value: dropdownPickup,
-          elevation: 16,
-          style: const TextStyle(
-            color: Color(0xff1a1c43),
-            fontWeight: FontWeight.bold,
-          ),
-          borderRadius: BorderRadius.circular(18),
-          onChanged: (String? value) {
-            // This is called when the user selects an item.
-            setState(() {
-              dropdownPickup = value!;
-            });
-          },
-          items: list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
         ),
+        value: dropdownPickup,
+        elevation: 16,
+        style: const TextStyle(
+          color: Color(0xff1a1c43),
+          fontWeight: FontWeight.bold,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        onChanged: (String? value) {
+          // This is called when the user selects an item.
+          setState(() {
+            dropdownPickup = value!;
+          });
+        },
+        items: list.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
-      ],
     );
   }
 
@@ -340,13 +391,13 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Color(0xff1a1c43)));
-
     return Container(
-      padding: const EdgeInsets.fromLTRB(60, 5, 60, 5),
+      padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           enabledBorder: border,
           focusedBorder: border,
+          prefixIcon: const Icon(Icons.location_on, color: Color(0xffE51A1A)),
         ),
         value: dropdownDrop,
         elevation: 16,
@@ -374,11 +425,13 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   Widget _postBtn() {
     return ElevatedButton(
       onPressed: () {
+        debugPrint("Pickup : $dropdownPickup");
+        debugPrint("commentPickup : ${commentController1.text}");
+        debugPrint("Drop : $dropdownDrop");
+        debugPrint("commentDrop : ${commentController2.text}");
         debugPrint("Date : ${dateController.text}");
         debugPrint("Time : ${timeController.text}");
         debugPrint("Price : ${priceController.text}");
-        debugPrint("Pickup : $dropdownPickup");
-        debugPrint("Drop : $dropdownDrop");
         debugPrint("Checkbox : $isChecked");
       },
       style: ElevatedButton.styleFrom(
