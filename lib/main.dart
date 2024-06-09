@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/gotwo_request.dart';
+import 'package:gotwo_app/gotwo_confirmCustomer.dart';
+import 'package:gotwo_app/gotwo_confirmRider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const GotwoRequest(),
+      home: const GotwoConRider(),
     );
   }
 }
