@@ -49,36 +49,41 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   }
 
   Widget _inforAvaterBox() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        children: [
-          CircleAvatar(
-            minRadius: 25,
-            maxRadius: 40,
-            backgroundColor: Colors.white,
-            child: Image.asset('asset/images/pngegg.png'),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            " Hello , Ethan ",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        debugPrint("CircleAvatar");
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            CircleAvatar(
+              minRadius: 25,
+              maxRadius: 40,
+              backgroundColor: Colors.white,
+              child: Image.asset('asset/images/pngegg.png'),
             ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            " Enjoy the journey ",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 10),
+            const Text(
+              " Hello , Ethan ",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            const Text(
+              " Enjoy the journey ",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -122,7 +127,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print("1");
+                  debugPrint("1");
                 },
                 child: Container(
                   width: 300,
@@ -164,7 +169,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print("2");
+                  debugPrint("2");
                 },
                 child: Container(
                   width: 300,
@@ -206,7 +211,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print("3");
+                  debugPrint("3");
                 },
                 child: Container(
                   width: 300,
@@ -253,7 +258,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   shadowColor: Colors.transparent,
                 ),
                 onPressed: () {
-                  print("Dashboard");
+                  debugPrint("Dashboard");
                 },
                 child: const Column(
                   children: [
@@ -272,7 +277,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   shadowColor: Colors.transparent,
                 ),
                 onPressed: () {
-                  print("Status");
+                  debugPrint("Status");
                 },
                 child: const Column(
                   children: [
@@ -291,7 +296,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   shadowColor: Colors.transparent,
                 ),
                 onPressed: () {
-                  print("Profile");
+                  debugPrint("Profile");
                 },
                 child: const Column(
                   children: [

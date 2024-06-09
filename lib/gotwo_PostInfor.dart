@@ -98,7 +98,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   Widget _inputBox() {
     return Container(
       width: double.infinity,
-      height: 565,
+      height: 567,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(

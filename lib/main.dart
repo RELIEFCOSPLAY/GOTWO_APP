@@ -10,6 +10,8 @@ import 'package:gotwo_app/gotwo_PostPage.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_Register.dart';
 // ignore: unused_import
+import 'package:gotwo_app/gotwo_SatusRider.dart';
+// ignore: unused_import
 import 'package:gotwo_app/gotwo_Verification.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_condition.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home: GotwoPostinfor(),
+      home: GotwoSatusrider(),
     );
   }
 }
