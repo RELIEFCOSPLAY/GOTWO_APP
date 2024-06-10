@@ -58,7 +58,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
                 ),
                 _backButton(),
                 const SizedBox(
-                  width: 70,
+                  width: 60,
                 ),
                 _aText(),
               ],
@@ -425,6 +425,14 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   Widget _postBtn() {
     return ElevatedButton(
       onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: _snackBarnotification(),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
         debugPrint("Pickup : $dropdownPickup");
         debugPrint("commentPickup : ${commentController1.text}");
         debugPrint("Drop : $dropdownDrop");
@@ -449,5 +457,55 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
             style: TextStyle(fontSize: 16, color: Colors.white),
           )),
     );
+  }
+
+  Widget _snackBarnotification() {
+    if (dropdownPickup == "Select Location" &&
+        commentController1.text == "" &&
+        dropdownDrop == "Select Location" &&
+        commentController2.text == "" &&
+        dateController.text == "" &&
+        timeController.text == "" &&
+        priceController.text == "") {
+      return Container(
+        padding: const EdgeInsets.all(8),
+        height: 70,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.redAccent)),
+        child: const Row(
+          children: [
+            SizedBox(
+              width: 48,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Oh snap!",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff1a1c43),
+                    ),
+                  ),
+                  Text(
+                    "Username or Password is Wrong",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff1a1c43),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 }
