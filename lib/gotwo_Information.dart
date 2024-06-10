@@ -35,6 +35,36 @@ class _GotwoInformationState extends State<GotwoInformation> {
       )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Color(0xffffffff),
+          title: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: _backButton(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        "Information Personal",
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Color(0xff1a1c43),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
         body: _page(),
       ),
     );
@@ -48,8 +78,6 @@ class _GotwoInformationState extends State<GotwoInformation> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _aText(),
-              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -123,12 +151,16 @@ class _GotwoInformationState extends State<GotwoInformation> {
     );
   }
 
-  Widget _aText() {
-    return const Text(
-      "Information Personal",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontSize: 26, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
+  Widget _backButton() {
+    return GestureDetector(
+      onTap: () {
+        debugPrint("back");
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 30,
+        color: Color(0xff1a1c43),
+      ),
     );
   }
 
@@ -222,7 +254,16 @@ class _GotwoInformationState extends State<GotwoInformation> {
 
   Widget _nextBtn() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: _snackBarnotification(),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
+      },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 24),
         foregroundColor: Colors.blue,
@@ -408,5 +449,53 @@ class _GotwoInformationState extends State<GotwoInformation> {
             )),
       ),
     );
+  }
+
+  Widget _snackBarnotification() {
+    if (expirationController.text == "" &&
+        carRegistrationController.text == "" &&
+        carBrandController.text == "" &&
+        namebankAccountController.text == "" &&
+        accountNumberController.text == "") {
+      return Container(
+        padding: const EdgeInsets.all(8),
+        height: 70,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.redAccent)),
+        child: const Row(
+          children: [
+            SizedBox(
+              width: 48,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Oh snap!",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff1a1c43),
+                    ),
+                  ),
+                  Text(
+                    "Username or Password is Wrong",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff1a1c43),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 }

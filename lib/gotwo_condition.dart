@@ -25,6 +25,36 @@ class _GotwoConditionState extends State<GotwoCondition> {
       )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Color(0xffffffff),
+          title: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: _backButton(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        "Term and Condition",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 26,
+                            color: Color(0xff1a1c43),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
         body: _page(),
       ),
     );
@@ -38,8 +68,6 @@ class _GotwoConditionState extends State<GotwoCondition> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _aText(),
-              const SizedBox(height: 20),
               _condition(),
               const SizedBox(height: 20),
               _checkbox(),
@@ -52,12 +80,16 @@ class _GotwoConditionState extends State<GotwoCondition> {
     );
   }
 
-  Widget _aText() {
-    return const Text(
-      "Term and Condition",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontSize: 26, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
+  Widget _backButton() {
+    return GestureDetector(
+      onTap: () {
+        debugPrint("back");
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 30,
+        color: Color(0xff1a1c43),
+      ),
     );
   }
 
@@ -66,8 +98,8 @@ class _GotwoConditionState extends State<GotwoCondition> {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: [
-          Text(loremIpsum(words: 100, paragraphs: 5, initWithLorem: true)), 
-              // Text test
+          Text(loremIpsum(words: 100, paragraphs: 5, initWithLorem: true)),
+          // Text test
         ],
       ),
     );
@@ -98,7 +130,9 @@ class _GotwoConditionState extends State<GotwoCondition> {
 
   Widget _confirmBtn() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        debugPrint("checkbox $isChecked");
+      },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 24),
         foregroundColor: Colors.blue,

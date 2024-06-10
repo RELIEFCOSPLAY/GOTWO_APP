@@ -34,6 +34,36 @@ class _GotwoVerificationState extends State<GotwoVerification> {
       )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Color(0xffffffff),
+          title: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: _backButton(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        "Verification",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: Color(0xff1a1c43),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
         body: _page(),
       ),
     );
@@ -47,8 +77,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _aText(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 80),
               _verificationText(),
               const SizedBox(height: 20),
               _numberText(),
@@ -58,7 +87,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
               _timerText(),
               const SizedBox(height: 20),
               _bText(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               _verifyBtn(),
             ],
           ),
@@ -67,16 +96,15 @@ class _GotwoVerificationState extends State<GotwoVerification> {
     );
   }
 
-  Widget _aText() {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 100),
-      child: Text(
-        "Verification",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 50,
-            color: Color(0xff1a1c43),
-            fontWeight: FontWeight.bold),
+  Widget _backButton() {
+    return GestureDetector(
+      onTap: () {
+        debugPrint("back");
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 30,
+        color: Color(0xff1a1c43),
       ),
     );
   }

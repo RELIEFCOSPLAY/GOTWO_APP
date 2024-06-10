@@ -110,7 +110,7 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
             // ),
             suffixIcon: GestureDetector(
               onTap: () {
-                debugPrint("Username : ${searchController.text}");
+                debugPrint("Search : ${searchController.text}");
               },
               child: const Icon(
                 Icons.search,

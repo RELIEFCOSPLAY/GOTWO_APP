@@ -37,8 +37,14 @@ class _GotwoLoginState extends State<GotwoLogin> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _backButton(),
+              ],
+            ),
             _icon(),
-             _loginText(),
+            _loginText(),
             const SizedBox(height: 20),
             _inputField("Username", usernameController),
             const SizedBox(height: 20),
@@ -57,11 +63,25 @@ class _GotwoLoginState extends State<GotwoLogin> {
     return Image.asset('asset/images/pngegg.png');
   }
 
+  Widget _backButton() {
+    return GestureDetector(
+      onTap: () {
+        debugPrint("back");
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 30,
+        color: Color(0xff1a1c43),
+      ),
+    );
+  }
+
   Widget _loginText() {
     return const Text(
       "LOGIN",
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 46, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
+      style: TextStyle(
+          fontSize: 46, color: Color(0xff1a1c43), fontWeight: FontWeight.bold),
     );
   }
 
@@ -87,6 +107,14 @@ class _GotwoLoginState extends State<GotwoLogin> {
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: _snackBarnotification(),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
         debugPrint("Username : ${usernameController.text}");
         debugPrint("Password : ${passwordController.text}");
       },
@@ -112,6 +140,87 @@ class _GotwoLoginState extends State<GotwoLogin> {
       "Can't access to your account?",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 16, color: Color(0xff1a1c43)),
+    );
+  }
+
+  Widget _snackBarnotification() {
+    if (passwordController.text == "11111") {
+      return Container(
+        padding: const EdgeInsets.all(8),
+        height: 70,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: const Color(0xff1a1c43))),
+        child: const Row(
+          children: [
+            SizedBox(
+              width: 48,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "LOGIN ",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff1a1c43),
+                    ),
+                  ),
+                  Text(
+                    "Enjoy the journey.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff1a1c43),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.all(8),
+      height: 70,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.redAccent)),
+      child: const Row(
+        children: [
+          SizedBox(
+            width: 48,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Oh snap!",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff1a1c43),
+                  ),
+                ),
+                Text(
+                  "Username or Password is Wrong",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xff1a1c43),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
