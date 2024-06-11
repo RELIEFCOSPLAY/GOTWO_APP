@@ -26,7 +26,7 @@ class _GotwoConditionState extends State<GotwoCondition> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Color(0xffffffff),
+          backgroundColor: const Color(0xffffffff),
           title: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

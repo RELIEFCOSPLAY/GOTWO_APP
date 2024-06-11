@@ -12,6 +12,7 @@ class GotwoVerification extends StatefulWidget {
 
 class _GotwoVerificationState extends State<GotwoVerification> {
   String? pin1, pin2, pin3, pin4;
+  String? pinAll;
 
   static const maxSeconds = 30;
   int seconds = maxSeconds;
@@ -313,7 +314,16 @@ class _GotwoVerificationState extends State<GotwoVerification> {
       padding: const EdgeInsets.only(top: 50),
       child: ElevatedButton(
         onPressed: () {
-          debugPrint("OTP : ${pin1}${pin2}${pin3}${pin4}");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: _snackBarnotification(),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+          );
+          pinAll = "$pin1$pin2$pin3$pin4";
+          debugPrint("OTP : $pinAll");
         },
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(120, 24),
@@ -332,5 +342,49 @@ class _GotwoVerificationState extends State<GotwoVerification> {
         ),
       ),
     );
+  }
+
+  Widget _snackBarnotification() {
+    if (pinAll == null) {
+      return Container(
+        padding: const EdgeInsets.all(8),
+        height: 70,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.redAccent)),
+        child: const Row(
+          children: [
+            SizedBox(
+              width: 48,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Oh snap!",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff1a1c43),
+                    ),
+                  ),
+                  Text(
+                    "Username or Password is Wrong",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff1a1c43),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 }
