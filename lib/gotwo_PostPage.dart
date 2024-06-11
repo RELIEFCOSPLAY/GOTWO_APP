@@ -8,9 +8,9 @@ class GotwoPostpage extends StatefulWidget {
 }
 
 class _GotwoPostpageState extends State<GotwoPostpage> {
-  TextEditingController searchController = TextEditingController();
-  List testDate = [
+  final List<Map<String, dynamic>> testDate = [
     {
+      "id": 1,
       'from': 'hat',
       'date': '01/12/2077',
       'time': '08:00',
@@ -19,6 +19,7 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
       'status': 'Paid'
     },
     {
+      "id": 2,
       'from': 'bag',
       'date': '05/11/2078',
       'time': '09:27',
@@ -27,6 +28,7 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
       'status': 'Unpaid'
     },
     {
+      "id": 3,
       'from': 'sock',
       'date': '10/10/2079',
       'time': '10:30',
@@ -35,7 +37,33 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
       'status': 'Paid'
     },
   ];
+  List<Map<String, dynamic>> _foundUsers = [];
   @override
+  initState() {
+    _foundUsers = testDate;
+    super.initState();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<Map<String, dynamic>> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = testDate;
+    } else {
+      results = testDate
+          .where(
+            (user) => user["from"]
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()),
+          )
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+    setState(() {
+      _foundUsers = results;
+    });
+  }
+
   Widget build(Object context) {
     return Container(
       decoration: const BoxDecoration(
@@ -87,8 +115,7 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _sarchField("Search", searchController),
-            _cardBtn(),
+            _cardAndSearch(),
           ],
         ),
       ),
@@ -120,156 +147,161 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
     );
   }
 
-  Widget _sarchField(String hintText, TextEditingController controller) {
+  Widget _cardAndSearch() {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Color(0xff1a1c43)));
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 12),
-      child: SizedBox(
-        child: TextField(
-          style: const TextStyle(
-            color: Color(0xff1a1c43),
-          ),
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: const TextStyle(color: Color(0xff1a1c43)),
-            enabledBorder: border,
-            focusedBorder: border,
-            // prefixIcon: Icon(
-            //   Icons.search,
-            // ),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                debugPrint("Search : ${searchController.text}");
-                
-              },
-              child: const Icon(
-                Icons.search,
-                color: Color(0xff1a1c43),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _cardBtn() {
     return SizedBox(
       width: 320,
-      height: 450,
-      child: ListView.builder(
-        itemCount: testDate.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding:
-                const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
-            child: SizedBox(
-              width: 300,
-              height: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  debugPrint("CardRequest ${testDate[index]['from']}");
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        const WidgetStatePropertyAll(Color(0xfffbf8ff)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: const BorderSide(color: Color(0xff1a1c43))))),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.location_on,
-                                color: Color(0xff1a1c43),
-                                size: 20.0,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "From: ${testDate[index]['from']}",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xff1a1c43)),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "Date: ${testDate[index]['date']} ",
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 12, color: Color(0xff1a1c43)),
-                          ),
-                          Text(
-                            "Time: ${testDate[index]['time']}",
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 12, color: Color(0xff1a1c43)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Icon(Icons.arrow_forward, color: Color(0xff1a1c43)),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.tour,
-                                color: Color(0xff1a1c43),
-                                size: 20.0,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "To: ${testDate[index]['to']}",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xff1a1c43)),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "${testDate[index]['price']} ",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 20, color: Color(0xff1a1c43)),
-                              ),
-                              const Text(
-                                "THB",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 10, color: Color(0xff1a1c43)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+      height: 550,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 12),
+            child: TextField(
+              onChanged: (value) => _runFilter(value),
+              style: const TextStyle(
+                color: Color(0xff1a1c43),
+              ),
+              decoration: InputDecoration(
+                labelText: 'Search',
+                hintStyle: const TextStyle(color: Color(0xff1a1c43)),
+                enabledBorder: border,
+                focusedBorder: border,
+                // prefixIcon: Icon(
+                //   Icons.search,
+                // ),
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: Color(0xff1a1c43),
                 ),
               ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: _foundUsers.isNotEmpty
+                ? ListView.builder(
+                    itemCount: _foundUsers.length,
+                    itemBuilder: (context, index) => Container(
+                      width: 300,
+                      height: 100,
+                      key: ValueKey(_foundUsers[index]["id"]),
+                      color: Colors.white,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                const WidgetStatePropertyAll(Color(0xfffbf8ff)),
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side: const BorderSide(
+                                            color: Color(0xff1a1c43))))),
+                        onPressed: () {
+                          debugPrint(
+                              "CardRequest ${_foundUsers[index]['from']}");
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.location_on,
+                                      color: Color(0xff1a1c43),
+                                      size: 20.0,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "From: ${_foundUsers[index]['from']}",
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff1a1c43)),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Date: ${_foundUsers[index]['date']} ",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Color(0xff1a1c43)),
+                                ),
+                                Text(
+                                  "Time: ${_foundUsers[index]['time']}",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Color(0xff1a1c43)),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(Icons.arrow_forward,
+                                color: Color(0xff1a1c43)),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.tour,
+                                      color: Color(0xff1a1c43),
+                                      size: 20.0,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "To: ${_foundUsers[index]['to']}",
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff1a1c43)),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${_foundUsers[index]['price']} ",
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xff1a1c43)),
+                                    ),
+                                    const Text(
+                                      "THB",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Color(0xff1a1c43)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : const Text(
+                    'No results found',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Color(0xff1a1c43),
+                    ),
+                  ),
+          ),
+        ],
       ),
     );
   }
