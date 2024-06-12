@@ -51,7 +51,7 @@ class _GotwoLoginState extends State<GotwoLogin> {
             _inputField("Password", passwordController, isPassword: true),
             const SizedBox(height: 20),
             _loginBtn(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             _extraText(),
           ],
         ),
@@ -136,10 +136,15 @@ class _GotwoLoginState extends State<GotwoLogin> {
   }
 
   Widget _extraText() {
-    return const Text(
-      "Can't access to your account?",
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16, color: Color(0xff1a1c43)),
+    return TextButton(
+      onPressed: () {
+        debugPrint("Forgot your password");
+      },
+      child: const Text(
+        "Forgot your password ?",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, color: Color(0xff1a1c43)),
+      ),
     );
   }
 
