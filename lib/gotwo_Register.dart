@@ -122,9 +122,10 @@ class _Rider_RegisterState extends State<Rider_Register> {
       },
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xff1a1c43), width: 2),
+          color:const Color(0xff1a1c43) ,
+            border: Border.all(color: const Color(0xff1a1c43), width: 3),
             shape: BoxShape.circle),
-        child: const Icon(Icons.person, color: Color(0xff1a1c43), size: 50),
+        child: const Icon(Icons.person, color: Colors.white, size: 50),
       ),
     );
   }
