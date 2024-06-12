@@ -36,7 +36,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Color(0xffffffff),
+          backgroundColor: const Color(0xffffffff),
           title: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +73,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
   Widget _page() {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.only(left: 32, right: 32, top: 16),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,19 +81,19 @@ class _Rider_RegisterState extends State<Rider_Register> {
               _icon(),
               const SizedBox(height: 10),
               _inputField("Username", usernameController),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _inputField("Email", emaiController),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _inputField("Phone number", phoneController),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _dropdown(),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _inputField("Create Password", createPasswordController,
                   isPassword: true),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _inputField("Confirm Password", confirmPasswordController,
                   isPassword: true),
-              const SizedBox(height: 5),
+              const SizedBox(height: 15),
               _registerBtn(),
             ],
           ),
@@ -116,11 +116,16 @@ class _Rider_RegisterState extends State<Rider_Register> {
   }
 
   Widget _icon() {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xff1a1c43), width: 2),
-          shape: BoxShape.circle),
-      child: const Icon(Icons.person, color: Color(0xff1a1c43), size: 50),
+    return GestureDetector(
+      onTap: () {
+        debugPrint("Add Photo");
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xff1a1c43), width: 2),
+            shape: BoxShape.circle),
+        child: const Icon(Icons.person, color: Color(0xff1a1c43), size: 50),
+      ),
     );
   }
 
