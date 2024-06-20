@@ -5,6 +5,8 @@ import 'package:gotwo_app/gotwo_request.dart';
 import 'package:gotwo_app/gotwo_confirmCustomer.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_confirmRider.dart';
+// ignore: unused_import
+import 'package:gotwo_app/gotwo_totravel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home: const GotwoConCus(),
+      home: const GotwoTotravel(),
     );
   }
 }
