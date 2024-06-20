@@ -35,7 +35,6 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     );
   }
 
-
   Future<void> _showRejectDialog() async {
     return showDialog(
       context: context,
@@ -94,8 +93,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     );
   }
 
-  Widget _userData(String name, String balance, String sex, String date,
-      String email, String tel) {
+  Widget _userData(String name, int rate, String balance, String sex,
+      String date, String email, String tel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -107,7 +106,20 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         const SizedBox(height: 10),
         Text(
           name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Rate", style: TextStyle(fontSize: 20)),
+            const SizedBox(width: 5),
+            for (var i = 0; i < 5; i++)
+              Icon(
+                Icons.star,
+                color: i < rate ? Colors.yellow : Colors.grey,
+              ),
+          ],
         ),
         const SizedBox(height: 10),
         Row(
@@ -266,7 +278,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           children: <Widget>[
             // add border raidus to the container
             const SizedBox(height: 20),
-            _userData("Name Lastname", "50", "Male", "24/03/2024",
+            _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
