@@ -10,30 +10,30 @@ class GotwoTotravel extends StatefulWidget {
 class _GotwoTotravel extends State<GotwoTotravel> {
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _showDialog() async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Request'),
-          content: const Text('Request has been accepted.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // go to next page
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const Confirm()),
-                // );
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Future<void> _showDialog() async {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Request'),
+  //         content: const Text('Request has been accepted.'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //               // go to next page
+  //               // Navigator.push(
+  //               //   context,
+  //               //   MaterialPageRoute(builder: (context) => const Confirm()),
+  //               // );
+  //             },
+  //             child: const Text('OK'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   Future<void> _showRejectDialog() async {
     return showDialog(
@@ -272,33 +272,42 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         title: const Text('To travel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      // backgroundColor: const Color(0xFF1C2C5E),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            // add border raidus to the container
-            const SizedBox(height: 20),
-            _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
-                "Email Rider", "0123456789"),
-            const SizedBox(height: 20),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    _showRejectDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                  ),
-                  child: const Text("Cancel",
-                      style: TextStyle(color: Colors.white)),
+      backgroundColor: const Color(0xFF1A1C43),
+      body: Container(
+        decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40), ),
+        
+      ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                // add border raidus to the container
+                const SizedBox(height: 20),
+                _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
+                    "Email Rider", "0123456789"),
+                const SizedBox(height: 20),
+                _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        _showRejectDialog();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text("Cancel",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
