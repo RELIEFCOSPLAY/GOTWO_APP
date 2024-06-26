@@ -273,41 +273,32 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         centerTitle: true,
       ),
       backgroundColor: const Color(0xFF1A1C43),
-      body: Container(
-        decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40), ),
-        
-      ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                // add border raidus to the container
-                const SizedBox(height: 20),
-                _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
-                    "Email Rider", "0123456789"),
-                const SizedBox(height: 20),
-                _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        _showRejectDialog();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                      ),
-                      child: const Text("Cancel",
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            // add border raidus to the container
+            const SizedBox(height: 20),
+            _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
+                "Email Rider", "0123456789"),
+            const SizedBox(height: 20),
+            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    _showRejectDialog();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
