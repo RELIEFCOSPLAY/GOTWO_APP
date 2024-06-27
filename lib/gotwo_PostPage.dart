@@ -305,17 +305,4 @@ class _GotwoPostpageState extends State<GotwoPostpage> {
       ),
     );
   }
-  //  Widget _statustext(String status) {
-  //   return status == 'Paid'
-  //       ? const Text(
-  //           'Paid',
-  //           style: TextStyle(
-  //               color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
-  //         )
-  //       : const Text(
-  //           'Unpaid',
-  //           style: TextStyle(
-  //               color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-  //         );
-  // }
 }
