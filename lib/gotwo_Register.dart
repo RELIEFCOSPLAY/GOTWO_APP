@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Rider_Register extends StatefulWidget {
-  const Rider_Register({super.key});
+  const Rider_Register({Key? key}) : super(key: key);
 
   @override
   State<Rider_Register> createState() => _Rider_RegisterState();
@@ -93,7 +94,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _icon(),
+              _addPhoto(),
               const SizedBox(height: 10),
               _inputField("Username", usernameController),
               const SizedBox(height: 10),
@@ -110,7 +111,6 @@ class _Rider_RegisterState extends State<Rider_Register> {
                   isPassword: true),
               const SizedBox(height: 15),
               _registerBtn(),
-              _seleimg(),
             ],
           ),
         ),
@@ -131,18 +131,45 @@ class _Rider_RegisterState extends State<Rider_Register> {
     );
   }
 
-  Widget _icon() {
-    return GestureDetector(
-      onTap: () {
-        debugPrint("Add Photo");
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            color: const Color(0xff1a1c43),
-            border: Border.all(color: const Color(0xff1a1c43), width: 3),
-            shape: BoxShape.circle),
-        child: const Icon(Icons.person, color: Colors.white, size: 50),
-      ),
+  // Widget _icon() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       debugPrint("Add Photo");
+  //       // selectImage,
+  //     },
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //           color: const Color(0xff1a1c43),
+  //           border: Border.all(color: const Color(0xff1a1c43), width: 3),
+  //           shape: BoxShape.circle),
+  //       child: const Icon(Icons.person, color: Colors.white, size: 50),
+  //     ),
+  //   );
+  // }
+
+  Widget _addPhoto() {
+    return Column(
+      children: [
+        if (_image != null)
+          const SizedBox(
+            height: 10,
+          ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xffffffff),
+            elevation: 0.0,
+            shadowColor: Colors.transparent,
+          ),
+          onPressed: selectImage,
+          child: Container(
+            decoration: BoxDecoration(
+                color: const Color(0xff1a1c43),
+                border: Border.all(color: const Color(0xff1a1c43), width: 3),
+                shape: BoxShape.circle),
+            child: const Icon(Icons.person, color: Colors.white, size: 50),
+          ),
+        ),
+      ],
     );
   }
 
@@ -231,31 +258,6 @@ class _Rider_RegisterState extends State<Rider_Register> {
     );
   }
 
-  Widget _seleimg() {
-    return Column(
-      children: [
-         if (_image != null)
-                Container(
-                  width: 200,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: MemoryImage(_image!),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                        10), // Optional: Adjust the border radius
-                  ),
-                ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: selectImage,
-                child: Text('Add ID Card'),
-              ),
-      ],
-    );
-  }
-
   Widget _snackBarnotification() {
     if (usernameController.text == "" &&
         emaiController.text == "" &&
@@ -314,7 +316,7 @@ Future<List<int>?> pickImage(ImageSource source) async {
       return await file.readAsBytes();
     }
   } catch (e) {
-    print('Error picking image: $e');
+    debugPrint('Error picking image: $e');
   }
   return null;
 }
