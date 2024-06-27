@@ -36,7 +36,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Color(0xffffffff),
+          backgroundColor: const Color(0xffffffff),
           title: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
