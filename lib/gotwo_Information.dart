@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GotwoInformation extends StatefulWidget {
   const GotwoInformation({super.key});
@@ -21,6 +25,18 @@ class _GotwoInformationState extends State<GotwoInformation> {
   ];
   String dropdownValue = list.first;
 
+  Uint8List? _image;
+  void selectImage() async {
+    List<int>? imageBytes = await pickImage(ImageSource.gallery);
+    if (imageBytes != null) {
+      setState(() {
+        _image = Uint8List.fromList(imageBytes);
+      });
+    } else {
+      debugPrint('No image selected');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +52,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Color(0xffffffff),
+          backgroundColor: const Color(0xffffffff),
           title: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +89,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _page() {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.only(left: 32,right: 32,top: 15),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,31 +99,31 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   Expanded(
                     child: _idcardBtn(),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Expanded(
                     child: _licenseBtn(),
                   )
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
                 children: [
                   Expanded(
                     child: _carPictureBtn(),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Expanded(
                     child: _carRegistrationBtn(),
                   )
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
                 children: [
                   Expanded(
                     child: _carACTBtn(),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Expanded(
                     child: _inputField("Expiration date", expirationController),
                   )
@@ -120,7 +136,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                     child: _inputField(
                         "Car registration", carRegistrationController),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Expanded(
                     child: _inputField("Car brand", carBrandController),
                   )
@@ -284,37 +300,45 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _idcardBtn() {
     return SizedBox(
       width: 100,
-      height: 40,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ButtonStyle(
-          backgroundColor: const WidgetStatePropertyAll(Colors.white),
-          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: const BorderSide(
-                color: Color(0xff1a1c43),
+      height: 50,
+      child: Column(
+        children: [
+          if (_image != null)
+          const SizedBox(
+            height: 0,
+          ),
+          ElevatedButton(
+            onPressed: selectImage,
+            style: ButtonStyle(
+              backgroundColor: const WidgetStatePropertyAll(Colors.white),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: const BorderSide(
+                    color: Color(0xff1a1c43),
+                  ),
+                ),
               ),
             ),
+            child: const SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.co_present,
+                      color: Color(0xff1a1c43),
+                      size: 20.0,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "ID Card",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12, color: Color(0xff1a1c43)),
+                    ),
+                  ],
+                )),
           ),
-        ),
-        child: const SizedBox(
-            width: double.infinity,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.co_present,
-                  color: Color(0xff1a1c43),
-                  size: 20.0,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "ID Card",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, color: Color(0xff1a1c43)),
-                ),
-              ],
-            )),
+        ],
       ),
     );
   }
@@ -322,32 +346,40 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _licenseBtn() {
     return SizedBox(
       width: 100,
-      height: 40,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ButtonStyle(
-            backgroundColor: const WidgetStatePropertyAll(Colors.white),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Color(0xff1a1c43))))),
-        child: const SizedBox(
-            width: double.infinity,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.call_to_action,
-                  color: Color(0xff1a1c43),
-                  size: 20.0,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "license",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, color: Color(0xff1a1c43)),
-                ),
-              ],
-            )),
+      height: 50,
+      child: Column(
+        children: [
+          if (_image != null)
+          const SizedBox(
+            height: 0,
+          ),
+          ElevatedButton(
+            onPressed: selectImage,
+            style: ButtonStyle(
+                backgroundColor: const WidgetStatePropertyAll(Colors.white),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Color(0xff1a1c43))))),
+            child: const SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.call_to_action,
+                      color: Color(0xff1a1c43),
+                      size: 20.0,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "license",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12, color: Color(0xff1a1c43)),
+                    ),
+                  ],
+                )),
+          ),
+        ],
       ),
     );
   }
@@ -355,32 +387,40 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _carPictureBtn() {
     return SizedBox(
       width: 100,
-      height: 40,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ButtonStyle(
-            backgroundColor: const WidgetStatePropertyAll(Colors.white),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Color(0xff1a1c43))))),
-        child: const SizedBox(
-            width: double.infinity,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.moped,
-                  color: Color(0xff1a1c43),
-                  size: 20.0,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "Car Picture",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 10, color: Color(0xff1a1c43)),
-                ),
-              ],
-            )),
+      height: 50,
+      child: Column(
+        children: [
+          if (_image != null)
+          const SizedBox(
+            height: 0,
+          ),
+          ElevatedButton(
+            onPressed: selectImage,
+            style: ButtonStyle(
+                backgroundColor: const WidgetStatePropertyAll(Colors.white),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Color(0xff1a1c43))))),
+            child: const SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.moped,
+                      color: Color(0xff1a1c43),
+                      size: 20.0,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "Car Picture",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10, color: Color(0xff1a1c43)),
+                    ),
+                  ],
+                )),
+          ),
+        ],
       ),
     );
   }
@@ -388,32 +428,40 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _carRegistrationBtn() {
     return SizedBox(
       width: 100,
-      height: 40,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ButtonStyle(
-            backgroundColor: const WidgetStatePropertyAll(Colors.white),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Color(0xff1a1c43))))),
-        child: const SizedBox(
-            width: double.infinity,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.garage,
-                  color: Color(0xff1a1c43),
-                  size: 20.0,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "Registration",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 10, color: Color(0xff1a1c43)),
-                ),
-              ],
-            )),
+      height: 50,
+      child: Column(
+        children: [
+          if (_image != null)
+          const SizedBox(
+            height: 0,
+          ),
+          ElevatedButton(
+            onPressed: selectImage,
+            style: ButtonStyle(
+                backgroundColor: const WidgetStatePropertyAll(Colors.white),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Color(0xff1a1c43))))),
+            child: const SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.garage,
+                      color: Color(0xff1a1c43),
+                      size: 20.0,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "Registration",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10, color: Color(0xff1a1c43)),
+                    ),
+                  ],
+                )),
+          ),
+        ],
       ),
     );
   }
@@ -421,32 +469,40 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _carACTBtn() {
     return SizedBox(
       width: 100,
-      height: 40,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ButtonStyle(
-            backgroundColor: const WidgetStatePropertyAll(Colors.white),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Color(0xff1a1c43))))),
-        child: const SizedBox(
-            width: double.infinity,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.insert_drive_file_outlined,
-                  color: Color(0xff1a1c43),
-                  size: 20.0,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "ACT",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 10, color: Color(0xff1a1c43)),
-                ),
-              ],
-            )),
+      height: 50,
+      child: Column(
+        children: [
+          if (_image != null)
+          const SizedBox(
+            height: 0,
+          ),
+          ElevatedButton(
+            onPressed: selectImage,
+            style: ButtonStyle(
+                backgroundColor: const WidgetStatePropertyAll(Colors.white),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Color(0xff1a1c43))))),
+            child: const SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.insert_drive_file_outlined,
+                      color: Color(0xff1a1c43),
+                      size: 20.0,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "ACT",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10, color: Color(0xff1a1c43)),
+                    ),
+                  ],
+                )),
+          ),
+        ],
       ),
     );
   }
@@ -498,4 +554,17 @@ class _GotwoInformationState extends State<GotwoInformation> {
     }
     return Container();
   }
+}
+
+Future<List<int>?> pickImage(ImageSource source) async {
+  final ImagePicker imagePicker = ImagePicker();
+  try {
+    XFile? file = await imagePicker.pickImage(source: source);
+    if (file != null) {
+      return await file.readAsBytes();
+    }
+  } catch (e) {
+    debugPrint('Error picking image: $e');
+  }
+  return null;
 }
