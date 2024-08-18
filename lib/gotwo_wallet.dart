@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class WalletScreen extends StatefulWidget {
+class GotwoWallet extends StatefulWidget {
   @override
-  _WalletScreenState createState() => _WalletScreenState();
+  _GotwoWallet createState() => _GotwoWallet();
 }
 
-class _WalletScreenState extends State<WalletScreen>
+class _GotwoWallet extends State<GotwoWallet>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
