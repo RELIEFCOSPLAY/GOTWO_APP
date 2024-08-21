@@ -60,7 +60,8 @@ class TabRequest extends StatelessWidget {
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
-                              side: const BorderSide(color: Color(0xff1a1c43))))),
+                              side:
+                                  const BorderSide(color: Color(0xff1a1c43))))),
                   child: SizedBox(
                     width: double.infinity,
                     child: Row(
@@ -102,7 +103,8 @@ class TabRequest extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        const Icon(Icons.arrow_forward, color: Color(0xff1a1c43)),
+                        const Icon(Icons.arrow_forward,
+                            color: Color(0xff1a1c43)),
                         const SizedBox(
                           width: 10,
                         ),
