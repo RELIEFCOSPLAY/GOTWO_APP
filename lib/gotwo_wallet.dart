@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/Tabs/Tab_History.dart';
+import 'package:gotwo_app/Tabs/Tab_Pending.dart';
 
 class GotwoWallet extends StatefulWidget {
   const GotwoWallet({super.key});
@@ -28,7 +30,7 @@ class _GotwoWalletState extends State<GotwoWallet> {
                     const Padding(
                       padding: EdgeInsets.only(left: 80),
                       child: Text(
-                        "Status",
+                        "Wallet",
                         style: TextStyle(
                           fontSize: 30,
                           color: Color(0xff1a1c43),
@@ -54,19 +56,10 @@ class _GotwoWalletState extends State<GotwoWallet> {
               unselectedLabelColor: Colors.grey,
               tabs: [
                 Tab(
-                  text: "Request",
+                  text: "Pending",
                 ),
                 Tab(
-                  text: "Confirm",
-                ),
-                Tab(
-                  text: "ToTravel ",
-                ),
-                Tab(
-                  text: "Success",
-                ),
-                Tab(
-                  text: "Cancel",
+                  text: "History",
                 ),
               ],
             ),
@@ -76,31 +69,13 @@ class _GotwoWalletState extends State<GotwoWallet> {
                   Column(
                     //Request
                     children: [
-                      TabRequest(),
+                      TabPending(),
                     ],
                   ),
                   Column(
                     //Confirm
                     children: [
-                      TabConfirm(),
-                    ],
-                  ),
-                  Column(
-                    //To travel
-                    children: [
-                      TabTotravel(),
-                    ],
-                  ),
-                  Column(
-                    //Success
-                    children: [
-                      TabSuccess(),
-                    ],
-                  ),
-                  Column(
-                    //Cancel
-                    children: [
-                      TabCancel(),
+                      TabHistory(),
                     ],
                   ),
                 ],
