@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(GotwoProfile());
+class GotwoProfile extends StatefulWidget {
+  const GotwoProfile({super.key});
+
+  @override
+  State<GotwoProfile> createState() => _GotwoProfileState();
 }
 
-class GotwoProfile extends StatelessWidget {
+class _GotwoProfileState extends State<GotwoProfile> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ProfileScreen(),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+ return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
         leading: Icon(Icons.arrow_back),
@@ -39,12 +32,12 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Jenny Joy',
+                      name,
                       style: TextStyle(
                           fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
-                      children: List.generate(5, (index) {
+                      children: List.generate(rating, (index) {
                         return Icon(Icons.star, color: Colors.yellow);
                       }),
                     ),
@@ -56,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.grey),
                       ),
-                      child: Text('Expiration date: 00/00/0000'),
+                      child: Text('Expiration date: $expirationDate'),
                     )
                   ],
                 ),
@@ -64,19 +57,23 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 30),
             Text(
-              '140.00 Baht',
+              '${walletBalance.toStringAsFixed(2)} Baht',
               style: TextStyle(
                   fontSize: 28, fontWeight: FontWeight.bold),
             ),
             Text('wallet'),
+            ElevatedButton(
+              onPressed: updateWalletBalance,
+              child: Text('Add 10 Baht to Wallet'),
+            ),
             SizedBox(height: 30),
             ListTile(
               leading: Icon(Icons.phone),
-              title: Text('0123456789'),
+              title: Text(phoneNumber),
             ),
             ListTile(
               leading: Icon(Icons.calendar_today),
-              title: Text('21/03/2024'),
+              title: Text(expiration),
             ),
             ListTile(
               leading: Icon(Icons.email),
