@@ -10,6 +10,63 @@ class GotwoCancel extends StatefulWidget {
 class _GotwoCancel extends State<GotwoCancel> {
   final _formKey = GlobalKey<FormState>();
 
+  // ย้าย _pickupDropoff มาที่นี่
+  Widget _pickupDropoff(String pickup, String dropoff) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      width: MediaQuery.of(context).size.width * 0.8,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Pick up",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Icon(
+                  Icons.trip_origin,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(pickup),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Drop",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.red),
+                SizedBox(width: 10),
+                Expanded(child: Text(dropoff)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _userData(String name, String balance, String sex, String date,
       String email, String tel) {
     return Column(
@@ -88,62 +145,6 @@ class _GotwoCancel extends State<GotwoCancel> {
         ),
         const SizedBox(height: 40),
       ],
-    );
-  }
-
-  Widget _pickupDropoff(String pickup, String dropoff) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.8,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Pick up",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(
-                  Icons.trip_origin,
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(pickup),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Drop",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 10),
-                Expanded(child: Text(dropoff)),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 
