@@ -56,10 +56,10 @@ class _GotwoWalletState extends State<GotwoWallet> {
               unselectedLabelColor: Colors.grey,
               tabs: [
                 Tab(
-                  text: "Pending",
+                  text: "Request",
                 ),
                 Tab(
-                  text: "History",
+                  text: "Confirm",
                 ),
               ],
             ),
@@ -69,13 +69,13 @@ class _GotwoWalletState extends State<GotwoWallet> {
                   Column(
                     //Request
                     children: [
-                      TabPending(),
+                      TabHistory(),
                     ],
                   ),
                   Column(
                     //Confirm
                     children: [
-                      TabHistory(),
+                      TabPending(),
                     ],
                   ),
                 ],
