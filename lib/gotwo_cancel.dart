@@ -10,7 +10,6 @@ class GotwoCancel extends StatefulWidget {
 class _GotwoCancel extends State<GotwoCancel> {
   final _formKey = GlobalKey<FormState>();
 
-  // ย้าย _pickupDropoff มาที่นี่
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
       padding: const EdgeInsets.all(16),
