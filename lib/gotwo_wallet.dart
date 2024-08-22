@@ -13,7 +13,7 @@ class _GotwoWalletState extends State<GotwoWallet> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Center(
