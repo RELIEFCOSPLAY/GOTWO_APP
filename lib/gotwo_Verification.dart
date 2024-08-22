@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 // import 'package:pinput/pinput.dart';
 
 class GotwoVerification extends StatefulWidget {
@@ -14,15 +15,39 @@ class _GotwoVerificationState extends State<GotwoVerification> {
   String? pin1, pin2, pin3, pin4;
   String? pinAll;
 
-  static const maxSeconds = 30;
-  int seconds = maxSeconds;
-  Timer? timer;
+// ------------------------------
+  bool invalidOtp = false;
+  int resendTime = 30;
+  late Timer countdownTimer;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  startTimer() {
+    countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        resendTime = resendTime - 1;
+      });
+      if (resendTime < 1) {
+        countdownTimer.cancel();
+      }
+    });
+  }
+
+  stopTimer() {
+    if (countdownTimer.isActive) {
+      countdownTimer.cancel();
+    }
+  }
+
+  String strFormatting(n) => n.toString().padLeft(2, '0');
+// ------------------------------
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final isRunning = timer == null ? false : timer!.isActive;
-
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -85,9 +110,7 @@ class _GotwoVerificationState extends State<GotwoVerification> {
               const SizedBox(height: 20),
               _verifyField(),
               const SizedBox(height: 20),
-              _timerText(),
-              const SizedBox(height: 20),
-              _bText(),
+              _timer(),
               const SizedBox(height: 40),
               _verifyBtn(),
             ],
@@ -283,29 +306,53 @@ class _GotwoVerificationState extends State<GotwoVerification> {
     );
   }
 
-  Widget _timerText() {
-    // timer = Timer.periodic(const Duration(seconds: 1), (_) {
-    //   setState(() => seconds--);
-    // });
-    return Text(
-      '00 : $seconds',
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 24,
-        color: Color(0xff1a1c43),
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-
-  Widget _bText() {
-    return const Text(
-      'Resend OTP',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 16,
-        color: Color(0xff1a1c43),
-      ),
+  Widget _timer() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Haven't received OTP yet?",
+              style: TextStyle(
+                fontSize: 18,
+                color: Color(0xff1a1c43),
+              ),
+            ),
+            const SizedBox(width: 10),
+            resendTime == 0
+                ? InkWell(
+                    onTap: () {
+                      // Resend OTP Code
+                      invalidOtp = false;
+                      resendTime = 30;
+                      startTimer();
+                      //
+                    },
+                    child: const Text(
+                      'Resend',
+                      style: TextStyle(color: Colors.red, fontSize: 18),
+                    ),
+                  )
+                : const SizedBox()
+          ],
+        ),
+        const SizedBox(height: 10),
+        resendTime != 0
+            ? Text(
+                'You can resend OTP after ${strFormatting(resendTime)} s',
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Color(0xff1a1c43),
+                ),
+              )
+            : const SizedBox(),
+        const SizedBox(height: 5),
+        Text(
+          invalidOtp ? 'Invalid otp!' : '',
+          style: const TextStyle(fontSize: 20, color: Colors.red),
+        ),
+      ],
     );
   }
 
