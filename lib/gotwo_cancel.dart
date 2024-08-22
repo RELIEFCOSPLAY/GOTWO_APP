@@ -86,7 +86,6 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
           ],
         ),
-
         const SizedBox(height: 40),
       ],
     );
@@ -102,9 +101,9 @@ class _GotwoCancel extends State<GotwoCancel> {
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
