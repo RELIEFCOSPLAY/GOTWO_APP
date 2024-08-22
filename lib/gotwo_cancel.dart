@@ -177,7 +177,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               width: double.infinity,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.lightBlue[200],
+                color: Colors.lightBlue[50],
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
