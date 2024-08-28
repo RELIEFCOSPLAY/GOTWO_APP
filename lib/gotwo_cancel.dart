@@ -8,12 +8,10 @@ class GotwoCancel extends StatefulWidget {
 }
 
 class _GotwoCancel extends State<GotwoCancel> {
-  final _formKey = GlobalKey<FormState>();
-
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -32,7 +30,7 @@ class _GotwoCancel extends State<GotwoCancel> {
         children: [
           Text(
             "pick up",
-            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Row(
             children: [
@@ -45,10 +43,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               Expanded(
                 child: Text(
                   pickup,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                 ),
               ),
             ],
@@ -56,7 +51,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           const SizedBox(height: 10),
           Text(
             "drop",
-            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Row(
             children: [
@@ -69,10 +64,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               Expanded(
                 child: Text(
                   dropoff,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                 ),
               ),
             ],
@@ -92,13 +84,12 @@ class _GotwoCancel extends State<GotwoCancel> {
           backgroundColor: Colors.white,
           child: Icon(Icons.account_circle_outlined, size: 70),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Text(
           name,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 5),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -110,7 +101,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -122,7 +113,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -134,7 +125,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text("Date: $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -146,7 +137,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text(email, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -187,7 +178,8 @@ class _GotwoCancel extends State<GotwoCancel> {
               width: MediaQuery.of(context).size.width * 0.85,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color:
+                    Colors.lightBlue[100], // Change this to any color you want
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
@@ -199,13 +191,12 @@ class _GotwoCancel extends State<GotwoCancel> {
                 ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     'Reason',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -216,7 +207,8 @@ class _GotwoCancel extends State<GotwoCancel> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Colors.lightBlue[50],
+                      fillColor: Colors
+                          .white, // Change this to set the input field's color
                       contentPadding: const EdgeInsets.all(12),
                     ),
                   ),
