@@ -41,10 +41,11 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                     // Add your logic for confirmation
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      )),
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   child:
                       const Text("Yes", style: TextStyle(color: Colors.white)),
                 ),
@@ -54,10 +55,11 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      )),
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   child: const Text("Cancel",
                       style: TextStyle(color: Colors.white)),
                 ),
@@ -79,16 +81,17 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           backgroundColor: Colors.white,
           child: Icon(Icons.account_circle_outlined, size: 70),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Text(
           name,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Rate", style: TextStyle(fontSize: 20)),
+            const Text("Rate",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(width: 5),
             for (var i = 0; i < 5; i++)
               Icon(
@@ -97,7 +100,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               ),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -109,7 +112,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -117,11 +120,11 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               Icons.credit_card,
               size: 20,
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: 1),
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -133,7 +136,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Date : $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -145,7 +148,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Email : $email", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -157,7 +160,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 1),
       ],
     );
   }
@@ -165,7 +168,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
       padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -185,32 +188,45 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           children: [
             Text(
               "Pick up",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 1),
             Row(
               children: [
-                Icon(
-                  Icons.trip_origin,
-                ),
-                SizedBox(width: 10),
+                Icon(Icons.trip_origin, color: Colors.green[700]),
+                const SizedBox(width: 10),
                 Expanded(
-                  child: Text(pickup),
+                  child: Text(pickup,
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 1),
+            const Text(
+              "comment",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            const SizedBox(height: 1),
             Text(
               "Drop",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 1),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 10),
-                Expanded(child: Text(dropoff)),
+                const SizedBox(width: 10),
+                Expanded(
+                    child: Text(dropoff,
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold))),
               ],
+            ),
+            const SizedBox(height: 1),
+            const Text(
+              "comment",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -223,7 +239,6 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
-        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {},
@@ -231,16 +246,16 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         title: const Text('To travel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xFF1A1C43),
       body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const SizedBox(height: 20),
             _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
                 _showRejectDialog();
@@ -250,6 +265,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),
               child:
                   const Text("Cancel", style: TextStyle(color: Colors.white)),
