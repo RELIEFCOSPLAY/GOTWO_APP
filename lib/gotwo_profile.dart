@@ -43,14 +43,6 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 30),
             ProfileInfo(),
             Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                    context, '/wallet'); // นำทางไปยัง WalletScreen
-              },
-              child: Text('Go to Wallet'),
-              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF10236E)),
-            ),
             TextButton.icon(
               icon: Icon(Icons.logout, color: Colors.red),
               label: Text('Log out', style: TextStyle(color: Colors.red)),
