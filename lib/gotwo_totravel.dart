@@ -10,31 +10,6 @@ class GotwoTotravel extends StatefulWidget {
 class _GotwoTotravel extends State<GotwoTotravel> {
   final _formKey = GlobalKey<FormState>();
 
-  // Future<void> _showDialog() async {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Request'),
-  //         content: const Text('Request has been accepted.'),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //               // go to next page
-  //               // Navigator.push(
-  //               //   context,
-  //               //   MaterialPageRoute(builder: (context) => const Confirm()),
-  //               // );
-  //             },
-  //             child: const Text('OK'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   Future<void> _showRejectDialog() async {
     return showDialog(
       context: context,
