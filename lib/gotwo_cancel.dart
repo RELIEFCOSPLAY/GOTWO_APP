@@ -179,7 +179,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color:
-                    Colors.lightBlue[100], // Change this to any color you want
+                    Color(0xFFC5CAE9),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
