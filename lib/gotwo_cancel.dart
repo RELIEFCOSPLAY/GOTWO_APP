@@ -8,6 +8,8 @@ class GotwoCancel extends StatefulWidget {
 }
 
 class _GotwoCancel extends State<GotwoCancel> {
+  int _currentRating = 3; // Initial rating value
+
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
       padding: const EdgeInsets.all(12),
@@ -29,7 +31,7 @@ class _GotwoCancel extends State<GotwoCancel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "pick up",
+            "Pick up",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Row(
@@ -50,7 +52,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           ),
           const SizedBox(height: 10),
           Text(
-            "drop",
+            "Drop",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Row(
@@ -88,6 +90,30 @@ class _GotwoCancel extends State<GotwoCancel> {
         Text(
           name,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 1),
+        // Star Rating Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Rate",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 5),
+            for (var i = 1; i <= 5; i++)
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _currentRating = i; // Update the rating when a star is tapped
+                  });
+                },
+                child: Icon(
+                  Icons.star,
+                  color: i <= _currentRating ? Colors.yellow : Colors.grey,
+                ),
+              ),
+          ],
         ),
         const SizedBox(height: 1),
         Row(
@@ -172,14 +198,14 @@ class _GotwoCancel extends State<GotwoCancel> {
             const SizedBox(height: 10),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
+            const SizedBox(height: 10),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Container(
               width: MediaQuery.of(context).size.width * 0.85,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color:
-                    Color(0xFFC5CAE9),
+                color: Color(0xFFC5CAE9),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
@@ -201,14 +227,13 @@ class _GotwoCancel extends State<GotwoCancel> {
                   ),
                   const SizedBox(height: 1),
                   TextField(
-                    maxLines: 3,
+                    maxLines: 2,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Colors
-                          .white, // Change this to set the input field's color
+                      fillColor: Colors.white,
                       contentPadding: const EdgeInsets.all(12),
                     ),
                   ),
