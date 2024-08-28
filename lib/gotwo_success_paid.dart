@@ -121,12 +121,63 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
     );
   }
 
-  // widget of status
+  void _showPaidPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Money slip',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: 200,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1A1C43),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.image,
+                  size: 100,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'Close',
+                  style: TextStyle(
+                    color: Color(0xFF1A1C43),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _statusButton(String status) {
     return TextButton(
       onPressed: () {
-        // Add your onPressed logic here
-        print('Button pressed');
+        _showPaidPopup(context); // Show popup when button is pressed
       },
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(
@@ -140,7 +191,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
             status,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(width: 5), // Add space between text and icon
+          const SizedBox(width: 5),
           Icon(
             Icons.remove_red_eye,
             color: status == 'Paid' ? Colors.green : Colors.red,
@@ -169,8 +220,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
             const SizedBox(height: 20),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
-            _statusButton(
-                "Paid"), // Updated to use the button with the eye icon
+            _statusButton("Paid"),
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
