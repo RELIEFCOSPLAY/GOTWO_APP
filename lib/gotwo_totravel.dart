@@ -15,14 +15,15 @@ class _GotwoTotravel extends State<GotwoTotravel> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // title: const Text('Request'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                  'There is a request to join. Do you still want to delete this post?'),
-              const SizedBox(height: 10),
-              // add black textfield
+                'There is a request to join. Do you still want to delete this post?',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -37,25 +38,25 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
+                    // Add your logic for confirmation
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(8),
                       )),
                   child:
                       const Text("Yes", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // close dialog
+                    // Close the dialog
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      // set border radius to 0
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(8),
                       )),
                   child: const Text("Cancel",
                       style: TextStyle(color: Colors.white)),
@@ -132,7 +133,6 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Date : $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        // show email and tel
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +157,6 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
           ],
         ),
-
         const SizedBox(height: 40),
       ],
     );
@@ -219,21 +218,6 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     );
   }
 
-  // widget of status
-  Widget _statustext(String status) {
-    return status == 'Paid'
-        ? const Text(
-            'Paid',
-            style: TextStyle(
-                color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
-          )
-        : const Text(
-            'Unpaid',
-            style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-          );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -251,27 +235,24 @@ class _GotwoTotravel extends State<GotwoTotravel> {
       body: Center(
         child: Column(
           children: <Widget>[
-            // add border raidus to the container
             const SizedBox(height: 20),
             _userData("Name Lastname", 5, "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    _showRejectDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                  ),
-                  child: const Text("Cancel",
-                      style: TextStyle(color: Colors.white)),
+            ElevatedButton(
+              onPressed: () async {
+                _showRejectDialog();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-              ],
+              ),
+              child:
+                  const Text("Cancel", style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
