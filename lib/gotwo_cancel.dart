@@ -10,11 +10,11 @@ class GotwoCancel extends StatefulWidget {
 class _GotwoCancel extends State<GotwoCancel> {
   final _formKey = GlobalKey<FormState>();
 
-  // ย้าย _pickupDropoff มาที่นี่
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
       padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.8,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -22,47 +22,72 @@ class _GotwoCancel extends State<GotwoCancel> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
-            blurRadius: 1,
-            offset: const Offset(0, 1),
+            blurRadius: 5,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Pick up",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(
-                  Icons.trip_origin,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "pick up",
+            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.trip_origin,
+                color: Colors.green[800],
+                size: 16,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  pickup,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(pickup),
+              ),
+            ],
+          ),
+          const Divider(),
+          Text(
+            "comment",
+            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "drop",
+            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+          ),
+          Row(
+            children: [
+              const Icon(
+                Icons.location_on,
+                color: Colors.red,
+                size: 16,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  dropoff,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Drop",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 10),
-                Expanded(child: Text(dropoff)),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const Divider(),
+          Text(
+            "comment",
+            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+          ),
+        ],
       ),
     );
   }
@@ -81,6 +106,22 @@ class _GotwoCancel extends State<GotwoCancel> {
         Text(
           name,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'Rate',
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            SizedBox(width: 5),
+            Icon(Icons.star, color: Colors.amber, size: 16),
+            Icon(Icons.star, color: Colors.amber, size: 16),
+            Icon(Icons.star, color: Colors.amber, size: 16),
+            Icon(Icons.star, color: Colors.amber, size: 16),
+            Icon(Icons.star, color: Colors.amber, size: 16),
+          ],
         ),
         const SizedBox(height: 10),
         Row(
@@ -115,10 +156,9 @@ class _GotwoCancel extends State<GotwoCancel> {
               size: 20,
             ),
             const SizedBox(width: 5),
-            Text("Date : $date", style: const TextStyle(fontSize: 20)),
+            Text("Date: $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        // show email and tel
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +168,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               size: 20,
             ),
             const SizedBox(width: 5),
-            Text("Email : $email", style: const TextStyle(fontSize: 20)),
+            Text(email, style: const TextStyle(fontSize: 20)),
           ],
         ),
         const SizedBox(height: 10),
@@ -140,10 +180,9 @@ class _GotwoCancel extends State<GotwoCancel> {
               size: 20,
             ),
             const SizedBox(width: 5),
-            Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
+            Text(tel, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 40),
       ],
     );
   }
@@ -161,45 +200,49 @@ class _GotwoCancel extends State<GotwoCancel> {
         title: const Text('Cancel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      // backgroundColor: const Color(0xFF1C2C5E),
       body: Center(
         child: Column(
           children: <Widget>[
-            // add border raidus to the container
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
-            const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
-
             Container(
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width * 0.85,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.lightBlue[50],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Reason',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextField(
                     maxLines: 5,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Colors.lightBlue[50],
+                      contentPadding: const EdgeInsets.all(12),
                     ),
                   ),
                 ],
