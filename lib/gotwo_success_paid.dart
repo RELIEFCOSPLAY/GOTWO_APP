@@ -133,9 +133,19 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
           status == 'Paid' ? Colors.green : Colors.red,
         ),
       ),
-      child: Text(
-        status,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            status,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 5), // Add space between text and icon
+          Icon(
+            Icons.remove_red_eye,
+            color: status == 'Paid' ? Colors.green : Colors.red,
+          ),
+        ],
       ),
     );
   }
@@ -159,7 +169,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
             const SizedBox(height: 20),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
-            _statusButton("Paid"), // Updated to use the button
+            _statusButton(
+                "Paid"), // Updated to use the button with the eye icon
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
