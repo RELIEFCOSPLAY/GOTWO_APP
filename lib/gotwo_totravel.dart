@@ -48,7 +48,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text("Yes", style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text("Yes", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -61,7 +62,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -71,8 +73,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     );
   }
 
-  Widget _userData(String name, String balance, String sex,
-      String date, String email, String tel) {
+  Widget _userData(String name, String balance, String sex, String date,
+      String email, String tel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -90,13 +92,15 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Rate", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text("Rate",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(width: 5),
             for (var i = 1; i <= 5; i++)
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _currentRating = i; // Update the rating when a star is tapped
+                    _currentRating =
+                        i; // Update the rating when a star is tapped
                   });
                 },
                 child: Icon(
@@ -203,7 +207,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(pickup,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -224,8 +229,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 const SizedBox(width: 10),
                 Expanded(
                     child: Text(dropoff,
-                        style:
-                            TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold))),
               ],
             ),
             const SizedBox(height: 5),
@@ -272,9 +277,11 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),
-              child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+              child:
+                  const Text("Cancel", style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
