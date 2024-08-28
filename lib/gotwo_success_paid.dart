@@ -122,18 +122,22 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
   }
 
   // widget of status
-  Widget _statustext(String status) {
-    return status == 'Paid'
-        ? const Text(
-            'Paid',
-            style: TextStyle(
-                color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
-          )
-        : const Text(
-            'Unpaid',
-            style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-          );
+  Widget _statusButton(String status) {
+    return TextButton(
+      onPressed: () {
+        // Add your onPressed logic here
+        print('Button pressed');
+      },
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(
+          status == 'Paid' ? Colors.green : Colors.red,
+        ),
+      ),
+      child: Text(
+        status,
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+    );
   }
 
   @override
@@ -149,15 +153,13 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         title: const Text('Success', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      // backgroundColor: const Color(0xFF1C2C5E),
       body: Center(
         child: Column(
           children: <Widget>[
-            // add border raidus to the container
             const SizedBox(height: 20),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
-            _statustext("Paid"),
+            _statusButton("Paid"), // Updated to use the button
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
