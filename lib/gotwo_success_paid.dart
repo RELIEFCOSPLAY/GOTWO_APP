@@ -10,6 +10,8 @@ class GotwoSuccessPaid extends StatefulWidget {
 class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
   final _formKey = GlobalKey<FormState>();
 
+  int _currentRating = 3; // Initial rating value
+
   Widget _userData(String name, String balance, String sex, String date,
       String email, String tel) {
     return Column(
@@ -23,7 +25,31 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         const SizedBox(height: 10),
         Text(
           name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        // Star Rating Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Rate",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 5),
+            for (var i = 1; i <= 5; i++)
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _currentRating = i; // Update the rating when a star is tapped
+                  });
+                },
+                child: Icon(
+                  Icons.star,
+                  color: i <= _currentRating ? Colors.yellow : Colors.grey,
+                ),
+              ),
+          ],
         ),
         const SizedBox(height: 10),
         Row(
@@ -81,42 +107,39 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
           ),
         ],
       ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Pick up",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(
-                  Icons.trip_origin,
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(pickup),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Drop",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 10),
-                Expanded(child: Text(dropoff)),
-              ],
-            ),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Pick up",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Icon(
+                Icons.trip_origin,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(pickup),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            "Drop",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Icon(Icons.location_on, color: Colors.red),
+              const SizedBox(width: 10),
+              Expanded(child: Text(dropoff)),
+            ],
+          ),
+        ],
       ),
     );
   }
