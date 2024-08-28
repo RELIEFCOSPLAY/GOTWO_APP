@@ -10,6 +10,8 @@ class GotwoSuccessUnpaid extends StatefulWidget {
 class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
   final _formKey = GlobalKey<FormState>();
 
+  int _currentRating = 3; // Initial rating value
+
   Widget _userData(String name, String balance, String sex, String date,
       String email, String tel) {
     return Column(
@@ -26,7 +28,29 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Rate",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 5),
+            for (var i = 1; i <= 5; i++)
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _currentRating = i; // Update the rating when a star is tapped
+                  });
+                },
+                child: Icon(
+                  Icons.star,
+                  color: i <= _currentRating ? Colors.yellow : Colors.grey,
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -59,7 +83,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
               size: 20,
             ),
             const SizedBox(width: 5),
-            Text("Date : $date", style: const TextStyle(fontSize: 20)),
+            Text("Date: $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
       ],
@@ -96,12 +120,21 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
               children: [
                 Icon(
                   Icons.trip_origin,
+                  color: Colors.green,
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: Text(pickup),
+                  child: Text(
+                    pickup,
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
                 ),
               ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              "comment",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
             SizedBox(height: 10),
             Text(
@@ -113,8 +146,18 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
               children: [
                 Icon(Icons.location_on, color: Colors.red),
                 SizedBox(width: 10),
-                Expanded(child: Text(dropoff)),
+                Expanded(
+                  child: Text(
+                    dropoff,
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
               ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              "comment",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -122,9 +165,8 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
     );
   }
 
-  // widget of status
-  Widget _statustext(String status) {
-    return status == 'Unpaid'
+  Widget _statusText(String status) {
+    return status == 'Paid'
         ? const Text(
             'Paid',
             style: TextStyle(
@@ -150,16 +192,15 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
         title: const Text('Success', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      // backgroundColor: const Color(0xFF1C2C5E),
       body: Center(
         child: Column(
           children: <Widget>[
-            // add border raidus to the container
             const SizedBox(height: 20),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
-            _statustext("Paid"),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            _statusText("Unpaid"), // Set to "Unpaid"
+            const SizedBox(height: 10),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
           ],
