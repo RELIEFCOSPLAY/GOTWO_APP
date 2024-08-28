@@ -222,7 +222,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               "Drop",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 1),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.red),
@@ -233,7 +233,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                             fontSize: 14, fontWeight: FontWeight.bold))),
               ],
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 1),
             const Text(
               "comment",
               style: TextStyle(fontSize: 12, color: Colors.grey),
