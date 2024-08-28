@@ -9,7 +9,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF10236E),
+        backgroundColor: Color(0xFFFFFFFF),
         title: Text('Profile'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
