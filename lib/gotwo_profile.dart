@@ -3,7 +3,7 @@ import 'package:gotwo_app/widgetss/profile_avatar.dart';
 import 'package:gotwo_app/widgetss/profile_info.dart';
 
 
-class ProfileScreen extends StatelessWidget {
+class GotwoProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
