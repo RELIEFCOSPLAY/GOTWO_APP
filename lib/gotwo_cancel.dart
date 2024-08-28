@@ -53,11 +53,6 @@ class _GotwoCancel extends State<GotwoCancel> {
               ),
             ],
           ),
-          const Divider(),
-          Text(
-            "comment",
-            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-          ),
           const SizedBox(height: 10),
           Text(
             "drop",
@@ -82,11 +77,6 @@ class _GotwoCancel extends State<GotwoCancel> {
               ),
             ],
           ),
-          const Divider(),
-          Text(
-            "comment",
-            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-          ),
         ],
       ),
     );
@@ -108,21 +98,6 @@ class _GotwoCancel extends State<GotwoCancel> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'Rate',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            SizedBox(width: 5),
-            Icon(Icons.star, color: Colors.amber, size: 16),
-            Icon(Icons.star, color: Colors.amber, size: 16),
-            Icon(Icons.star, color: Colors.amber, size: 16),
-            Icon(Icons.star, color: Colors.amber, size: 16),
-            Icon(Icons.star, color: Colors.amber, size: 16),
-          ],
-        ),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
