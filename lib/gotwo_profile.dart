@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                     context, '/wallet'); // นำทางไปยัง WalletScreen
               },
               child: Text('Go to Wallet'),
-              style: ElevatedButton.styleFrom(primary: Color(0xFF10236E)),
+              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF10236E)),
             ),
             TextButton.icon(
               icon: Icon(Icons.logout, color: Colors.red),
