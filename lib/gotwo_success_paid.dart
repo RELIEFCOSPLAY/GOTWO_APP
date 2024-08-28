@@ -8,7 +8,6 @@ class GotwoSuccessPaid extends StatefulWidget {
 }
 
 class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
-  final _formKey = GlobalKey<FormState>();
 
   int _currentRating = 3; // Initial rating value
 
