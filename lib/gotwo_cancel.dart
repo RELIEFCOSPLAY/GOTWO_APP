@@ -199,9 +199,9 @@ class _GotwoCancel extends State<GotwoCancel> {
                       fontSize: 18,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 1),
                   TextField(
-                    maxLines: 5,
+                    maxLines: 3,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
