@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gotwo_app/Tabs/tab_History.dart';
-import 'package:gotwo_app/Tabs/tab_Pending.dart';
+import 'package:gotwo_app/tabs/tab_History.dart';
+import 'package:gotwo_app/tabs/tab_Pending.dart';
+
 
 class GotwoWallet extends StatefulWidget {
   const GotwoWallet({super.key});
