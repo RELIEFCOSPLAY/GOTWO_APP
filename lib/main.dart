@@ -22,6 +22,7 @@ import 'package:gotwo_app/gotwo_login.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_request.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home:  GotwoSatusrider(),
+      home:  GotwoPostinfor(),
     );
   }
 }

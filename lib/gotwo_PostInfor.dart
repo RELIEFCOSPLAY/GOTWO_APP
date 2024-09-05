@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class GotwoPostinfor extends StatefulWidget {
   const GotwoPostinfor({super.key});
@@ -22,6 +23,37 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   String dropdownDrop = list.first;
 
   bool isChecked = false;
+
+// ---------------URI----------------
+  Uri url = Uri.parse('http://192.168.1.139/gotwo/connec.php');
+// Uri url = Uri.parse('http://127.0.0.1:8080//gotwo/connec.php');
+  insert(
+    String pickUp,
+    String commentPick,
+    String atDrop,
+    String commentDrop,
+    String date,
+    String time,
+    String price,
+    String statusHelmet,
+  ) async {
+    // var request = await http.post(url, body: {"action": "IN"});
+    var request = await http.post(url, body: {
+      "action": "INSERT",
+      "pick_up": pickUp,
+      "comment_pick": commentPick,
+      "at_drop": atDrop,
+      "comment_drop": commentDrop,
+      "date": date,
+      "time": time,
+      "price": price,
+      "status_helmet": statusHelmet
+      // "customer_id": "1",
+      // "rider_id": "1"
+    }
+    
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -433,6 +465,17 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
             elevation: 0,
           ),
         );
+        String checked = isChecked.toString();
+        insert(
+            dropdownPickup,
+            commentController1.text,
+            dropdownDrop,
+            commentController2.text,
+            dateController.text,
+            timeController.text,
+            priceController.text,
+            checked);
+
         debugPrint("Pickup : $dropdownPickup");
         debugPrint("commentPickup : ${commentController1.text}");
         debugPrint("Drop : $dropdownDrop");
