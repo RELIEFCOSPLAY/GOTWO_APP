@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,9 +27,11 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   bool isChecked = false;
 
 // ---------------URI----------------
-  Uri url = Uri.parse('http://192.168.1.139/gotwo/connec.php');
+  // Uri url = Uri.parse('http://192.168.1.139/gotwo/connec.php');
 // Uri url = Uri.parse('http://127.0.0.1:8080//gotwo/connec.php');
-  insert(
+Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/connec.php');
+
+  Future<void> insert(
     String pickUp,
     String commentPick,
     String atDrop,
@@ -37,7 +41,6 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     String price,
     String statusHelmet,
   ) async {
-    // var request = await http.post(url, body: {"action": "IN"});
     var request = await http.post(url, body: {
       "action": "INSERT",
       "pick_up": pickUp,
@@ -48,11 +51,15 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
       "time": time,
       "price": price,
       "status_helmet": statusHelmet
-      // "customer_id": "1",
-      // "rider_id": "1"
+    });
+
+    if (request.statusCode == 200) {
+      // ข้อมูลถูกส่งสำเร็จ
+      print('Success: ${request.body}');
+    } else {
+      // มีปัญหาในการส่งข้อมูล
+      print('Error: ${request.statusCode}, Body: ${request.body}');
     }
-    
-    );
   }
 
   @override
@@ -466,7 +473,10 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
           ),
         );
         String checked = isChecked.toString();
-        insert(
+        if (dateController.text.isNotEmpty &&
+            timeController.text.isNotEmpty &&
+            priceController.text.isNotEmpty) {
+          insert(
             dropdownPickup,
             commentController1.text,
             dropdownDrop,
@@ -474,16 +484,12 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
             dateController.text,
             timeController.text,
             priceController.text,
-            checked);
-
-        debugPrint("Pickup : $dropdownPickup");
-        debugPrint("commentPickup : ${commentController1.text}");
-        debugPrint("Drop : $dropdownDrop");
-        debugPrint("commentDrop : ${commentController2.text}");
-        debugPrint("Date : ${dateController.text}");
-        debugPrint("Time : ${timeController.text}");
-        debugPrint("Price : ${priceController.text}");
-        debugPrint("Checkbox : $isChecked");
+            checked,
+            // isChecked ? "1" : "0",
+          );
+        } else {
+          debugPrint("Please fill in all required fields");
+        }
       },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 24),
