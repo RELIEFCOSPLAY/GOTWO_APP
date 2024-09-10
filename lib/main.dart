@@ -21,6 +21,7 @@ import 'package:gotwo_app/gotwo_condition.dart';
 import 'package:gotwo_app/gotwo_login.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_request.dart';
+import 'package:gotwo_app/test.dart';
 
 
 void main() {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home:  GotwoPostinfor(),
+      home:  GotwoPostpage(),
     );
   }
 }
