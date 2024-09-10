@@ -29,7 +29,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
 // ---------------URI----------------
   // Uri url = Uri.parse('http://192.168.1.139/gotwo/connec.php');
 // Uri url = Uri.parse('http://127.0.0.1:8080//gotwo/connec.php');
-Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/connec.php');
+Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post.php');
 
   Future<void> insert(
     String pickUp,
