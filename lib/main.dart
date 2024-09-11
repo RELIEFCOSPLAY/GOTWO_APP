@@ -7,8 +7,9 @@ import 'package:gotwo_app/gotwo_Homepage.dart';
 import 'package:gotwo_app/gotwo_Information.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_PostInfor.dart';
-// ignore: unused_import
 import 'package:gotwo_app/gotwo_PostPage.dart';
+// ignore: unused_import
+import 'package:gotwo_app/gotwo_PostPage_old.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_Register.dart';
 // ignore: unused_import
@@ -21,7 +22,7 @@ import 'package:gotwo_app/gotwo_condition.dart';
 import 'package:gotwo_app/gotwo_login.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_request.dart';
-import 'package:gotwo_app/test.dart';
+
 
 
 void main() {
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home:  GotwoPostpage(),
+      home:  GotwoPostPage(),
     );
   }
 }
