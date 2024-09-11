@@ -16,7 +16,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.1.139:8080/gotwo/get_post.php"; // URL ของ API
+        "http://192.168.0.122:8080/gotwo/get_post.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -208,87 +208,101 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on,
+                              // Left Column: Pick Up Information
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on,
+                                          color: Color(0xff1a1c43),
+                                          size: 20.0,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Expanded(
+                                          // เพิ่ม Expanded เพื่อควบคุมการขยายของข้อความ
+                                          child: Text(
+                                            "Pick Up: ${item['pick_up']}",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xff1a1c43),
+                                            ),
+                                            overflow: TextOverflow
+                                                .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      "Date: ${item['date']} ",
+                                      style: const TextStyle(
+                                        fontSize: 12,
                                         color: Color(0xff1a1c43),
-                                        size: 20.0,
                                       ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        "Pick Up: ${item['pick_up']}",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xff1a1c43)),
+                                    ),
+                                    Text(
+                                      "Time: ${item['time']}",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff1a1c43),
                                       ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "Date: ${item['date']} ",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Color(0xff1a1c43)),
-                                  ),
-                                  Text(
-                                    "Time: ${item['time']}",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Color(0xff1a1c43)),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 10,
+                                    ),
+                                  ],
+                                ),
                               ),
                               const Icon(Icons.arrow_forward,
                                   color: Color(0xff1a1c43)),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_city,
-                                        color: Color(0xff1a1c43),
-                                        size: 20.0,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        "Drop: ${item['at_drop']}",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xff1a1c43)),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "${item['price']} ",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
+                              const SizedBox(width: 10),
+
+                              // Right Column: Drop Information
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_city,
+                                          color: Color(0xff1a1c43),
+                                          size: 20.0,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Expanded(
+                                          child: Text(
+                                            "Drop: ${item['at_drop']}",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xff1a1c43),
+                                            ),
+                                            overflow: TextOverflow
+                                                .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${item['price']} ",
+                                          style: const TextStyle(
                                             fontSize: 20,
-                                            color: Color(0xff1a1c43)),
-                                      ),
-                                      const Text(
-                                        "THB",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                            color: Color(0xff1a1c43),
+                                          ),
+                                        ),
+                                        const Text(
+                                          "THB",
+                                          style: TextStyle(
                                             fontSize: 10,
-                                            color: Color(0xff1a1c43)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                            color: Color(0xff1a1c43),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

@@ -27,7 +27,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   bool isChecked = false;
 
 // ---------------URI----------------
-Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post.php');
+Uri url = Uri.parse('http://192.168.0.122:8080/gotwo/post.php');
 
   Future<void> insert(
     String pickUp,
