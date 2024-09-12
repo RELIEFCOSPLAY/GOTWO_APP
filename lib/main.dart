@@ -20,6 +20,7 @@ import 'package:gotwo_app/gotwo_Verification.dart';
 import 'package:gotwo_app/gotwo_condition.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_login.dart';
+import 'package:gotwo_app/gotwo_loginr.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_request.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home:  GotwoPostPage(),
+      home:  Loginpage(),
     );
   }
 }
