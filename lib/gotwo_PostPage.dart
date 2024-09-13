@@ -16,7 +16,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.0.122:8080/gotwo/get_post.php"; // URL ของ API
+        "http://192.168.1.139:8080/gotwo/get_post.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
