@@ -69,23 +69,26 @@ class _TabRequestState extends State<TabRequest> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    debugPrint("CardRequest ${item[index]['from']}");
+                    debugPrint("CardRequest ${item['pick_up']}");
                   },
                   style: ButtonStyle(
-                      backgroundColor:
-                          const WidgetStatePropertyAll(Color(0xfffbf8ff)),
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side:
-                                  const BorderSide(color: Color(0xff1a1c43))))),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xfffbf8ff)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Color(0xff1a1c43)),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment
+                              .start, // Align text to the start
                           children: [
                             Row(
                               children: [
@@ -95,38 +98,42 @@ class _TabRequestState extends State<TabRequest> {
                                   size: 20.0,
                                 ),
                                 const SizedBox(width: 5),
-                                Text(
-                                  "From: ${item[index]['from']}",
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Color(0xff1a1c43)),
+                                Expanded(
+                                  child: Text(
+                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff1a1c43),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                             Text(
-                              "Date: ${item[index]['date']} ",
-                              textAlign: TextAlign.center,
+                              "Date: ${item['date'] ?? 'Unknown'}",
                               style: const TextStyle(
-                                  fontSize: 12, color: Color(0xff1a1c43)),
+                                fontSize: 12,
+                                color: Color(0xff1a1c43),
+                              ),
                             ),
                             Text(
-                              "Time: ${item[index]['time']}",
-                              textAlign: TextAlign.center,
+                              "Time: ${item['time'] ?? 'Unknown'}",
                               style: const TextStyle(
-                                  fontSize: 12, color: Color(0xff1a1c43)),
+                                fontSize: 12,
+                                color: Color(0xff1a1c43),
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Icon(Icons.arrow_forward,
-                            color: Color(0xff1a1c43)),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
+                      ),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.arrow_forward, color: Color(0xff1a1c43)),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -136,34 +143,40 @@ class _TabRequestState extends State<TabRequest> {
                                   size: 20.0,
                                 ),
                                 const SizedBox(width: 5),
-                                Text(
-                                  "To: ${item[index]['to']}",
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Color(0xff1a1c43)),
+                                Expanded(
+                                  child: Text(
+                                    "To: ${item['at_drop'] ?? 'Unknown'}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff1a1c43),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                             Row(
                               children: [
                                 Text(
-                                  "${item[index]['price']} ",
-                                  textAlign: TextAlign.center,
+                                  "${item['price'] ?? 'N/A'} ",
                                   style: const TextStyle(
-                                      fontSize: 20, color: Color(0xff1a1c43)),
+                                    fontSize: 20,
+                                    color: Color(0xff1a1c43),
+                                  ),
                                 ),
                                 const Text(
                                   "THB",
-                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 10, color: Color(0xff1a1c43)),
+                                    fontSize: 10,
+                                    color: Color(0xff1a1c43),
+                                  ),
                                 ),
                               ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
