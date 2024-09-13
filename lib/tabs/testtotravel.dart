@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
-class TabRequest extends StatefulWidget {
+class TabTotravel extends StatefulWidget {
   @override
-  State<TabRequest> createState() => _TabRequestState();
+  State<TabTotravel> createState() => _TabTotravelState();
 }
 
-class _TabRequestState extends State<TabRequest> {
+class _TabTotravelState extends State<TabTotravel> {
   List<dynamic> listData = [];
 
   List<dynamic> filteredList = [];
@@ -16,7 +16,7 @@ class _TabRequestState extends State<TabRequest> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.1.139:8080/gotwo/status.php"; // URL ของ API
+        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',

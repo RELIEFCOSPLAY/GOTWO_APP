@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
-class TabRequest extends StatefulWidget {
+class TabConfirm extends StatefulWidget {
   @override
-  State<TabRequest> createState() => _TabRequestState();
+  State<TabConfirm> createState() => _TabConfirmState();
 }
 
-class _TabRequestState extends State<TabRequest> {
+class _TabConfirmState extends State<TabConfirm> {
   List<dynamic> listData = [];
 
   List<dynamic> filteredList = [];
@@ -16,7 +16,7 @@ class _TabRequestState extends State<TabRequest> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.1.139:8080/gotwo/status.php"; // URL ของ API
+        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -46,12 +46,12 @@ class _TabRequestState extends State<TabRequest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _tab_Request(),
+        tab_Confirm(),
       ],
     );
   }
 
-  Widget _tab_Request() {
+  Widget tab_Confirm() {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: SizedBox(
@@ -119,6 +119,13 @@ class _TabRequestState extends State<TabRequest> {
                             ),
                             Text(
                               "Time: ${item['time'] ?? 'Unknown'}",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xff1a1c43),
+                              ),
+                            ),
+                            Text(
+                              "${item['status_helmet'] ?? 'Unknown'}",
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
