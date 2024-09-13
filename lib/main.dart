@@ -26,8 +26,6 @@ import 'package:gotwo_app/gotwo_loginr.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_request.dart';
 
-
-
 void main() {
   runApp(const MyApp());
 }
