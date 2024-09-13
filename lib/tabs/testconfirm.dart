@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
-class TabRequest extends StatefulWidget {
+class TabConfirm extends StatefulWidget {
   @override
-  State<TabRequest> createState() => _TabRequestState();
+  State<TabConfirm> createState() => _TabRequestState();
 }
 
-class _TabRequestState extends State<TabRequest> {
+class _TabRequestState extends State<TabConfirm> {
   List<dynamic> listData = [];
 
   List<dynamic> filteredList = [];
@@ -58,255 +58,136 @@ class _TabRequestState extends State<TabRequest> {
         width: 320,
         height: 500,
         child: ListView.builder(
-          itemCount: testDate.length,
+          itemCount: listData.length,
           itemBuilder: (context, index) {
-            if (testDate[index]['status'] == "Paid") {
-              return Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
-                child: SizedBox(
-                  width: 300,
-                  height: 100,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      debugPrint("CardConfirm");
-                    },
-                    style: ButtonStyle(
-                        backgroundColor:
-                            const WidgetStatePropertyAll(Color(0xfffbf8ff)),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: const BorderSide(
-                                    color: Color(0xff1a1c43))))),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: Color(0xff1a1c43),
-                                    size: 20.0,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    "From: ${testDate[index]['from']}",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Color(0xff1a1c43)),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                "Date: ${testDate[index]['date']} ",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xff1a1c43)),
-                              ),
-                              Text(
-                                "Time: ${testDate[index]['time']}",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xff1a1c43)),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(Icons.arrow_forward,
-                              color: Color(0xff1a1c43)),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.tour,
-                                    color: Color(0xff1a1c43),
-                                    size: 20.0,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    "To: ${testDate[index]['to']}",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Color(0xff1a1c43)),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "${testDate[index]['price']} ",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Color(0xff1a1c43)),
-                                    ),
-                                    Text(
-                                      "${testDate[index]['status']}",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xff1a1c43)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "${testDate[index]['status']}",
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 10, color: Color(0xff06D258)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+            final item = listData[index];
+            return Padding(
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
+              child: SizedBox(
+                width: 300,
+                height: 100,
+                child: ElevatedButton(
+                  onPressed: () {
+                    debugPrint("CardRequest ${item['pick_up']}");
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all(Color(0xfffbf8ff)),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Color(0xff1a1c43)),
                       ),
                     ),
                   ),
-                ),
-              );
-            }
-            if (testDate[index]['status'] == "Unpaid") {
-              return Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
-                child: SizedBox(
-                  width: 300,
-                  height: 100,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      debugPrint("CardConfirm2");
-                    },
-                    style: ButtonStyle(
-                        backgroundColor:
-                            const WidgetStatePropertyAll(Color(0xfffbf8ff)),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: const BorderSide(
-                                    color: Color(0xff1a1c43))))),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: Color(0xff1a1c43),
-                                    size: 20.0,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    "From: ${testDate[index]['from']}",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Color(0xff1a1c43)),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                "Date: ${testDate[index]['date']} ",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xff1a1c43)),
-                              ),
-                              Text(
-                                "Time: ${testDate[index]['time']}",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0xff1a1c43)),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(Icons.arrow_forward,
-                              color: Color(0xff1a1c43)),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.tour,
-                                    color: Color(0xff1a1c43),
-                                    size: 20.0,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    "To: ${testDate[index]['to']}",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Color(0xff1a1c43)),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "${testDate[index]['price']} ",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Color(0xff1a1c43)),
-                                    ),
-                                    const Text(
-                                      "THB",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xff1a1c43)),
-                                    ),
-                                  ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment
+                              .start, // Align text to the start
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on,
+                                  color: Color(0xff1a1c43),
+                                  size: 20.0,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "${testDate[index]['status']}",
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 10, color: Color(0xffE51A1A)),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: Text(
+                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff1a1c43),
+                                    ),
+                                  ),
                                 ),
+                              ],
+                            ),
+                            Text(
+                              "Date: ${item['date'] ?? 'Unknown'}",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xff1a1c43),
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Text(
+                              "Time: ${item['time'] ?? 'Unknown'}",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xff1a1c43),
+                              ),
+                            ),
+                            Text(
+                              "Time: ${item['status'] ?? 'Unknown'}",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xff1a1c43),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.arrow_forward, color: Color(0xff1a1c43)),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.tour,
+                                  color: Color(0xff1a1c43),
+                                  size: 20.0,
+                                ),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: Text(
+                                    "To: ${item['at_drop'] ?? 'Unknown'}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff1a1c43),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "${item['price'] ?? 'N/A'} ",
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Color(0xff1a1c43),
+                                  ),
+                                ),
+                                const Text(
+                                  "THB",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color(0xff1a1c43),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            }
-            return null;
+              ),
+            );
           },
         ),
       ),
