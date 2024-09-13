@@ -1,18 +1,6 @@
 <?php
-// Connect to the database
-$servername = "localhost";
-$username = "root"; // Default XAMPP username
-$password = ""; // Default XAMPP password (leave blank)
-$dbname = "rider_status";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+header('Content-Type: application/json; charset=utf-8');
+include("config.php");
 // Fetch data based on status
 $status = $_GET['status'];
 $sql = "SELECT * FROM requests WHERE status = '$status'";
