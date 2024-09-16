@@ -8,13 +8,8 @@ class GotwoRequest extends StatefulWidget {
 }
 
 class _GotwoRequestState extends State<GotwoRequest> {
-  // ignore: unused_field
-  final TextEditingController _startLocationController =
-      TextEditingController();
-  // ignore: unused_field
-  final TextEditingController _endLocationController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  
+
   Future<void> _showDialog() async {
     return showDialog(
       context: context,
@@ -94,6 +89,9 @@ class _GotwoRequestState extends State<GotwoRequest> {
   }
 
   @override
+  
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
