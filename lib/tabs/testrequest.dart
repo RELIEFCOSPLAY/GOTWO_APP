@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/Page_n/gotwo_request.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 
 // ignore: must_be_immutable
 class TabRequest extends StatefulWidget {
@@ -10,7 +12,6 @@ class TabRequest extends StatefulWidget {
 
 class _TabRequestState extends State<TabRequest> {
   List<dynamic> listData = [];
-
   List<dynamic> filteredList = [];
 
   // ฟังก์ชันดึงข้อมูลจาก API
@@ -69,12 +70,17 @@ class _TabRequestState extends State<TabRequest> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    debugPrint("CardRequest ${item['pick_up']}");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoRequest(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                        WidgetStateProperty.all(Color(0xfffbf8ff)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        MaterialStateProperty.all(Color(0xfffbf8ff)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                         side: BorderSide(color: Color(0xff1a1c43)),

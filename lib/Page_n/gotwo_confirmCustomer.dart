@@ -143,7 +143,7 @@ class _GotwoConCus extends State<GotwoConCus> {
             Text("Date : $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -319,7 +319,7 @@ class _GotwoConCus extends State<GotwoConCus> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  child: const Text("Accept",
+                  child: const Text("To travel",
                       style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
@@ -329,7 +329,7 @@ class _GotwoConCus extends State<GotwoConCus> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                   ),
-                  child: const Text("Reject",
+                  child: const Text("Cancel",
                       style: TextStyle(color: Colors.white)),
                 ),
               ],

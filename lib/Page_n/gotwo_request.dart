@@ -8,12 +8,7 @@ class GotwoRequest extends StatefulWidget {
 }
 
 class _GotwoRequestState extends State<GotwoRequest> {
-  // ignore: unused_field
-  final TextEditingController _startLocationController =
-      TextEditingController();
-  // ignore: unused_field
-  final TextEditingController _endLocationController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   Future<void> _showDialog() async {
     return showDialog(
@@ -88,26 +83,15 @@ class _GotwoRequestState extends State<GotwoRequest> {
               ],
             ),
           ],
-          // actions: <Widget>[
-          //   TextButton(
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //     child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
-          //   ),
-          //   TextButton(
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //     child: const Text('Yes', style: TextStyle(color: Colors.red)),
-          //   ),
-          // ],
         );
       },
     );
   }
 
   @override
+  
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -115,11 +99,14 @@ class _GotwoRequestState extends State<GotwoRequest> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
+
       // backgroundColor: const Color(0xFF1C2C5E),
       body: Center(
         child: Column(
@@ -187,7 +174,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ],
               ),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
