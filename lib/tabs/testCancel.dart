@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/Page_n/gotwo_cancel.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -69,7 +70,12 @@ class _TabCancelState extends State<TabCancel> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    debugPrint("CardRequest ${item['pick_up']}");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoCancel(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor:
