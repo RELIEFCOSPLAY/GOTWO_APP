@@ -88,20 +88,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
               ],
             ),
           ],
-          // actions: <Widget>[
-          //   TextButton(
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //     child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
-          //   ),
-          //   TextButton(
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //     child: const Text('Yes', style: TextStyle(color: Colors.red)),
-          //   ),
-          // ],
         );
       },
     );
@@ -116,7 +102,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); 
+            Navigator.pop(context);
           },
         ),
         title: const Text('Request', style: TextStyle(color: Colors.white)),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gotwo_app/Page_n/gotwo_request.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 
 // ignore: must_be_immutable
 class TabRequest extends StatefulWidget {
@@ -13,8 +14,10 @@ class _TabRequestState extends State<TabRequest> {
   List<dynamic> listData = [];
   List<dynamic> filteredList = [];
 
+  // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
-    final String url = "http://192.168.160.1:80/gotwo/status.php";
+    final String url =
+        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -22,8 +25,9 @@ class _TabRequestState extends State<TabRequest> {
 
       if (response.statusCode == 200) {
         setState(() {
-          listData = json.decode(response.body);
-          filteredList = listData;
+          listData = json.decode(response.body); // แปลง JSON เป็น List
+          filteredList =
+              listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });
       } else {
         print("Failed to load data");
@@ -36,7 +40,7 @@ class _TabRequestState extends State<TabRequest> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    fetchData(); // ดึงข้อมูลเมื่อเริ่มแอป
   }
 
   @override
@@ -79,7 +83,7 @@ class _TabRequestState extends State<TabRequest> {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
-                        side: const BorderSide(color: Color(0xff1a1c43)),
+                        side: BorderSide(color: Color(0xff1a1c43)),
                       ),
                     ),
                   ),
@@ -89,7 +93,8 @@ class _TabRequestState extends State<TabRequest> {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment
+                              .start, // Align text to the start
                           children: [
                             Row(
                               children: [
@@ -101,7 +106,7 @@ class _TabRequestState extends State<TabRequest> {
                                 const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    "From: ${item['pick_up'] ?? 'Unknown'}",
+                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 12,

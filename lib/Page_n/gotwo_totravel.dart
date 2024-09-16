@@ -207,15 +207,11 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(pickup,
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style: TextStyle(
+                        fontSize: 14,
+                      )),
                 ),
               ],
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              "comment",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const SizedBox(height: 10),
             Text(
@@ -230,13 +226,9 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 Expanded(
                     child: Text(dropoff,
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
+                          fontSize: 14,
+                        ))),
               ],
-            ),
-            const SizedBox(height: 1),
-            const Text(
-              "comment",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -253,7 +245,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); 
+            Navigator.pop(context);
           },
         ),
         title: const Text('To travel', style: TextStyle(color: Colors.white)),
