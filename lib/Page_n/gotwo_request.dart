@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GotwoRequest extends StatefulWidget {
-  const GotwoRequest({super.key});
+  final dynamic item; // รับข้อมูลที่ส่งมา
+  const GotwoRequest({super.key, required this.item});
 
   @override
   _GotwoRequestState createState() => _GotwoRequestState();
@@ -35,14 +36,11 @@ class _GotwoRequestState extends State<GotwoRequest> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // title: const Text('Request'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                  'There is a request to join. Do you still want to delete this post?'),
+              const Text('There is a request to join. Do you still want to delete this post?'),
               const SizedBox(height: 10),
-              // add black textfield
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -63,22 +61,18 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child:
-                      const Text("Yes", style: TextStyle(color: Colors.white)),
+                  child: const Text("Yes", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // close dialog
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      // set border radius to 0
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Cancel",
-                      style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -89,10 +83,9 @@ class _GotwoRequestState extends State<GotwoRequest> {
   }
 
   @override
-  
-
-
   Widget build(BuildContext context) {
+    final item = widget.item; // ดึงข้อมูลที่ส่งมาจาก TabRequest
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
@@ -106,12 +99,9 @@ class _GotwoRequestState extends State<GotwoRequest> {
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-
-      // backgroundColor: const Color(0xFF1C2C5E),
       body: Center(
         child: Column(
           children: <Widget>[
-            // add border raidus to the container
             const SizedBox(height: 20),
             const CircleAvatar(
               radius: 30,
@@ -119,14 +109,14 @@ class _GotwoRequestState extends State<GotwoRequest> {
               backgroundColor: Colors.white,
             ),
             const SizedBox(height: 10),
-            const Text("Name Lastname",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text("Name: ${item['rider_name'] ?? 'Unknown'}",
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.face,
+                  Icons.male,
                   size: 20,
                 ),
                 SizedBox(width: 5),
@@ -134,27 +124,23 @@ class _GotwoRequestState extends State<GotwoRequest> {
               ],
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.credit_card,
-                  size: 20,
-                ),
-                SizedBox(width: 5),
-                Text("50 THB", style: TextStyle(fontSize: 20)),
+                const Icon(Icons.credit_card, size: 20),
+                const SizedBox(width: 5),
+                Text("${item['price'] ?? 'Unknown'} THB",
+                    style: const TextStyle(fontSize: 20)),
               ],
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.date_range,
-                  size: 20,
-                ),
-                SizedBox(width: 5),
-                Text("Date: 24/03/2024", style: TextStyle(fontSize: 20)),
+                const Icon(Icons.date_range, size: 20),
+                const SizedBox(width: 5),
+                Text("Date: ${item['date'] ?? 'Unknown'}",
+                    style: const TextStyle(fontSize: 20)),
               ],
             ),
             const SizedBox(height: 40),
@@ -175,38 +161,34 @@ class _GotwoRequestState extends State<GotwoRequest> {
               ),
               child: Form(
                 key: formKey,
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Pick up",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
-                        Icon(
-                          Icons.trip_origin,
-                        ),
-                        SizedBox(width: 10),
+                        const Icon(Icons.trip_origin),
+                        const SizedBox(width: 10),
                         Expanded(
-                          child: Text("Mae Fah Luang(D1)"),
+                          child: Text(item['pick_up'] ?? 'Unknown'),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       "Drop",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
-                        Icon(Icons.location_on, color: Colors.red),
-                        SizedBox(width: 10),
-                        Expanded(child: Text("Lotus Fah Thai")),
+                        const Icon(Icons.location_on, color: Colors.red),
+                        const SizedBox(width: 10),
+                        Expanded(child: Text(item['at_drop'] ?? 'Unknown')),
                       ],
                     ),
                   ],
@@ -229,18 +211,17 @@ class _GotwoRequestState extends State<GotwoRequest> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  child: const Text("Accept",
-                      style: TextStyle(color: Colors.white)),
+                  child: const Text("Accept", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    debugPrint(item);
                     _showRejectDialog();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                   ),
-                  child: const Text("Reject",
-                      style: TextStyle(color: Colors.white)),
+                  child: const Text("Reject", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -250,3 +231,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
     );
   }
 }
+
+
+

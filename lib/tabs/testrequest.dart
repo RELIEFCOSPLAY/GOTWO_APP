@@ -17,7 +17,7 @@ class _TabRequestState extends State<TabRequest> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.1.139:8080/gotwo/status.php"; // URL ของ API
+        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -73,7 +73,9 @@ class _TabRequestState extends State<TabRequest> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const GotwoRequest(),
+                        builder: (context) => GotwoRequest(
+                          item: item, // ส่งข้อมูลของการ์ดไปหน้า GotwoRequest
+                        ),
                       ),
                     );
                   },
