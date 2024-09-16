@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 // ignore: unused_import
+import 'package:gotwo_app/Page_n/gotwo_confirmCustomer.dart';
+// ignore: unused_import
+import 'package:gotwo_app/Page_n/gotwo_confirmRider.dart';
+// ignore: unused_import
+import 'package:gotwo_app/Page_n/gotwo_success_paid.dart';
+// ignore: unused_import
+import 'package:gotwo_app/Page_n/gotwo_success_unpaid.dart';
+// ignore: unused_import
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
 // ignore: unused_import
 import 'package:gotwo_app/gotwo_Homepage.dart';
@@ -43,7 +51,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff1a1c43)),
         useMaterial3: true,
       ),
-      home: GotwoSatusrider(),
+      home: GotwoConRider(),
     );
   }
 }

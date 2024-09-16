@@ -46,7 +46,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             children: [
               const Text(
                   'There is a request to join. Do you still want to delete this post?'),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               // add black textfield
               TextFormField(
                 decoration: const InputDecoration(
@@ -103,12 +103,12 @@ class _GotwoConRider extends State<GotwoConRider> {
           backgroundColor: Colors.white,
           child: Icon(Icons.account_circle_outlined, size: 70),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Text(
           name,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -120,7 +120,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -132,7 +132,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -145,7 +145,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           ],
         ),
         // show email and tel
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -157,7 +157,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text("Email : $email", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -170,7 +170,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           ],
         ),
 
-        const SizedBox(height: 40),
+        const SizedBox(height: 5),
       ],
     );
   }
@@ -200,7 +200,7 @@ class _GotwoConRider extends State<GotwoConRider> {
               "Pick up",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Row(
               children: [
                 Icon(
@@ -212,12 +212,12 @@ class _GotwoConRider extends State<GotwoConRider> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Text(
               "Drop",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.red),
@@ -264,74 +264,19 @@ class _GotwoConRider extends State<GotwoConRider> {
         child: Column(
           children: <Widget>[
             // add border raidus to the container
-            const SizedBox(height: 20),
+            const SizedBox(height: 5),
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
             _statustext("Paid"),
-            const SizedBox(height: 20),
+            const SizedBox(height: 5),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            // Container(
-            //   padding: const EdgeInsets.all(16),
-            //   width: MediaQuery.of(context).size.width * 0.8,
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(16),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.grey.withOpacity(0.5),
-            //         spreadRadius: 2,
-            //         blurRadius: 5,
-            //         offset: const Offset(0, 3),
-            //       ),
-            //     ],
-            //   ),
-            //   child: Form(
-            //     key: _formKey,
-            //     child: const Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Text(
-            //           "Pick up",
-            //           style:
-            //               TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            //         ),
-            //         SizedBox(height: 10),
-            //         Row(
-            //           children: [
-            //             Icon(
-            //               Icons.trip_origin,
-            //             ),
-            //             SizedBox(width: 10),
-            //             Expanded(
-            //               child: Text("Mae Fah Luang(D1)"),
-            //             ),
-            //           ],
-            //         ),
-            //         SizedBox(height: 10),
-            //         Text(
-            //           "Drop",
-            //           style:
-            //               TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            //         ),
-            //         SizedBox(height: 10),
-            //         Row(
-            //           children: [
-            //             Icon(Icons.location_on, color: Colors.red),
-            //             SizedBox(width: 10),
-            //             Expanded(child: Text("Lotus Fah Thai")),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 5),
             const Text(
               "Bring your own a helmet.",
               style: TextStyle(fontSize: 14, color: Colors.red),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
