@@ -13,8 +13,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
       TextEditingController();
   // ignore: unused_field
   final TextEditingController _endLocationController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
+  final formKey = GlobalKey<FormState>();
+  
   Future<void> _showDialog() async {
     return showDialog(
       context: context,
@@ -176,7 +176,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ],
               ),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
