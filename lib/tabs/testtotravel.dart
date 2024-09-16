@@ -47,12 +47,12 @@ class _TabTotravelState extends State<TabTotravel> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _tab_Request(),
+        _tab_Totravel(),
       ],
     );
   }
 
-  Widget _tab_Request() {
+  Widget _tab_Totravel() {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: SizedBox(

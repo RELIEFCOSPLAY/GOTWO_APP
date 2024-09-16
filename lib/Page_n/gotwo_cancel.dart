@@ -191,7 +191,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Navigator.pop(context); 
           },
         ),
-        title: const Text('Request', style: TextStyle(color: Colors.white)),
+        title: const Text('Cancel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: Center(

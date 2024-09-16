@@ -47,12 +47,12 @@ class _TabSuccessState extends State<TabSuccess> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        tab_Confirm(),
+        tab_Success(),
       ],
     );
   }
 
-  Widget tab_Confirm() {
+  Widget tab_Success() {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: SizedBox(
