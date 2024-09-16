@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class GotwoSuccessPaid extends StatefulWidget {
-  const GotwoSuccessPaid({super.key});
+  final dynamic item; // รับข้อมูลที่ส่งมา
+  const GotwoSuccessPaid({super.key, required this.item});
 
   @override
   _GotwoSuccessPaid createState() => _GotwoSuccessPaid();
 }
 
 class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
-
-  int _currentRating = 3; // Initial rating value
+  int _currentRating = 5; // Initial rating value
 
   Widget _userData(String name, String balance, String sex, String date,
       String email, String tel) {
@@ -225,6 +225,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
 
   @override
   Widget build(BuildContext context) {
+    final item = widget.item; // ดึงข้อมูลที่ส่งมาจากหน้าก่อน
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
@@ -232,7 +234,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); 
+            Navigator.pop(context);
           },
         ),
         title: const Text('Success', style: TextStyle(color: Colors.white)),
@@ -242,11 +244,17 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 20),
-            _userData("Name Lastname", "50", "Male", "24/03/2024",
-                "Email Rider", "0123456789"),
-            _statusButton("Paid"),
+            _userData(
+              item['rider_name'] ?? "Name Lastname", // รับค่าจากข้อมูลที่ถูกส่งมา
+              item['price'] ?? "50",
+              "Male",
+              item['date'] ?? "24/03/2024",
+              "Email Rider",
+              "0123456789",
+            ),
+            _statusButton(item['status_payment'] ?? "Paid"),
             const SizedBox(height: 20),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+            _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)", item['at_drop'] ?? "Lotus Fah Thai"),
             const SizedBox(height: 20),
           ],
         ),

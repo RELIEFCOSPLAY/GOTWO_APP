@@ -73,13 +73,13 @@ class _TabSuccessState extends State<TabSuccess> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const GotwoSuccessPaid(),
+                        builder: (context) => GotwoSuccessPaid(
+                            item: item), // ส่งข้อมูลไปยัง GotwoTotravel
                       ),
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all(Color(0xfffbf8ff)),
+                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),

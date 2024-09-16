@@ -256,9 +256,9 @@ class _GotwoConRider extends State<GotwoConRider> {
                     _showDialog();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.grey,
                   ),
-                  child: const Text("Accept", style: TextStyle(color: Colors.white)),
+                  child: const Text("To travel", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {

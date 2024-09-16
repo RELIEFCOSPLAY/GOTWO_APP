@@ -73,7 +73,8 @@ class _TabCancelState extends State<TabCancel> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const GotwoCancel(),
+                        builder: (context) => GotwoCancel(
+                            item: item), // ส่งข้อมูลไปยัง GotwoTotravel
                       ),
                     );
                   },

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class GotwoCancel extends StatefulWidget {
-  const GotwoCancel({super.key});
+  final dynamic item; // รับข้อมูลที่ส่งมา
+  const GotwoCancel({super.key, required this.item});
 
   @override
   _GotwoCancel createState() => _GotwoCancel();
 }
 
 class _GotwoCancel extends State<GotwoCancel> {
-  int _currentRating = 3; // Initial rating value
+  int _currentRating = 5; // Initial rating value
 
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
@@ -30,7 +31,7 @@ class _GotwoCancel extends State<GotwoCancel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Pick up",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
@@ -51,7 +52,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             ],
           ),
           const SizedBox(height: 10),
-          Text(
+          const Text(
             "Drop",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
@@ -89,7 +90,7 @@ class _GotwoCancel extends State<GotwoCancel> {
         const SizedBox(height: 1),
         Text(
           name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 1),
         // Star Rating Row
@@ -105,7 +106,8 @@ class _GotwoCancel extends State<GotwoCancel> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _currentRating = i; // Update the rating when a star is tapped
+                    _currentRating =
+                        i; // Update the rating when a star is tapped
                   });
                 },
                 child: Icon(
@@ -181,6 +183,8 @@ class _GotwoCancel extends State<GotwoCancel> {
 
   @override
   Widget build(BuildContext context) {
+    final item = widget.item; // รับข้อมูลที่ส่งมาจากหน้าก่อนหน้า
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
@@ -188,7 +192,7 @@ class _GotwoCancel extends State<GotwoCancel> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); 
+            Navigator.pop(context);
           },
         ),
         title: const Text('Cancel', style: TextStyle(color: Colors.white)),
@@ -198,16 +202,23 @@ class _GotwoCancel extends State<GotwoCancel> {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 10),
-            _userData("Name Lastname", "50", "Male", "24/03/2024",
-                "Email Rider", "0123456789"),
+            _userData(
+              item['rider_name'] ?? "Name Lastname",
+              item['price'] ?? "50",
+              "Male",
+              item['date'] ?? "24/03/2024",
+              "Email Rider",
+              "0123456789",
+            ),
             const SizedBox(height: 10),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+            _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)",
+                item['at_drop'] ?? "Lotus Fah Thai"),
             const SizedBox(height: 10),
             Container(
               width: MediaQuery.of(context).size.width * 0.85,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFFC5CAE9),
+                color: const Color(0xFFC5CAE9),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(

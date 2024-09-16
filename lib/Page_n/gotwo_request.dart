@@ -39,7 +39,9 @@ class _GotwoRequestState extends State<GotwoRequest> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('There is a request to join. Do you still want to delete this post?'),
+              const Text(
+                'There is a request to join. Do you still want to delete this post?',
+              ),
               const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
@@ -215,8 +217,9 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    debugPrint(item);
-                    _showRejectDialog();
+                    // Correct debug print statement
+                    debugPrint(item.toString()); // Print the item details to the console
+                    _showRejectDialog(); // Call the reject dialog after debug print
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -231,6 +234,3 @@ class _GotwoRequestState extends State<GotwoRequest> {
     );
   }
 }
-
-
-
