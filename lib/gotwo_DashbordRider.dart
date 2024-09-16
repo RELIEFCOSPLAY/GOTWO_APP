@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:gotwo_app/gotwo_SatusRider.dart';
+import 'package:gotwo_app/gotwo_logout.dart';
 
 class GotwoDashbordrider extends StatefulWidget {
   const GotwoDashbordrider({super.key});
@@ -312,6 +313,10 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                 ),
                 onPressed: () {
                   debugPrint("Profile");
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LogoutPage()),
+                  );
                 },
                 child: const Column(
                   children: [
