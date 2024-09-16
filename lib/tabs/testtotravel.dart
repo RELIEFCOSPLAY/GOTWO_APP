@@ -73,13 +73,13 @@ class _TabTotravelState extends State<TabTotravel> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const GotwoTotravel(),
+                        builder: (context) => GotwoTotravel(
+                            item: item), // ส่งข้อมูลไปยัง GotwoTotravel
                       ),
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all(Color(0xfffbf8ff)),
+                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GotwoTotravel extends StatefulWidget {
-  const GotwoTotravel({super.key});
+  final dynamic item; // รับข้อมูลจากหน้าก่อน
+  const GotwoTotravel({super.key, required this.item});
 
   @override
   _GotwoTotravel createState() => _GotwoTotravel();
@@ -73,8 +74,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     );
   }
 
-  Widget _userData(String name, String balance, String sex, String date,
-      String email, String tel) {
+  Widget _userData(String name, String balance, String sex, String date, String email, String tel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -114,10 +114,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.face,
-              size: 20,
-            ),
+            const Icon(Icons.face, size: 20),
             const SizedBox(width: 5),
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
@@ -126,10 +123,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.credit_card,
-              size: 20,
-            ),
+            const Icon(Icons.credit_card, size: 20),
             const SizedBox(width: 5),
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
@@ -138,10 +132,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.date_range,
-              size: 20,
-            ),
+            const Icon(Icons.date_range, size: 20),
             const SizedBox(width: 5),
             Text("Date : $date", style: const TextStyle(fontSize: 20)),
           ],
@@ -150,10 +141,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.email,
-              size: 20,
-            ),
+            const Icon(Icons.email, size: 20),
             const SizedBox(width: 5),
             Text("Email : $email", style: const TextStyle(fontSize: 20)),
           ],
@@ -162,10 +150,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.phone,
-              size: 20,
-            ),
+            const Icon(Icons.phone, size: 20),
             const SizedBox(width: 5),
             Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
           ],
@@ -196,7 +181,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Pick up",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
@@ -207,27 +192,28 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(pickup,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       )),
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            Text(
+            const Text(
               "Drop",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 1),
             Row(
               children: [
-                Icon(Icons.location_on, color: Colors.red),
+                const Icon(Icons.location_on, color: Colors.red),
                 const SizedBox(width: 10),
                 Expanded(
-                    child: Text(dropoff,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ))),
+                  child: Text(dropoff,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      )),
+                ),
               ],
             ),
           ],
@@ -238,6 +224,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
 
   @override
   Widget build(BuildContext context) {
+    final item = widget.item; // ดึงข้อมูลที่ส่งมาจากหน้าอื่น
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
@@ -256,10 +244,16 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const SizedBox(height: 20),
-            _userData("Name Lastname", "50", "Male", "24/03/2024",
-                "Email Rider", "0123456789"),
+            _userData(
+              "Name Lastname",
+              "${item['price'] ?? '0'}",
+              "Male",
+              "${item['date'] ?? 'Unknown'}",
+              "Email Rider",
+              "0123456789",
+            ),
             const SizedBox(height: 20),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+            _pickupDropoff(item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
@@ -270,11 +264,9 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),
-              child:
-                  const Text("Cancel", style: TextStyle(color: Colors.white)),
+              child: const Text("Cancel", style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
