@@ -235,7 +235,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
             Navigator.pop(context); 
           },
         ),
-        title: const Text('Request', style: TextStyle(color: Colors.white)),
+        title: const Text('Success', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: Center(
