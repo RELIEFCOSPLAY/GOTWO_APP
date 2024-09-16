@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/Page_n/gotwo_request.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -12,10 +13,8 @@ class _TabRequestState extends State<TabRequest> {
   List<dynamic> listData = [];
   List<dynamic> filteredList = [];
 
-  // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
-    final String url =
-        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
+    final String url = "http://192.168.160.1:80/gotwo/status.php";
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -23,9 +22,8 @@ class _TabRequestState extends State<TabRequest> {
 
       if (response.statusCode == 200) {
         setState(() {
-          listData = json.decode(response.body); // แปลง JSON เป็น List
-          filteredList =
-              listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
+          listData = json.decode(response.body);
+          filteredList = listData;
         });
       } else {
         print("Failed to load data");
@@ -38,7 +36,7 @@ class _TabRequestState extends State<TabRequest> {
   @override
   void initState() {
     super.initState();
-    fetchData(); // ดึงข้อมูลเมื่อเริ่มแอป
+    fetchData();
   }
 
   @override
@@ -68,7 +66,12 @@ class _TabRequestState extends State<TabRequest> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    debugPrint("CardRequest ${item['pick_up']}");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoRequest(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -76,7 +79,7 @@ class _TabRequestState extends State<TabRequest> {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Color(0xff1a1c43)),
+                        side: const BorderSide(color: Color(0xff1a1c43)),
                       ),
                     ),
                   ),
@@ -86,8 +89,7 @@ class _TabRequestState extends State<TabRequest> {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Align text to the start
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -99,7 +101,7 @@ class _TabRequestState extends State<TabRequest> {
                                 const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
+                                    "From: ${item['pick_up'] ?? 'Unknown'}",
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 12,
