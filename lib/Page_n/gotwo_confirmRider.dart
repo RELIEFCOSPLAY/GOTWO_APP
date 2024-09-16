@@ -254,7 +254,9 @@ class _GotwoConRider extends State<GotwoConRider> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context); 
+          },
         ),
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
