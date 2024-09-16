@@ -116,7 +116,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.male,
+                  Icons.face,
                   size: 20,
                 ),
                 SizedBox(width: 5),

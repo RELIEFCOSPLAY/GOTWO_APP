@@ -317,7 +317,7 @@ class _GotwoConCus extends State<GotwoConCus> {
                     _showDialog();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.grey,
                   ),
                   child: const Text("To travel",
                       style: TextStyle(color: Colors.white)),

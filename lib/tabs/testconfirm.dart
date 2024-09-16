@@ -16,7 +16,7 @@ class _TabConfirmState extends State<TabConfirm> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.1.139:8080/gotwo/status.php"; // URL ของ API
+        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -72,13 +72,13 @@ class _TabConfirmState extends State<TabConfirm> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const GotwoConRider(),
+                        builder: (context) => GotwoConRider(
+                            item: item),
                       ),
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all(Color(0xfffbf8ff)),
+                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
