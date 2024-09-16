@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gotwo_app/user.dart';
+import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Import secure storage
 
 
 class Loginpage extends StatefulWidget {
@@ -14,43 +15,78 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   final formKey = GlobalKey<FormState>();
+  final storage = const FlutterSecureStorage();
 
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
+  bool rememberMe = false; // Remember Me option
 
-  // ฟังก์ชันสำหรับเข้าสู่ระบบ
-  Future<void> sig_in() async {
-  String url = "http://192.168.0.122:8080/gotwo/signin.php";
-  try {
-    final response = await http.post(Uri.parse(url), body: {
-      'email': email.text,
-      'password': pass.text,
-    });
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      print(data);
-      if (data == "Error") {
-        // Navigator.pushNamed(context, 'login');
-        debugPrint('Noooooooooooo');
-      } else {
-        await User.setsigin(true);
-        // Navigator.pushNamed(context, 'join');
-        debugPrint('YESSSSSSSSS');
-      }
+  // ฟังก์ชันสำหรับบันทึกข้อมูลเข้าสู่ระบบ
+  Future<void> saveLoginInfo() async {
+    if (rememberMe) {
+      await storage.write(key: 'email', value: email.text);
+      await storage.write(key: 'password', value: pass.text);
+      await storage.write(key: 'isLoggedIn', value: 'true'); // บันทึกสถานะการเข้าสู่ระบบ
     } else {
-      print('Server error with status code: ${response.statusCode}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Server error. Please try again.')),
+      await storage.deleteAll(); // ลบข้อมูลการเข้าสู่ระบบ
+    }
+  }
+
+  // ฟังก์ชันสำหรับโหลดข้อมูลเข้าสู่ระบบ
+  Future<void> loadLoginInfo() async {
+    String? savedEmail = await storage.read(key: 'email');
+    String? savedPassword = await storage.read(key: 'password');
+    String? isLoggedIn = await storage.read(key: 'isLoggedIn');
+
+    // ถ้ามีข้อมูลบันทึกไว้ และผู้ใช้เคย login ให้ข้ามไปหน้า Join
+    if (isLoggedIn == 'true' && savedEmail != null && savedPassword != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
       );
     }
-  } catch (e) {
-    print('Error befix: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed. Please try again.')));
   }
-}
 
+  // ฟังก์ชันสำหรับเข้าสู่ระบบ
+  Future<void> signIn() async {
+    String url = "http://192.168.1.121:80/gotwo/signin.php";
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'email': email.text,
+        'password': pass.text,
+      });
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        if (data == "Error") {
+          // ไม่พบผู้ใช้
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Invalid login credentials.')),
+          );
+        } else {
+          await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Server error. Please try again later.')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed. Please try again.')),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadLoginInfo(); // ตรวจสอบว่ามีการบันทึกข้อมูลการเข้าสู่ระบบหรือไม่
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +108,7 @@ class _LoginpageState extends State<Loginpage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // Image.asset("assets/images/pngegg.png"),
+                Image.asset("assets/images/logo.jpg"),
                 const SizedBox(
                   height: 5,
                 ),
@@ -113,7 +149,7 @@ class _LoginpageState extends State<Loginpage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 // Password textformfield
                 Padding(
@@ -143,21 +179,40 @@ class _LoginpageState extends State<Loginpage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
+
+                // Checkbox for "Remember Me"
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: rememberMe,
+                        onChanged: (value) {
+                          setState(() {
+                            rememberMe = value ?? false;
+                          });
+                        },
+                      ),
+                      const Text("Remember Me")
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
 
                 // Login button
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        sig_in();
+                        await signIn();
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(
+                      backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF1A1C43)),
                       minimumSize:
-                          WidgetStateProperty.all(const Size(110, 35)),
+                          MaterialStateProperty.all(const Size(110, 35)),
                     ),
                     child: const Text(
                       'Login',
