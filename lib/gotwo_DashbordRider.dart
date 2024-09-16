@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/gotwo_PostPage.dart';
+import 'package:gotwo_app/gotwo_SatusRider.dart';
 
 class GotwoDashbordrider extends StatefulWidget {
   const GotwoDashbordrider({super.key});
@@ -209,38 +211,44 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GestureDetector(
-                onTap: () {
+              ElevatedButton(
+                onPressed: () {
                   debugPrint("3");
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GotwoPostPage(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
                 },
-                child: Container(
-                  width: 300,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff00D6D5),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff00D6D5),
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "8",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  fixedSize: const Size(300, 80),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "8",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        "Post    ",
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                    Text(
+                      "Post    ",
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -278,6 +286,13 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                 ),
                 onPressed: () {
                   debugPrint("Status");
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GotwoSatusrider(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 child: const Column(
                   children: [

@@ -49,7 +49,7 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-    String url = "http://192.168.1.121:80/gotwo/signin.php";
+    String url = "http://192.168.1.139:8080/gotwo/signin.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email.text,
@@ -108,7 +108,7 @@ class _LoginpageState extends State<Loginpage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset("assets/images/logo.jpg"),
+                 _icon(),
                 const SizedBox(
                   height: 5,
                 ),
@@ -206,13 +206,14 @@ class _LoginpageState extends State<Loginpage> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         await signIn();
+                        debugPrint("what");
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
+                      backgroundColor: WidgetStateProperty.all<Color>(
                           const Color(0xFF1A1C43)),
                       minimumSize:
-                          MaterialStateProperty.all(const Size(110, 35)),
+                          WidgetStateProperty.all(const Size(110, 35)),
                     ),
                     child: const Text(
                       'Login',
@@ -230,5 +231,8 @@ class _LoginpageState extends State<Loginpage> {
         ),
       ),
     );
+  }
+  Widget _icon() {
+    return Image.asset('asset/images/pngegg.png');
   }
 }

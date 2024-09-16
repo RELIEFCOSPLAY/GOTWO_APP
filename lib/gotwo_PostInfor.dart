@@ -1,6 +1,7 @@
 // ignore: unused_import
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:http/http.dart' as http;
 
 class GotwoPostinfor extends StatefulWidget {
@@ -27,7 +28,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   bool isChecked = false;
 
 // ---------------URI----------------
-Uri url = Uri.parse('http://192.168.0.122:8080/gotwo/post.php');
+  Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post_rider.php');
 
   Future<void> insert(
     String pickUp,
@@ -113,7 +114,13 @@ Uri url = Uri.parse('http://192.168.0.122:8080/gotwo/post.php');
   Widget _backButton() {
     return GestureDetector(
       onTap: () {
-        debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GotwoPostPage(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
       child: const Icon(
         Icons.arrow_back_ios,
@@ -470,7 +477,9 @@ Uri url = Uri.parse('http://192.168.0.122:8080/gotwo/post.php');
             elevation: 0,
           ),
         );
-        String checked = isChecked.toString();
+        // String checked = isChecked.toString();
+        String checked = isChecked ? "1" : "0";
+
         if (dateController.text.isNotEmpty &&
             timeController.text.isNotEmpty &&
             priceController.text.isNotEmpty) {

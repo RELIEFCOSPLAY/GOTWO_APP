@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:gotwo_app/gotwo_DashbordRider.dart';
+import 'package:gotwo_app/gotwo_PostInfor.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -111,11 +113,18 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
 
   // ปุ่มย้อนกลับ
   Widget _backButton() {
-    return GestureDetector(
-      onTap: () {
+    return IconButton(
+      onPressed: () {
         debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GotwoDashbordrider(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
-      child: const Icon(
+      icon: const Icon(
         Icons.arrow_back_ios,
         size: 30,
         color: Color(0xff1a1c43),
@@ -125,13 +134,21 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
 
   // ปุ่มสำหรับโพสต์
   Widget _postButton() {
-    return GestureDetector(
-      onTap: () {
-        listData;
+    return IconButton(
+      onPressed: () {
+        debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GotwoPostinfor(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
-      child: const Icon(
+      icon: const Icon(
         Icons.add_circle,
-        size: 40,
+        size: 30,
+        color: Color(0xff1a1c43),
       ),
     );
   }

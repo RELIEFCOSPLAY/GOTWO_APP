@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/tabs/tab-Confirm.dart';
 import 'package:gotwo_app/tabs/tab_Cancel.dart';
 import 'package:gotwo_app/tabs/tab_Request.dart';
@@ -123,11 +124,18 @@ class _GotwoSatusriderState extends State<GotwoSatusrider> {
   }
 
   Widget _backButton() {
-    return GestureDetector(
-      onTap: () {
+    return IconButton(
+      onPressed: () {
         debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GotwoDashbordrider(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
-      child: const Icon(
+      icon: const Icon(
         Icons.arrow_back_ios,
         size: 30,
         color: Color(0xff1a1c43),
