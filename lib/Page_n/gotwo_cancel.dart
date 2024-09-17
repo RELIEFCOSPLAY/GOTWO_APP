@@ -218,7 +218,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               width: MediaQuery.of(context).size.width * 0.85,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5CAE9),
+                color: const Color(0xFFDBE2EF),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(

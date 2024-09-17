@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GotwoConRider extends StatefulWidget {
-  final dynamic item; // รับข้อมูลจาก TabConfirm
+  final dynamic item;
   const GotwoConRider({super.key, required this.item});
 
   @override
@@ -245,7 +245,7 @@ class _GotwoConRider extends State<GotwoConRider> {
               "Email Rider",
               "0123456789",
             ),
-            _statustext(item['status_payment'] ?? 'Unpaid'),
+            _statustext(item['status_payment'] ?? 'Paid'),
             const SizedBox(height: 5),
             _pickupDropoff(
                 item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
@@ -263,7 +263,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     _showDialog();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Colors.green,
                   ),
                   child: const Text("To travel",
                       style: TextStyle(color: Colors.white)),

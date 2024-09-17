@@ -10,7 +10,7 @@ class GotwoSuccessUnpaid extends StatefulWidget {
 class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
   final _formKey = GlobalKey<FormState>();
 
-  int _currentRating = 3; // Initial rating value
+  int _currentRating = 0; // Initial rating value
 
   Widget _userData(String name, String balance, String sex, String date,
       String email, String tel) {
