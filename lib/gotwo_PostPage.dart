@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/gotwo_PostInfor.dart';
 import 'package:http/http.dart' as http;
@@ -15,10 +16,13 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
   List<dynamic> listData = [];
   List<dynamic> filteredList = [];
 
+  final storage = const FlutterSecureStorage();
+  String? emails;
+  String? userId;
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.110.254:8080/gotwo/get_post.php"; // URL ของ API
+        "http://192.168.1.139:8080/gotwo/get_post.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -38,10 +42,46 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
     }
   }
 
+  Future<void> loadLoginInfo() async {
+    String? savedEmail = await storage.read(key: 'email');
+    setState(() {
+      emails = savedEmail;
+    });
+    if (emails != null) {
+      fetchUserId(emails!); // เรียกใช้ API เพื่อตรวจสอบ user id
+    }
+  }
+
+  Future<void> fetchUserId(String email) async {
+    final String url =
+        "http://192.168.1.139:8080/gotwo/getUserId.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'email': email, // ส่ง email เพื่อค้นหา user id
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            userId = data['user_id']; // เก็บ user id ที่ได้มา
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     fetchData(); // ดึงข้อมูลเมื่อเริ่มแอป
+    loadLoginInfo();
   }
 
   // ฟังก์ชันสำหรับการค้นหา
@@ -203,128 +243,137 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
                     itemCount: filteredList.length,
                     itemBuilder: (context, index) {
                       final item = filteredList[index];
-                      return Container(
-                        width: 300,
-                        height: 100,
-                        key: ValueKey(item["pick_up"]),
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  Color(0xfffbf8ff)),
-                              shape: WidgetStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: const BorderSide(
-                                          color: Color(0xff1a1c43))))),
-                          onPressed: () {
-                            debugPrint("CardRequest ${item['pick_up']}");
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Left Column: Pick Up Information
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.location_on,
-                                          color: Color(0xff1a1c43),
-                                          size: 20.0,
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Expanded(
-                                          // เพิ่ม Expanded เพื่อควบคุมการขยายของข้อความ
-                                          child: Text(
-                                            "Pick Up: ${item['pick_up']}",
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xff1a1c43),
-                                            ),
-                                            overflow: TextOverflow
-                                                .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      "Date: ${item['date']} ",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Color(0xff1a1c43),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Time: ${item['time']}",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Color(0xff1a1c43),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Icon(Icons.arrow_forward,
-                                  color: Color(0xff1a1c43)),
-                              const SizedBox(width: 10),
 
-                              // Right Column: Drop Information
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.location_city,
+                      if (userId == item['rider_id'].toString()) {
+                        return Container(
+                          width: 300,
+                          height: 100,
+                          key: ValueKey(item["pick_up"]),
+                          color: Colors.white,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: const WidgetStatePropertyAll(
+                                    Color(0xfffbf8ff)),
+                                shape: WidgetStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side: const BorderSide(
+                                            color: Color(0xff1a1c43))))),
+                            onPressed: () {
+                              debugPrint("CardRequest ${item['pick_up']}");
+                              debugPrint("${userId}");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Left Column: Pick Up Information
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.location_on,
+                                            color: Color(0xff1a1c43),
+                                            size: 20.0,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Expanded(
+                                            // เพิ่ม Expanded เพื่อควบคุมการขยายของข้อความ
+                                            child: Text(
+                                              "Pick Up: ${item['pick_up']}",
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xff1a1c43),
+                                              ),
+                                              overflow: TextOverflow
+                                                  .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        "Date: ${item['date']} ",
+                                        style: const TextStyle(
+                                          fontSize: 12,
                                           color: Color(0xff1a1c43),
-                                          size: 20.0,
                                         ),
-                                        const SizedBox(width: 5),
-                                        Expanded(
-                                          child: Text(
-                                            "Drop: ${item['at_drop']}",
+                                      ),
+                                      Text(
+                                        "Time: ${item['time']}",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff1a1c43),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(Icons.arrow_forward,
+                                    color: Color(0xff1a1c43)),
+                                const SizedBox(width: 10),
+
+                                // Right Column: Drop Information
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.location_city,
+                                            color: Color(0xff1a1c43),
+                                            size: 20.0,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Expanded(
+                                            child: Text(
+                                              "Drop: ${item['at_drop']}",
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xff1a1c43),
+                                              ),
+                                              overflow: TextOverflow
+                                                  .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "${item['price']} ",
                                             style: const TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 20,
                                               color: Color(0xff1a1c43),
                                             ),
-                                            overflow: TextOverflow
-                                                .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "${item['price']} ",
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Color(0xff1a1c43),
+                                          const Text(
+                                            "THB",
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: Color(0xff1a1c43),
+                                            ),
                                           ),
-                                        ),
-                                        const Text(
-                                          "THB",
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            color: Color(0xff1a1c43),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        return const SizedBox
+                            .shrink(); // ไม่แสดงอะไรถ้าไม่ตรงกัน
+                      }
                     })
                 : const Text(
                     'No results found',
