@@ -5,7 +5,6 @@ import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Import secure storage
 
-
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
 
@@ -26,7 +25,8 @@ class _LoginpageState extends State<Loginpage> {
     if (rememberMe) {
       await storage.write(key: 'email', value: email.text);
       await storage.write(key: 'password', value: pass.text);
-      await storage.write(key: 'isLoggedIn', value: 'true'); // บันทึกสถานะการเข้าสู่ระบบ
+      await storage.write(
+          key: 'isLoggedIn', value: 'true'); // บันทึกสถานะการเข้าสู่ระบบ
     } else {
       await storage.deleteAll(); // ลบข้อมูลการเข้าสู่ระบบ
     }
@@ -49,7 +49,7 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-    String url = "http://192.168.1.139:8080/gotwo/signin.php";
+    String url = "http://192.168.110.254:8080/gotwo/signin.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email.text,
@@ -108,7 +108,7 @@ class _LoginpageState extends State<Loginpage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                 _icon(),
+                _icon(),
                 const SizedBox(
                   height: 5,
                 ),
@@ -212,8 +212,7 @@ class _LoginpageState extends State<Loginpage> {
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
                           const Color(0xFF1A1C43)),
-                      minimumSize:
-                          WidgetStateProperty.all(const Size(110, 35)),
+                      minimumSize: WidgetStateProperty.all(const Size(110, 35)),
                     ),
                     child: const Text(
                       'Login',
@@ -232,6 +231,7 @@ class _LoginpageState extends State<Loginpage> {
       ),
     );
   }
+
   Widget _icon() {
     return Image.asset('asset/images/pngegg.png');
   }
