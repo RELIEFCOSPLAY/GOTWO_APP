@@ -176,9 +176,7 @@ class _GotwoConCus extends State<GotwoConCus> {
             SizedBox(height: 10),
             Row(
               children: [
-                Icon(
-                  Icons.trip_origin,
-                ),
+                Icon(Icons.trip_origin, color: Colors.green[800]),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(pickup),

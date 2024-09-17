@@ -40,7 +40,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _currentRating = i; // Update the rating when a star is tapped
+                    _currentRating =
+                        i; // Update the rating when a star is tapped
                   });
                 },
                 child: Icon(
@@ -116,9 +117,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
           const SizedBox(height: 10),
           Row(
             children: [
-              const Icon(
-                Icons.trip_origin,
-              ),
+              Icon(Icons.trip_origin, color: Colors.green[800]),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(pickup),
@@ -245,7 +244,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
           children: <Widget>[
             const SizedBox(height: 20),
             _userData(
-              item['rider_name'] ?? "Name Lastname", // รับค่าจากข้อมูลที่ถูกส่งมา
+              item['rider_name'] ??
+                  "Name Lastname", // รับค่าจากข้อมูลที่ถูกส่งมา
               item['price'] ?? "50",
               "Male",
               item['date'] ?? "24/03/2024",
@@ -254,7 +254,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
             ),
             _statusButton(item['status_payment'] ?? "Paid"),
             const SizedBox(height: 20),
-            _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)", item['at_drop'] ?? "Lotus Fah Thai"),
+            _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)",
+                item['at_drop'] ?? "Lotus Fah Thai"),
             const SizedBox(height: 20),
           ],
         ),

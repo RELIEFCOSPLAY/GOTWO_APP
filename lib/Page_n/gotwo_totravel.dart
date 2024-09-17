@@ -74,7 +74,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     );
   }
 
-  Widget _userData(String name, String balance, String sex, String date, String email, String tel) {
+  Widget _userData(String name, String balance, String sex, String date,
+      String email, String tel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -188,7 +189,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             const SizedBox(height: 5),
             Row(
               children: [
-                Icon(Icons.trip_origin, color: Colors.green[700]),
+                Icon(Icons.trip_origin, color: Colors.green[800]),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(pickup,
@@ -253,7 +254,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               "0123456789",
             ),
             const SizedBox(height: 20),
-            _pickupDropoff(item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
+            _pickupDropoff(
+                item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
@@ -264,9 +266,11 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),
-              child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+              child:
+                  const Text("Cancel", style: TextStyle(color: Colors.white)),
             ),
           ],
         ),

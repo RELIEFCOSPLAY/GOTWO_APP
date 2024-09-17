@@ -63,7 +63,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Yes", style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text("Yes", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -74,7 +75,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -112,7 +114,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
             ),
             const SizedBox(height: 10),
             Text("Name: ${item['rider_name'] ?? 'Unknown'}",
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -168,12 +171,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                   children: [
                     const Text(
                       "Pick up",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(Icons.trip_origin),
+                        Icon(Icons.trip_origin, color: Colors.green[800]),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(item['pick_up'] ?? 'Unknown'),
@@ -183,7 +187,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     const SizedBox(height: 10),
                     const Text(
                       "Drop",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     Row(
@@ -213,18 +218,21 @@ class _GotwoRequestState extends State<GotwoRequest> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  child: const Text("Accept", style: TextStyle(color: Colors.white)),
+                  child: const Text("Accept",
+                      style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
                     // Correct debug print statement
-                    debugPrint(item.toString()); // Print the item details to the console
+                    debugPrint(item
+                        .toString()); // Print the item details to the console
                     _showRejectDialog(); // Call the reject dialog after debug print
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                   ),
-                  child: const Text("Reject", style: TextStyle(color: Colors.white)),
+                  child: const Text("Reject",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),

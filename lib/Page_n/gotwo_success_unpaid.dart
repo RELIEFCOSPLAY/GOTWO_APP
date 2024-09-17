@@ -40,7 +40,8 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _currentRating = i; // Update the rating when a star is tapped
+                    _currentRating =
+                        i; // Update the rating when a star is tapped
                   });
                 },
                 child: Icon(
@@ -118,10 +119,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
             SizedBox(height: 10),
             Row(
               children: [
-                Icon(
-                  Icons.trip_origin,
-                  color: Colors.green,
-                ),
+                Icon(Icons.trip_origin, color: Colors.green[800]),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(

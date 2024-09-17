@@ -39,7 +39,8 @@ class _GotwoConRider extends State<GotwoConRider> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('There is a request to join. Do you still want to delete this post?'),
+              const Text(
+                  'There is a request to join. Do you still want to delete this post?'),
               const SizedBox(height: 5),
               TextFormField(
                 decoration: const InputDecoration(
@@ -61,7 +62,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Yes", style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text("Yes", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -72,7 +74,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -82,7 +85,8 @@ class _GotwoConRider extends State<GotwoConRider> {
     );
   }
 
-  Widget _userData(String name, String balance, String sex, String date, String email, String tel) {
+  Widget _userData(String name, String balance, String sex, String date,
+      String email, String tel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -173,7 +177,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           const SizedBox(height: 5),
           Row(
             children: [
-              const Icon(Icons.trip_origin),
+              Icon(Icons.trip_origin, color: Colors.green[800]),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(pickup),
@@ -202,11 +206,13 @@ class _GotwoConRider extends State<GotwoConRider> {
     return status == 'Paid'
         ? const Text(
             'Paid',
-            style: TextStyle(color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
           )
         : const Text(
             'Unpaid',
-            style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
           );
   }
 
@@ -241,7 +247,8 @@ class _GotwoConRider extends State<GotwoConRider> {
             ),
             _statustext(item['status_payment'] ?? 'Unpaid'),
             const SizedBox(height: 5),
-            _pickupDropoff(item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
+            _pickupDropoff(
+                item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
             const SizedBox(height: 5),
             const Text(
               "Bring your own a helmet.",
@@ -258,7 +265,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                   ),
-                  child: const Text("To travel", style: TextStyle(color: Colors.white)),
+                  child: const Text("To travel",
+                      style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -267,7 +275,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                   ),
-                  child: const Text("Reject", style: TextStyle(color: Colors.white)),
+                  child: const Text("Reject",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -277,4 +286,3 @@ class _GotwoConRider extends State<GotwoConRider> {
     );
   }
 }
-
