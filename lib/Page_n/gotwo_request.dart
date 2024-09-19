@@ -185,15 +185,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      item['commpick'] ?? 'No comment',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
                     const SizedBox(height: 15),
                     const Text(
                       "Drop",
@@ -212,15 +203,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      item['comment_drop'] ?? 'No comment',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
                     ),
                   ],
                 ),
