@@ -44,7 +44,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        "http://192.168.1.139:8080/gotwo/getUserId.php"; // URL API
+        "http://172.27.133.41:8080/gotwo/getUserId_rider.php"; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -74,7 +74,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   }
 
 // ---------------URI----------------
-  Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post_rider.php');
+  Uri url = Uri.parse('http://172.27.133.41:8080/gotwo/post_rider.php');
 
   Future<void> insert(
       String pickUp,
