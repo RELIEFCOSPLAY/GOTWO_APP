@@ -128,7 +128,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 Text("Male", style: TextStyle(fontSize: 20)),
               ],
             ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -138,7 +137,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     style: const TextStyle(fontSize: 20)),
               ],
             ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -174,17 +172,28 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 10),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.trip_origin, color: Colors.green[800]),
-                        const SizedBox(width: 10),
+                        Column(
+                          children: [
+                            Icon(Icons.trip_origin, color: Colors.green[800]),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'comment', // Add this line for the comment text
+                              style: TextStyle(
+                                fontSize: 12, // ปรับขนาดตัวอักษรให้เล็กลง
+                                fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                         Expanded(
                           child: Text(item['pick_up'] ?? 'Unknown'),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     const Text(
                       "Drop",
                       style:
@@ -192,10 +201,26 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     ),
                     const SizedBox(height: 10),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.location_on, color: Colors.red),
+                        Column(
+                          children: [
+                            const Icon(Icons.location_on, color: Colors.red),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'comment', // Add this line for the comment text
+                              style: TextStyle(
+                                fontSize: 12, // ปรับขนาดตัวอักษรให้เล็กลง
+                                fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(width: 10),
-                        Expanded(child: Text(item['at_drop'] ?? 'Unknown')),
+                        Expanded(
+                          child: Text(item['at_drop'] ?? 'Unknown'),
+                        ),
                       ],
                     ),
                   ],
