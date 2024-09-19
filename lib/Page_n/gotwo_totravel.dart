@@ -246,9 +246,9 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           children: <Widget>[
             const SizedBox(height: 20),
             _userData(
-              "Name Lastname",
+              "${item['rider_name'] ?? 'Unknown'}",
               "${item['price'] ?? '0'}",
-              "Male",
+              "${item['rider_gender'] ?? 'Unknown'}",
               "${item['date'] ?? 'Unknown'}",
               "Email Rider",
               "0123456789",

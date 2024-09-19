@@ -247,7 +247,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
               item['rider_name'] ??
                   "Name Lastname", // รับค่าจากข้อมูลที่ถูกส่งมา
               item['price'] ?? "50",
-              "Male",
+              "${item['rider_gender'] ?? 'Unknown'}",
               item['date'] ?? "24/03/2024",
               "Email Rider",
               "0123456789",

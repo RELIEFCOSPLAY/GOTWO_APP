@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GotwoRequest extends StatefulWidget {
-  final dynamic item; // รับข้อมูลที่ส่งมา
+  final dynamic item;
   const GotwoRequest({super.key, required this.item});
 
   @override
@@ -88,7 +88,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.item; // ดึงข้อมูลที่ส่งมาจาก TabRequest
+    final item = widget.item;
 
     return Scaffold(
       appBar: AppBar(
@@ -113,22 +113,24 @@ class _GotwoRequestState extends State<GotwoRequest> {
               backgroundColor: Colors.white,
             ),
             const SizedBox(height: 10),
-            Text("Name: ${item['rider_name'] ?? 'Unknown'}",
+            Text("${item['rider_name'] ?? 'Unknown'}",
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.face,
                   size: 20,
                 ),
-                SizedBox(width: 5),
-                Text("Male", style: TextStyle(fontSize: 20)),
+                const SizedBox(width: 5),
+                Text(
+                  "${item['rider_gender'] ?? 'Unknown'}",
+                  style: const TextStyle(fontSize: 20),
+                ),
               ],
             ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -138,7 +140,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     style: const TextStyle(fontSize: 20)),
               ],
             ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -174,28 +175,36 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Icon(Icons.trip_origin, color: Colors.green[800]),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text(item['pick_up'] ?? 'Unknown'),
+                          child: Text(
+                            item['pick_up'] ?? 'Unknown',
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 15),
                     const Text(
                       "Drop",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         const Icon(Icons.location_on, color: Colors.red),
                         const SizedBox(width: 10),
-                        Expanded(child: Text(item['at_drop'] ?? 'Unknown')),
+                        Expanded(
+                          child: Text(
+                            item['at_drop'] ?? 'Unknown',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -223,10 +232,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // Correct debug print statement
-                    debugPrint(item
-                        .toString()); // Print the item details to the console
-                    _showRejectDialog(); // Call the reject dialog after debug print
+                    debugPrint(item.toString());
+                    _showRejectDialog();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
