@@ -14,10 +14,11 @@ class _TabCancelState extends State<TabCancel> {
 
   List<dynamic> filteredList = [];
 
+  String ipUser = "192.168.1.139:8080";
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://192.168.160.1:80/gotwo/status.php"; // URL ของ API
+        'http://${ipUser}/gotwo/status.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -79,8 +80,7 @@ class _TabCancelState extends State<TabCancel> {
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all(Color(0xfffbf8ff)),
+                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),

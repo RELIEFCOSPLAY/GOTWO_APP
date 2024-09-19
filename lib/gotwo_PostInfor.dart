@@ -18,6 +18,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   TextEditingController priceController = TextEditingController();
   TextEditingController commentController1 = TextEditingController();
   TextEditingController commentController2 = TextEditingController();
+
   static const List<String> list = <String>[
     'Select Location',
     'Mae Fah Luang(D1)',
@@ -25,8 +26,8 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   ];
   String dropdownPickup = list.first;
   String dropdownDrop = list.first;
-
   bool isChecked = false;
+
   //=======================================
   final storage = const FlutterSecureStorage();
   String? emails;
@@ -42,9 +43,12 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     }
   }
 
+  String ipUser = '192.168.1.139:8080';
+  //---------------------------------------------------------------
+
   Future<void> fetchUserId(String email) async {
     final String url =
-        "http://172.27.133.41:8080/gotwo/getUserId_rider.php"; // URL API
+        'http://' + '${ipUser}' + '/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -67,6 +71,40 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     }
   }
 
+  //----------------------------date-------------------------------
+  // ฟังก์ชันนี้ใช้เพื่อแสดง DatePicker และเก็บค่าลงใน TextField
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000), // กำหนดวันที่เริ่มต้น
+      lastDate: DateTime(2100), // กำหนดวันที่สิ้นสุด
+    );
+    if (picked != null) {
+      setState(() {
+        dateController.text =
+            "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+      });
+    }
+  }
+
+  //------------------------------time----------------------------------
+
+// ฟังก์ชันนี้ใช้เพื่อแสดง TimePicker และเก็บค่าลงใน TextField
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        timeController.text =
+            "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
+      });
+    }
+  }
+
+  //--------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
@@ -74,7 +112,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   }
 
 // ---------------URI----------------
-  Uri url = Uri.parse('http://172.27.133.41:8080/gotwo/post_rider.php');
+  Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post_rider.php');
 
   Future<void> insert(
       String pickUp,
@@ -104,7 +142,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     if (request.statusCode == 200) {
       // ข้อมูลถูกส่งสำเร็จ
       print('Success: ${request.body}');
-      print( 'Id Be ${userId}');
+      print('Id Be ${userId}');
     } else {
       // มีปัญหาในการส่งข้อมูล
       print('Error: ${request.statusCode}, Body: ${request.body}');
@@ -229,7 +267,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    _inputField("00/00/0000", dateController),
+                    _inputFieldDate("00/00/0000", dateController),
                   ],
                 ),
                 const SizedBox(
@@ -248,7 +286,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    _inputField("00:00", timeController),
+                    _inputFieldTime("00:00", timeController),
                   ],
                 ),
               ],
@@ -357,6 +395,66 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: const TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+
+  Widget _inputFieldDate(
+    String hintText,
+    TextEditingController controller,
+  ) {
+    var border = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(color: Color(0xff1a1c43)));
+
+    return SizedBox(
+      height: 60,
+      width: 140,
+      child: TextField(
+        readOnly: hintText ==
+            "00/00/0000", // ทำให้ TextField ไม่สามารถพิมพ์ได้ ถ้าเป็น date
+        onTap: hintText == "00/00/0000"
+            ? () => _selectDate(context)
+            : null, // แสดง DatePicker เมื่อคลิก
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Color(0xff1a1c43), fontSize: 16),
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Color(0xff1a1c43)),
+          enabledBorder: border,
+          focusedBorder: border,
+        ),
+      ),
+    );
+  }
+
+  Widget _inputFieldTime(
+    String hintText,
+    TextEditingController controller,
+  ) {
+    var border = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(color: Color(0xff1a1c43)));
+
+    return SizedBox(
+      height: 60,
+      width: 140,
+      child: TextField(
+        readOnly: hintText ==
+            "00:00", // ทำให้ TextField ไม่สามารถพิมพ์ได้ ถ้าเป็น time
+        onTap: hintText == "00:00"
+            ? () => _selectTime(context)
+            : null, // แสดง TimePicker เมื่อคลิก
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Color(0xff1a1c43), fontSize: 16),
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Color(0xff1a1c43)),
+          enabledBorder: border,
+          focusedBorder: border,
         ),
       ),
     );
@@ -531,7 +629,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         String checked = isChecked ? "1" : "0";
         String cusId = "1";
         String? riderId = userId;
-        
+
         if (dateController.text.isNotEmpty &&
             timeController.text.isNotEmpty &&
             priceController.text.isNotEmpty) {
@@ -548,6 +646,14 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
               riderId!
               // isChecked ? "1" : "0",
               );
+
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GotwoPostPage(),
+            ),
+            (Route<dynamic> route) => false,
+          );
         } else {
           debugPrint("Please fill in all required fields");
         }

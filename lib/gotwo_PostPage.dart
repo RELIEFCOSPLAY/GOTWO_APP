@@ -4,7 +4,8 @@ import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/gotwo_PostInfor.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+// import 'package:network_info_plus/network_info_plus.dart';
+// import 'dart:io';
 
 class GotwoPostPage extends StatefulWidget {
   const GotwoPostPage({super.key});
@@ -18,15 +19,18 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
   List<dynamic> filteredList = [];
 
 //-----------------------------------------------------------------------------
-  final NetworkInfo _networkInfo = NetworkInfo();
-
-  Future<void> getIpAddress() async {
-    var wifiIP = await _networkInfo.getWifiIP();
-    print('Wi-Fi IP Address: $wifiIP');
-  }
+// final NetworkInfo _networkInfo = NetworkInfo();
+//   Future<void> getWiFiIPAddress() async {
+//     try {
+//       var wifiIP = await _networkInfo.getWifiIP(); // ดึง IP Address ของ Wi-Fi
+//       print('Wi-Fi IP Address: $wifiIP');
+//     } catch (e) {
+//       print('Failed to get Wi-Fi IP Address: $e');
+//     }
+//   }
 //-----------------------------------------------------------------------------
 
-  String ipUser = "172.16.1.15:8080";
+  String ipUser = "192.168.1.139:8080";
 
   final storage = const FlutterSecureStorage();
   String? emails;
@@ -94,7 +98,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
     super.initState();
     fetchData(); // ดึงข้อมูลเมื่อเริ่มแอป
     loadLoginInfo();
-    getIpAddress();
+    // getWiFiIPAddress();
   }
 
   // ฟังก์ชันสำหรับการค้นหา
@@ -317,7 +321,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
                                         ),
                                       ),
                                       Text(
-                                        "Time: ${item['time']}",
+                                        "Time: ${item['time'].substring(0, 5)}",
                                         style: const TextStyle(
                                           fontSize: 12,
                                           color: Color(0xff1a1c43),
