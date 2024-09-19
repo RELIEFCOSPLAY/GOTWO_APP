@@ -245,61 +245,6 @@ class _GotwoConCus extends State<GotwoConCus> {
             _statustext("Unpaid"),
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            // Container(
-            //   padding: const EdgeInsets.all(16),
-            //   width: MediaQuery.of(context).size.width * 0.8,
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(16),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.grey.withOpacity(0.5),
-            //         spreadRadius: 2,
-            //         blurRadius: 5,
-            //         offset: const Offset(0, 3),
-            //       ),
-            //     ],
-            //   ),
-            //   child: Form(
-            //     key: _formKey,
-            //     child: const Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Text(
-            //           "Pick up",
-            //           style:
-            //               TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            //         ),
-            //         SizedBox(height: 10),
-            //         Row(
-            //           children: [
-            //             Icon(
-            //               Icons.trip_origin,
-            //             ),
-            //             SizedBox(width: 10),
-            //             Expanded(
-            //               child: Text("Mae Fah Luang(D1)"),
-            //             ),
-            //           ],
-            //         ),
-            //         SizedBox(height: 10),
-            //         Text(
-            //           "Drop",
-            //           style:
-            //               TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            //         ),
-            //         SizedBox(height: 10),
-            //         Row(
-            //           children: [
-            //             Icon(Icons.location_on, color: Colors.red),
-            //             SizedBox(width: 10),
-            //             Expanded(child: Text("Lotus Fah Thai")),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
 
             const SizedBox(height: 20),
             const Text(
