@@ -250,10 +250,11 @@ class _GotwoConRider extends State<GotwoConRider> {
             _pickupDropoff(
                 item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
             const SizedBox(height: 5),
-            const Text(
-              "Bring your own a helmet.",
-              style: TextStyle(fontSize: 14, color: Colors.red),
-            ),
+            if (item['status_helmet'] != '0')
+              const Text(
+                "Bring your own a helmet.",
+                style: TextStyle(fontSize: 14, color: Colors.red),
+              ),
             const SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
