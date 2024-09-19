@@ -238,7 +238,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           children: <Widget>[
             const SizedBox(height: 5),
             _userData(
-              "Name: ${item['rider_name'] ?? 'Unknown'}",
+              "${item['rider_name'] ?? 'Unknown'}",
               "${item['price'] ?? '0'}",
               "Male",
               "${item['date'] ?? 'Unknown'}",

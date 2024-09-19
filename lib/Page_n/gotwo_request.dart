@@ -113,19 +113,22 @@ class _GotwoRequestState extends State<GotwoRequest> {
               backgroundColor: Colors.white,
             ),
             const SizedBox(height: 10),
-            Text("Name: ${item['rider_name'] ?? 'Unknown'}",
+            Text("${item['rider_name'] ?? 'Unknown'}",
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.face,
                   size: 20,
                 ),
-                SizedBox(width: 5),
-                Text("Male", style: TextStyle(fontSize: 20)),
+                const SizedBox(width: 5),
+                Text(
+                  "${item['rider_gender'] ?? 'Unknown'}",
+                  style: const TextStyle(fontSize: 20),
+                ),
               ],
             ),
             Row(
