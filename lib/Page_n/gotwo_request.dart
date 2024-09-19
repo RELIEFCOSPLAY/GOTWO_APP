@@ -179,11 +179,12 @@ class _GotwoRequestState extends State<GotwoRequest> {
                           children: [
                             Icon(Icons.trip_origin, color: Colors.green[800]),
                             const SizedBox(height: 5),
-                            const Text(
-                              'comment', // Add this line for the comment text
-                              style: TextStyle(
-                                fontSize: 12, // ปรับขนาดตัวอักษรให้เล็กลง
-                                fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
+                            Text(
+                              item['comment_pick'] ??
+                                  'No comment', // เปลี่ยนเป็นแสดง comment_pick
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                               ),
                             ),
@@ -207,11 +208,12 @@ class _GotwoRequestState extends State<GotwoRequest> {
                           children: [
                             const Icon(Icons.location_on, color: Colors.red),
                             const SizedBox(height: 5),
-                            const Text(
-                              'comment', // Add this line for the comment text
-                              style: TextStyle(
-                                fontSize: 12, // ปรับขนาดตัวอักษรให้เล็กลง
-                                fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
+                            Text(
+                              item['comment_drop'] ??
+                                  'No comment', // เปลี่ยนเป็นแสดง comment_drop
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                               ),
                             ),
