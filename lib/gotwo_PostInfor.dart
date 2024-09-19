@@ -1,6 +1,7 @@
 // ignore: unused_import
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,20 +27,66 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   String dropdownDrop = list.first;
 
   bool isChecked = false;
+  //=======================================
+  final storage = const FlutterSecureStorage();
+  String? emails;
+  String? userId;
+
+  Future<void> loadLoginInfo() async {
+    String? savedEmail = await storage.read(key: 'email');
+    setState(() {
+      emails = savedEmail;
+    });
+    if (emails != null) {
+      fetchUserId(emails!); // เรียกใช้ API เพื่อตรวจสอบ user id
+    }
+  }
+
+  Future<void> fetchUserId(String email) async {
+    final String url =
+        "http://192.168.1.139:8080/gotwo/getUserId.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'email': email, // ส่ง email เพื่อค้นหา user id
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            userId = data['user_id']; // เก็บ user id ที่ได้มา
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadLoginInfo();
+  }
 
 // ---------------URI----------------
   Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post_rider.php');
 
   Future<void> insert(
-    String pickUp,
-    String commentPick,
-    String atDrop,
-    String commentDrop,
-    String date,
-    String time,
-    String price,
-    String statusHelmet,
-  ) async {
+      String pickUp,
+      String commentPick,
+      String atDrop,
+      String commentDrop,
+      String date,
+      String time,
+      String price,
+      String statusHelmet,
+      String cusId,
+      String riderId) async {
     var request = await http.post(url, body: {
       "action": "INSERT",
       "pick_up": pickUp,
@@ -49,12 +96,15 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
       "date": date,
       "time": time,
       "price": price,
-      "status_helmet": statusHelmet
+      "status_helmet": statusHelmet,
+      "customer_id": cusId,
+      "rider_id": riderId
     });
 
     if (request.statusCode == 200) {
       // ข้อมูลถูกส่งสำเร็จ
       print('Success: ${request.body}');
+      print( 'Id Be ${userId}');
     } else {
       // มีปัญหาในการส่งข้อมูล
       print('Error: ${request.statusCode}, Body: ${request.body}');
@@ -132,7 +182,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
 
   Widget _aText() {
     return const Text(
-      "Book Ride",
+      "Book Ride ",
       textAlign: TextAlign.center,
       style: TextStyle(
           fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
@@ -228,7 +278,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         Padding(
           padding: EdgeInsets.only(top: 8, left: 40),
           child: Text(
-            "Book Your Ride",
+            "Book Your Ride ",
             textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: 24,
@@ -479,21 +529,25 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         );
         // String checked = isChecked.toString();
         String checked = isChecked ? "1" : "0";
-
+        String cusId = "1";
+        String? riderId = userId;
+        
         if (dateController.text.isNotEmpty &&
             timeController.text.isNotEmpty &&
             priceController.text.isNotEmpty) {
           insert(
-            dropdownPickup,
-            commentController1.text,
-            dropdownDrop,
-            commentController2.text,
-            dateController.text,
-            timeController.text,
-            priceController.text,
-            checked,
-            // isChecked ? "1" : "0",
-          );
+              dropdownPickup,
+              commentController1.text,
+              dropdownDrop,
+              commentController2.text,
+              dateController.text,
+              timeController.text,
+              priceController.text,
+              checked,
+              cusId,
+              riderId!
+              // isChecked ? "1" : "0",
+              );
         } else {
           debugPrint("Please fill in all required fields");
         }

@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:gotwo_app/gotwo_SatusRider.dart';
 import 'package:gotwo_app/gotwo_logout.dart';
 
 class GotwoDashbordrider extends StatefulWidget {
-  const GotwoDashbordrider({super.key});
+  const GotwoDashbordrider({Key? key}) : super(key: key);
 
   @override
   State<GotwoDashbordrider> createState() => _GotwoDashbordriderState();
 }
 
 class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
+  final storage = const FlutterSecureStorage();
+  String? email;
+
+  Future<void> loadLoginInfo() async {
+    String? savedEmail = await storage.read(key: 'email');
+    setState(() {
+      email = savedEmail;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadLoginInfo(); // ดึงข้อมูลเมื่อหน้าเริ่มต้น
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,8 +84,8 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
               child: Image.asset('asset/images/pngegg.png'),
             ),
             const SizedBox(height: 10),
-            const Text(
-              " Hello , Ethan ",
+            Text(
+              'Hello, $email',
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 20,
