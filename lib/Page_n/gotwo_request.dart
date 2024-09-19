@@ -179,9 +179,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                           children: [
                             Icon(Icons.trip_origin, color: Colors.green[800]),
                             const SizedBox(height: 5),
-                            Text(
-                              item['comment_pick'] ??
-                                  'No comment', // เปลี่ยนเป็นแสดง comment_pick
+                            Text("${item['commpick'] ?? 'Unknown'}",// เปลี่ยนเป็นแสดง comment_pick
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
