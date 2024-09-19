@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GotwoRequest extends StatefulWidget {
-  final dynamic item; // รับข้อมูลที่ส่งมา
+  final dynamic item;
   const GotwoRequest({super.key, required this.item});
 
   @override
@@ -88,7 +88,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.item; // ดึงข้อมูลที่ส่งมาจาก TabRequest
+    final item = widget.item;
 
     return Scaffold(
       appBar: AppBar(
@@ -247,10 +247,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // Correct debug print statement
-                    debugPrint(item
-                        .toString()); // Print the item details to the console
-                    _showRejectDialog(); // Call the reject dialog after debug print
+                    debugPrint(item.toString());
+                    _showRejectDialog();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
