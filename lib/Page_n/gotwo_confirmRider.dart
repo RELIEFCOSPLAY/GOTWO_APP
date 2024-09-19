@@ -240,7 +240,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             _userData(
               "${item['rider_name'] ?? 'Unknown'}",
               "${item['price'] ?? '0'}",
-              "Male",
+              "${item['rider_gender'] ?? 'Unknown'}",
               "${item['date'] ?? 'Unknown'}",
               "Email Rider",
               "0123456789",

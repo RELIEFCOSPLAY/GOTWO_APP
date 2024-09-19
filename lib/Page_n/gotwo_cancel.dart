@@ -205,7 +205,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             _userData(
               item['rider_name'] ?? "Name Lastname",
               item['price'] ?? "50",
-              "Male",
+              "${item['rider_gender'] ?? 'Unknown'}",
               item['date'] ?? "24/03/2024",
               "Email Rider",
               "0123456789",
