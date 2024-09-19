@@ -172,56 +172,55 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 5),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          children: [
-                            Icon(Icons.trip_origin, color: Colors.green[800]),
-                            const SizedBox(height: 5),
-                            Text("${item['commpick'] ?? 'Unknown'}",// เปลี่ยนเป็นแสดง comment_pick
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
+                        Icon(Icons.trip_origin, color: Colors.green[800]),
+                        const SizedBox(width: 10),
                         Expanded(
-                          child: Text(item['pick_up'] ?? 'Unknown'),
+                          child: Text(
+                            item['pick_up'] ?? 'Unknown',
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
                       ],
                     ),
+                    const SizedBox(height: 5),
+                    Text(
+                      item['commpick'] ?? 'No comment',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
                     const Text(
                       "Drop",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          children: [
-                            const Icon(Icons.location_on, color: Colors.red),
-                            const SizedBox(height: 5),
-                            Text(
-                              item['comment_drop'] ??
-                                  'No comment', // เปลี่ยนเป็นแสดง comment_drop
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
+                        const Icon(Icons.location_on, color: Colors.red),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text(item['at_drop'] ?? 'Unknown'),
+                          child: Text(
+                            item['at_drop'] ?? 'Unknown',
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      item['comment_drop'] ?? 'No comment',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),
