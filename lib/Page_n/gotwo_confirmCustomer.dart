@@ -202,19 +202,27 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
-  // widget of status
-  Widget _statustext(String status) {
-    return status == 'Paid'
-        ? const Text(
-            'Paid',
-            style: TextStyle(
-                color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
-          )
-        : const Text(
-            'Unpaid',
-            style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-          );
+  Widget _statustext(dynamic status) {
+    // ตรวจสอบค่าสถานะ
+    if (status == 'Paid' || status == 1) {
+      return const Text(
+        'Paid',
+        style: TextStyle(
+            color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
+      );
+    } else if (status == 'Unpaid' || status == 0 || status == '0') {
+      return const Text(
+        'Unpaid',
+        style: TextStyle(
+            color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+      );
+    } else {
+      return const Text(
+        'Unknown',
+        style: TextStyle(
+            color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+      );
+    }
   }
 
   @override

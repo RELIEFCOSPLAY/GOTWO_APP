@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/Page_n/gotwo_confirmCustomer.dart';
 import 'package:gotwo_app/Page_n/gotwo_confirmRider.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -69,16 +70,28 @@ class _TabConfirmState extends State<TabConfirm> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GotwoConRider(item: item),
-                      ),
-                    );
+                    if (item['price'] == 0) {
+                      // ไปยังหน้าที่ชื่อ GotwoConCus เมื่อ price เป็น 0
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoConCus(),
+                        ),
+                      );
+                    } else {
+                      // ไปยังหน้า GotwoConRider ตามปกติ
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoConRider(item: item),
+                        ),
+                      );
+                    }
                   },
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xfffbf8ff)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                         side: BorderSide(color: Color(0xff1a1c43)),
@@ -91,8 +104,7 @@ class _TabConfirmState extends State<TabConfirm> {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Align text to the start
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -104,7 +116,7 @@ class _TabConfirmState extends State<TabConfirm> {
                                 const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
+                                    "From: ${item['pick_up'] ?? 'Unknown'}",
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 12,
@@ -168,15 +180,11 @@ class _TabConfirmState extends State<TabConfirm> {
                             ),
                             Row(
                               children: [
-                                Text(
-                                  "${item['price'] ?? 'N/A'} ",
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Color(0xff1a1c43),
-                                  ),
-                                ),
+                                // ตรวจสอบว่ามีการเรียกใช้ฟังก์ชัน _statustext อย่างถูกต้อง
+                                _statustext(item[
+                                    'price']), // ส่งค่า item['price'] ไปยังฟังก์ชัน
                                 const Text(
-                                  "THB",
+                                  " THB",
                                   style: TextStyle(
                                     fontSize: 10,
                                     color: Color(0xff1a1c43),

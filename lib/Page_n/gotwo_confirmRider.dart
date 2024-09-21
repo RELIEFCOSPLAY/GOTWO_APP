@@ -202,7 +202,7 @@ class _GotwoConRider extends State<GotwoConRider> {
     );
   }
 
-  Widget _statustext(String status) {
+  Widget _Ridertext(String status) {
     return status == 'Paid'
         ? const Text(
             'Paid',
@@ -245,7 +245,7 @@ class _GotwoConRider extends State<GotwoConRider> {
               "Email Rider",
               "0123456789",
             ),
-            _statustext(item['status_payment'] ?? 'Paid'),
+            _Ridertext(item['status_payment'] ?? 'Paid'),
             const SizedBox(height: 5),
             _pickupDropoff(
                 item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),

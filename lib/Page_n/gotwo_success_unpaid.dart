@@ -163,7 +163,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
     );
   }
 
-  Widget _statusText(String status) {
+  Widget _SuccessText(String status) {
     return status == 'Paid'
         ? const Text(
             'Paid',
@@ -197,7 +197,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
             const SizedBox(height: 10),
-            _statusText("Unpaid"), // Set to "Unpaid"
+            _SuccessText("Unpaid"), // Set to "Unpaid"
             const SizedBox(height: 10),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
