@@ -124,7 +124,8 @@ class _TabTotravelState extends State<TabTotravel> {
                               ),
                             ),
                             Text(
-                              "Time: ${item['time'] ?? 'Unknown'}",
+                              // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
+                              "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
