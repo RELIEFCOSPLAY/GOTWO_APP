@@ -700,14 +700,14 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Oh snap!",
+                    "Warning!",
                     style: TextStyle(
                       fontSize: 14,
                       color: Color(0xff1a1c43),
                     ),
                   ),
                   Text(
-                    "Username or Password is Wrong",
+                    "Please fill in all required fields",
                     style: TextStyle(
                       fontSize: 12,
                       color: Color(0xff1a1c43),
