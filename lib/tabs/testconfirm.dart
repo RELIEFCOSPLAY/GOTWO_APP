@@ -70,8 +70,10 @@ class _TabConfirmState extends State<TabConfirm> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (item['price'] == 0) {
-                      // ไปยังหน้าที่ชื่อ GotwoConCus เมื่อ price เป็น 0
+                    // ตรวจสอบค่า status_helmet เพื่อเปลี่ยนหน้า
+                    if (item['status_helmet'] == '0' ||
+                        item['status_helmet'] == 0) {
+                      // ไปยังหน้า GotwoConCus เมื่อ status_helmet เป็น 0
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -140,8 +142,10 @@ class _TabConfirmState extends State<TabConfirm> {
                                 color: Color(0xff1a1c43),
                               ),
                             ),
+                            // แสดงค่า status_helmet
+                            // แสดงค่า status_helmet โดยไม่เปลี่ยนเป็น "Unpaid"
                             Text(
-                              "${item['status_helmet'] ?? 'Unknown'}",
+                              "${item['status_helmet'] ?? 'Unknown'}", // แสดงค่า status_helmet ตรง ๆ โดยไม่เปลี่ยนเป็น "Unpaid"
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
@@ -180,11 +184,15 @@ class _TabConfirmState extends State<TabConfirm> {
                             ),
                             Row(
                               children: [
-                                // ตรวจสอบว่ามีการเรียกใช้ฟังก์ชัน _statustext อย่างถูกต้อง
-                                _statustext(item[
-                                    'price']), // ส่งค่า item['price'] ไปยังฟังก์ชัน
+                                Text(
+                                  "${item['price'] ?? 'N/A'} ",
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Color(0xff1a1c43),
+                                  ),
+                                ),
                                 const Text(
-                                  " THB",
+                                  "THB",
                                   style: TextStyle(
                                     fontSize: 10,
                                     color: Color(0xff1a1c43),
