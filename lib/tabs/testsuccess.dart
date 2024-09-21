@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/Page_n/gotwo_success_paid.dart';
+import 'package:gotwo_app/Page_n/gotwo_success_unpaid.dart'; // นำเข้า GotwoSuccessUnpaid
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -11,7 +12,6 @@ class TabSuccess extends StatefulWidget {
 
 class _TabSuccessState extends State<TabSuccess> {
   List<dynamic> listData = [];
-
   List<dynamic> filteredList = [];
 
   String ipUser = "192.168.160.1:80";
@@ -26,8 +26,7 @@ class _TabSuccessState extends State<TabSuccess> {
       if (response.statusCode == 200) {
         setState(() {
           listData = json.decode(response.body); // แปลง JSON เป็น List
-          filteredList =
-              listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
+          filteredList = listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });
       } else {
         print("Failed to load data");
@@ -63,24 +62,34 @@ class _TabSuccessState extends State<TabSuccess> {
           itemBuilder: (context, index) {
             final item = listData[index];
             return Padding(
-              padding:
-                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
               child: SizedBox(
                 width: 300,
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GotwoSuccessPaid(
-                            item: item), // ส่งข้อมูลไปยัง GotwoTotravel
-                      ),
-                    );
+                    // เช็คค่าสถานะ status_helmet เพื่อตัดสินใจว่าจะไปหน้าไหน
+                    if (item['status_helmet'] == '0' || item['status_helmet'] == 0) {
+                      // ไปหน้า Success Unpaid เมื่อ status_helmet เป็น 0
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoSuccessUnpaid(), // ส่งข้อมูลไปหน้า Success Unpaid
+                        ),
+                      );
+                    } else {
+                      // ไปหน้า Success Paid สำหรับสถานะอื่นๆ
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoSuccessPaid(item: item),
+                        ),
+                      );
+                    }
                   },
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    backgroundColor: MaterialStateProperty.all(Color(0xfffbf8ff)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                         side: BorderSide(color: Color(0xff1a1c43)),
@@ -93,8 +102,7 @@ class _TabSuccessState extends State<TabSuccess> {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Align text to the start
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -106,7 +114,7 @@ class _TabSuccessState extends State<TabSuccess> {
                                 const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
+                                    "From: ${item['pick_up'] ?? 'Unknown'}",
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 12,

@@ -25,7 +25,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
         const SizedBox(height: 10),
         Text(
           name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Row(
@@ -112,48 +112,48 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Pick up",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Icon(Icons.trip_origin, color: Colors.green[800]),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     pickup,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "comment",
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "Drop",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     dropoff,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "comment",
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
@@ -163,8 +163,10 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
     );
   }
 
-  Widget _SuccessText(String status) {
-    return status == 'Paid'
+  // ฟังก์ชันแสดงสถานะโดยไม่แปลงค่า 0 เป็น "Unpaid"
+  Widget _SuccessText(dynamic status) {
+    // แสดงข้อความ "Paid" หรือ "Unpaid" ตามสถานะ
+    return (status == 'Paid' || status == 1)
         ? const Text(
             'Paid',
             style: TextStyle(
@@ -179,13 +181,18 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
 
   @override
   Widget build(BuildContext context) {
+    // สมมติว่ามี status ที่รับมาจากข้อมูลจริง เช่น 0
+    dynamic status = 0; // ใช้ค่าสถานะที่เป็น 0 เพื่อทดสอบแสดง "Unpaid"
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context); // เพิ่มการทำงานของปุ่มย้อนกลับ
+          },
         ),
         title: const Text('Success', style: TextStyle(color: Colors.white)),
         centerTitle: true,
@@ -197,7 +204,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
             _userData("Name Lastname", "50", "Male", "24/03/2024",
                 "Email Rider", "0123456789"),
             const SizedBox(height: 10),
-            _SuccessText("Unpaid"), // Set to "Unpaid"
+            _SuccessText(status), // ส่ง status เป็น 0 เพื่อแสดง "Unpaid"
             const SizedBox(height: 10),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
             const SizedBox(height: 20),
