@@ -130,10 +130,6 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
               ],
             ),
             const SizedBox(height: 10),
-            const Text(
-              "comment",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
             const SizedBox(height: 10),
             const Text(
               "Drop",
@@ -153,10 +149,6 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
               ],
             ),
             const SizedBox(height: 10),
-            const Text(
-              "comment",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
           ],
         ),
       ),
