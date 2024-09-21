@@ -14,7 +14,7 @@ class _TabRequestState extends State<TabRequest> {
   List<dynamic> listData = [];
   List<dynamic> filteredList = [];
 
-  String ipUser = "192.168.160.1:80";
+  String ipUser = "192.168.1.139:8080";
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url = 'http://${ipUser}/gotwo/status.php'; // URL ของ API
