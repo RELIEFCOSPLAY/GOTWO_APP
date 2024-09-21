@@ -26,7 +26,8 @@ class _TabSuccessState extends State<TabSuccess> {
       if (response.statusCode == 200) {
         setState(() {
           listData = json.decode(response.body); // แปลง JSON เป็น List
-          filteredList = listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
+          filteredList =
+              listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });
       } else {
         print("Failed to load data");
@@ -62,19 +63,22 @@ class _TabSuccessState extends State<TabSuccess> {
           itemBuilder: (context, index) {
             final item = listData[index];
             return Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
               child: SizedBox(
                 width: 300,
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
                     // เช็คค่าสถานะ status_helmet เพื่อตัดสินใจว่าจะไปหน้าไหน
-                    if (item['status_helmet'] == '0' || item['status_helmet'] == 0) {
+                    if (item['status_helmet'] == '0' ||
+                        item['status_helmet'] == 0) {
                       // ไปหน้า Success Unpaid เมื่อ status_helmet เป็น 0
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GotwoSuccessUnpaid(), // ส่งข้อมูลไปหน้า Success Unpaid
+                          builder: (context) =>
+                              GotwoSuccessUnpaid(), // ส่งข้อมูลไปหน้า Success Unpaid
                         ),
                       );
                     } else {
@@ -88,7 +92,8 @@ class _TabSuccessState extends State<TabSuccess> {
                     }
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Color(0xfffbf8ff)),
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xfffbf8ff)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
@@ -132,7 +137,8 @@ class _TabSuccessState extends State<TabSuccess> {
                               ),
                             ),
                             Text(
-                              "Time: ${item['time'] ?? 'Unknown'}",
+                              // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
+                              "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
