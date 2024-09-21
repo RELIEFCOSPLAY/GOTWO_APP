@@ -10,6 +10,7 @@ class GotwoConCus extends StatefulWidget {
 class _GotwoConCus extends State<GotwoConCus> {
   final _formKey = GlobalKey<FormState>();
 
+  // ฟังก์ชันแสดง AlertDialog เมื่อยอมรับคำขอ
   Future<void> _showDialog() async {
     return showDialog(
       context: context,
@@ -21,10 +22,10 @@ class _GotwoConCus extends State<GotwoConCus> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // // go to next page
-                // // Navigator.push(
-                // //   context,
-                // //   MaterialPageRoute(builder: (context) => const ConfirmRider()),
+                // สามารถนำไปยังหน้าถัดไปได้
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ConfirmRiderPage()),
                 // );
               },
               child: const Text('OK'),
@@ -35,19 +36,18 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
+  // ฟังก์ชันแสดง AlertDialog เมื่อปฏิเสธคำขอ
   Future<void> _showRejectDialog() async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // title: const Text('Request'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
                   'There is a request to join. Do you still want to delete this post?'),
               const SizedBox(height: 10),
-              // add black textfield
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -73,12 +73,10 @@ class _GotwoConCus extends State<GotwoConCus> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // close dialog
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      // set border radius to 0
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
@@ -93,6 +91,7 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
+  // แสดงข้อมูลผู้ใช้
   Widget _userData(String name, String balance, String sex, String date) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,16 +104,13 @@ class _GotwoConCus extends State<GotwoConCus> {
         const SizedBox(height: 10),
         Text(
           name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.face,
-              size: 20,
-            ),
+            const Icon(Icons.face, size: 20),
             const SizedBox(width: 5),
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
@@ -123,10 +119,7 @@ class _GotwoConCus extends State<GotwoConCus> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.credit_card,
-              size: 20,
-            ),
+            const Icon(Icons.credit_card, size: 20),
             const SizedBox(width: 5),
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
@@ -135,10 +128,7 @@ class _GotwoConCus extends State<GotwoConCus> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.date_range,
-              size: 20,
-            ),
+            const Icon(Icons.date_range, size: 20),
             const SizedBox(width: 5),
             Text("Date : $date", style: const TextStyle(fontSize: 20)),
           ],
@@ -148,6 +138,7 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
+  // แสดงสถานที่รับ-ส่ง
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -169,30 +160,28 @@ class _GotwoConCus extends State<GotwoConCus> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Pick up",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Icon(Icons.trip_origin, color: Colors.green[800]),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(pickup),
-                ),
+                const SizedBox(width: 10),
+                Expanded(child: Text(pickup)),
               ],
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "Drop",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(child: Text(dropoff)),
               ],
             ),
@@ -202,55 +191,65 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
-  // widget of status
-  Widget _statustext(String status) {
-    return status == 'Paid'
-        ? const Text(
-            'Paid',
-            style: TextStyle(
-                color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
-          )
-        : const Text(
-            'Unpaid',
-            style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-          );
+  // แสดงข้อความสถานะ
+  Widget _statustext(dynamic status) {
+    if (status == 'Paid' || status == 1) {
+      return const Text(
+        'Paid',
+        style: TextStyle(
+            color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
+      );
+    } else if (status == 'Unpaid' || status == 0 || status == '0') {
+      return const Text(
+        'Unpaid',
+        style: TextStyle(
+            color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+      );
+    } else {
+      return const Text(
+        'Unknown',
+        style: TextStyle(
+            color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // สมมติว่ามีการใช้ status_helmet ในการตัดสินใจ
+    dynamic statusHelmet = 0; // แทนค่า status_helmet ที่คุณได้รับจริงๆ
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context); // เพิ่มการทำงานของปุ่มย้อนกลับ
+          },
         ),
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      // backgroundColor: const Color(0xFF1C2C5E),
       body: Center(
         child: Column(
           children: <Widget>[
-            // add border raidus to the container
             const SizedBox(height: 20),
-            _userData(
-              "Name Lastname",
-              "50",
-              "Male",
-              "24/03/2024",
-            ),
-            _statustext("Unpaid"),
+            _userData("Name Lastname", "50", "Male", "24/03/2024"),
+            _statustext(
+                statusHelmet), // เปลี่ยนค่าที่ใช้จาก "Unpaid" เป็น statusHelmet
             const SizedBox(height: 20),
             _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-
             const SizedBox(height: 20),
-            const Text(
-              "Bring your own a helmet.",
-              style: TextStyle(fontSize: 14, color: Colors.red),
-            ),
+
+            // แสดงข้อความเฉพาะเมื่อ statusHelmet ไม่ใช่ 0
+            if (statusHelmet != 0)
+              const Text(
+                "Bring your own a helmet.",
+                style: TextStyle(fontSize: 14, color: Colors.red),
+              ),
+
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

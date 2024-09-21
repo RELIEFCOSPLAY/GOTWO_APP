@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/Page_n/gotwo_confirmCustomer.dart';
 import 'package:gotwo_app/Page_n/gotwo_confirmRider.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -13,11 +14,10 @@ class _TabConfirmState extends State<TabConfirm> {
   List<dynamic> listData = [];
   List<dynamic> filteredList = [];
 
-  String ipUser = "192.168.1.139:8080";
+  String ipUser = "192.168.160.1:80";
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
-    final String url =
-        'http://${ipUser}/gotwo/status.php'; // URL ของ API
+    final String url = 'http://${ipUser}/gotwo/status.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -70,16 +70,30 @@ class _TabConfirmState extends State<TabConfirm> {
                 height: 100,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GotwoConRider(item: item),
-                      ),
-                    );
+                    // ตรวจสอบค่า status_helmet เพื่อเปลี่ยนหน้า
+                    if (item['status_helmet'] == '0' ||
+                        item['status_helmet'] == 0) {
+                      // ไปยังหน้า GotwoConCus เมื่อ status_helmet เป็น 0
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoConCus(),
+                        ),
+                      );
+                    } else {
+                      // ไปยังหน้า GotwoConRider ตามปกติ
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoConRider(item: item),
+                        ),
+                      );
+                    }
                   },
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Color(0xfffbf8ff)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xfffbf8ff)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                         side: BorderSide(color: Color(0xff1a1c43)),
@@ -92,8 +106,7 @@ class _TabConfirmState extends State<TabConfirm> {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Align text to the start
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -105,7 +118,7 @@ class _TabConfirmState extends State<TabConfirm> {
                                 const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    "From: ${item['pick_up'] ?? 'Unknown'}", // Check for null values
+                                    "From: ${item['pick_up'] ?? 'Unknown'}",
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 12,
@@ -129,8 +142,10 @@ class _TabConfirmState extends State<TabConfirm> {
                                 color: Color(0xff1a1c43),
                               ),
                             ),
+                            // แสดงค่า status_helmet
+                            // แสดงค่า status_helmet โดยไม่เปลี่ยนเป็น "Unpaid"
                             Text(
-                              "${item['status_helmet'] ?? 'Unknown'}",
+                              "${item['status_helmet'] ?? 'Unknown'}", // แสดงค่า status_helmet ตรง ๆ โดยไม่เปลี่ยนเป็น "Unpaid"
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
