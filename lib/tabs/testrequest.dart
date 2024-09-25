@@ -19,7 +19,7 @@ class _TabRequestState extends State<TabRequest> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        'http://${Global.ip_8080}/gotwo/status_confirm_Rider.php'; // URL ของ API
+        'http://${Global.ip_8080}/gotwo/status_Rider.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
