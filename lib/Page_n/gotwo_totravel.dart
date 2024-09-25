@@ -240,39 +240,44 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         title: const Text('To travel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const SizedBox(height: 20),
-            _userData(
-              "${item['rider_name'] ?? 'Unknown'}",
-              "${item['price'] ?? '0'}",
-              "${item['rider_gender'] ?? 'Unknown'}",
-              "${item['date'] ?? 'Unknown'}",
-              "Email Rider",
-              "0123456789",
-            ),
-            const SizedBox(height: 20),
-            _pickupDropoff(
-                item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () async {
-                _showRejectDialog();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+      body: SingleChildScrollView(
+        // เพิ่ม SingleChildScrollView เพื่อให้เลื่อนขึ้นลงได้
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(height: 20),
+              _userData(
+                "${item['rider_name'] ?? 'Unknown'}",
+                "${item['price'] ?? '0'}",
+                "${item['rider_gender'] ?? 'Unknown'}",
+                "${item['date'] ?? 'Unknown'}",
+                "Email Rider",
+                "0123456789",
               ),
-              child:
-                  const Text("Cancel", style: TextStyle(color: Colors.white)),
-            ),
-          ],
+              const SizedBox(height: 20),
+              _pickupDropoff(
+                item['pick_up'] ?? 'Unknown',
+                item['at_drop'] ?? 'Unknown',
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () async {
+                  _showRejectDialog();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
+                child:
+                    const Text("Cancel", style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
         ),
       ),
     );
