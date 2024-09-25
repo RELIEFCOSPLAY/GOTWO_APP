@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Import secure storage
@@ -49,7 +50,7 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-    String url = "http://192.168.160.1:80/gotwo/login_rider.php";
+    String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email.text,

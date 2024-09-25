@@ -85,7 +85,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
             ),
             const SizedBox(height: 10),
             Text(
-              'Hello, $email',
+              '$email',
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 20,
@@ -111,7 +111,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   Widget _dashbordBox() {
     return Container(
       width: double.infinity,
-      height: 450,
+      height: 440,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/Page_n/gotwo_cancel.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -14,10 +15,9 @@ class _TabCancelState extends State<TabCancel> {
 
   List<dynamic> filteredList = [];
 
-  String ipUser = "192.168.160.1:80";
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
-    final String url = 'http://${ipUser}/gotwo/status.php'; // URL ของ API
+    final String url = 'http://${Global.ip_8080}/gotwo/status.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',

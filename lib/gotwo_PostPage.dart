@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/gotwo_PostInfor.dart';
 import 'package:http/http.dart' as http;
@@ -30,15 +31,13 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
 //   }
 //-----------------------------------------------------------------------------
 
-  String ipUser = "192.168.1.139:8080";
-
   final storage = const FlutterSecureStorage();
   String? emails;
   String? userId;
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        'http://' + '${ipUser}' + '/gotwo/get_post.php'; // URL ของ API
+        'http://${Global.ip_8080}/gotwo/get_post.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -70,7 +69,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://' + '${ipUser}' + '/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id

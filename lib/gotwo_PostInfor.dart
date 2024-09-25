@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,12 +44,11 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     }
   }
 
-  String ipUser = '192.168.1.139:8080';
   //---------------------------------------------------------------
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://' + '${ipUser}' + '/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -112,7 +112,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   }
 
 // ---------------URI----------------
-  Uri url = Uri.parse('http://192.168.1.139:8080/gotwo/post_rider.php');
+  Uri url = Uri.parse('http://${Global.ip_8080}/gotwo/post_rider.php');
 
   Future<void> insert(
       String pickUp,
@@ -190,7 +190,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             _inputBox(),
           ],
@@ -296,13 +296,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
             height: 10,
           ),
           _priceField("Set Price", priceController),
-          const SizedBox(
-            height: 5,
-          ),
           _checkbox(),
-          const SizedBox(
-            height: 5,
-          ),
           _postBtn(),
         ],
       ),
