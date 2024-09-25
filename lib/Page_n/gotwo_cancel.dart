@@ -87,12 +87,12 @@ class _GotwoCancel extends State<GotwoCancel> {
           backgroundColor: Colors.white,
           child: Icon(Icons.account_circle_outlined, size: 70),
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Text(
           name,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         // Star Rating Row
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +117,7 @@ class _GotwoCancel extends State<GotwoCancel> {
               ),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -129,7 +129,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -141,7 +141,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -153,7 +153,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text("Date: $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -165,7 +165,7 @@ class _GotwoCancel extends State<GotwoCancel> {
             Text(email, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -198,62 +198,67 @@ class _GotwoCancel extends State<GotwoCancel> {
         title: const Text('Cancel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 10),
-            _userData(
-              item['rider_name'] ?? "Name Lastname",
-              item['price'] ?? "50",
-              "${item['rider_gender'] ?? 'Unknown'}",
-              item['date'] ?? "24/03/2024",
-              "Email Rider",
-              "0123456789",
-            ),
-            const SizedBox(height: 10),
-            _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)",
-                item['at_drop'] ?? "Lotus Fah Thai"),
-            const SizedBox(height: 10),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.85,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBE2EF),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        // เพิ่ม SingleChildScrollView เพื่อให้สามารถเลื่อนขึ้นลงได้
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 10),
+              _userData(
+                item['rider_name'] ?? "Name Lastname",
+                item['price'] ?? "50",
+                "${item['rider_gender'] ?? 'Unknown'}",
+                item['date'] ?? "24/03/2024",
+                "Email Rider",
+                "0123456789",
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Reason',
-                    style: TextStyle(
-                      fontSize: 18,
+              const SizedBox(height: 10),
+              _pickupDropoff(
+                item['pick_up'] ?? "Mae Fah Luang(D1)",
+                item['at_drop'] ?? "Lotus Fah Thai",
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.85,
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDBE2EF),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
-                  const SizedBox(height: 1),
-                  TextField(
-                    maxLines: 2,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Reason',
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.all(12),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 1),
+                    TextField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.all(12),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

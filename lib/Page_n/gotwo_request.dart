@@ -114,13 +114,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 child: Icon(Icons.account_circle_outlined, size: 70),
                 backgroundColor: Colors.white,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Text(
                 "${item['rider_name'] ?? 'Unknown'}",
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -180,7 +180,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           Icon(Icons.trip_origin, color: Colors.green[800]),

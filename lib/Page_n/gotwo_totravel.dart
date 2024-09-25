@@ -84,12 +84,12 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           backgroundColor: Colors.white,
           child: Icon(Icons.account_circle_outlined, size: 70),
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Text(
           name,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -111,7 +111,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               ),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -120,7 +120,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -129,7 +129,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -138,7 +138,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Date : $date", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -147,7 +147,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Email : $email", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -156,7 +156,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 10),
       ],
     );
   }
