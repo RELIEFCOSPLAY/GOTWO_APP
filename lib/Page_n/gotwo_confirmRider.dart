@@ -95,12 +95,12 @@ class _GotwoConRider extends State<GotwoConRider> {
           backgroundColor: Colors.white,
           child: Icon(Icons.account_circle_outlined, size: 70),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Text(
           name,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -109,7 +109,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text(sex, style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -118,7 +118,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text("$balance THB", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -128,7 +128,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           ],
         ),
         // Email and telephone
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -137,7 +137,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text("Email : $email", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -146,7 +146,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
           ],
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -233,55 +233,59 @@ class _GotwoConRider extends State<GotwoConRider> {
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 5),
-            _userData(
-              "${item['rider_name'] ?? 'Unknown'}",
-              "${item['price'] ?? '0'}",
-              "${item['rider_gender'] ?? 'Unknown'}",
-              "${item['date'] ?? 'Unknown'}",
-              "Email Rider",
-              "0123456789",
-            ),
-            _Ridertext(item['status_payment'] ?? 'Paid'),
-            const SizedBox(height: 5),
-            _pickupDropoff(
-                item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
-            const SizedBox(height: 5),
-            if (item['status_helmet'] != '0')
-              const Text(
-                "Bring your own a helmet.",
-                style: TextStyle(fontSize: 14, color: Colors.red),
+      body: SingleChildScrollView(
+        // เพิ่ม SingleChildScrollView เพื่อให้สามารถเลื่อนขึ้นลงได้
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 5),
+              _userData(
+                "${item['rider_name'] ?? 'Unknown'}",
+                "${item['price'] ?? '0'}",
+                "${item['rider_gender'] ?? 'Unknown'}",
+                "${item['date'] ?? 'Unknown'}",
+                "Email Rider",
+                "0123456789",
               ),
-            const SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    _showDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  child: const Text("To travel",
-                      style: TextStyle(color: Colors.white)),
+              _Ridertext(item['status_payment'] ?? 'Paid'),
+              const SizedBox(height: 5),
+              _pickupDropoff(
+                  item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
+              const SizedBox(height: 5),
+              if (item['status_helmet'] != '0')
+                const Text(
+                  "Bring your own a helmet.",
+                  style: TextStyle(fontSize: 14, color: Colors.red),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    _showRejectDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+              const SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: const Text("To travel",
+                        style: TextStyle(color: Colors.white)),
                   ),
-                  child: const Text("Reject",
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
-          ],
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showRejectDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    child: const Text("Reject",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20), // เพิ่ม Space เพื่อป้องกันการล้น
+            ],
+          ),
         ),
       ),
     );

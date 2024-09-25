@@ -189,18 +189,21 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
         title: const Text('Success', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            _userData("Name Lastname", "50", "Male", "24/03/2024",
-                "Email Rider", "0123456789"),
-            const SizedBox(height: 10),
-            _SuccessText(status), // ส่ง status เป็น 0 เพื่อแสดง "Unpaid"
-            const SizedBox(height: 10),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            const SizedBox(height: 20),
-          ],
+      body: SingleChildScrollView(
+        // เพิ่ม SingleChildScrollView เพื่อป้องกัน overflow
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 20),
+              _userData("Name Lastname", "50", "Male", "24/03/2024",
+                  "Email Rider", "0123456789"),
+              const SizedBox(height: 10),
+              _SuccessText(status), // ส่ง status เป็น 0 เพื่อแสดง "Unpaid"
+              const SizedBox(height: 10),
+              _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

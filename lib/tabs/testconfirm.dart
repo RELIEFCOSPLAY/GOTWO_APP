@@ -130,11 +130,16 @@ class _TabConfirmState extends State<TabConfirm> {
                             ),
                             Text(
                               "Date: ${item['date'] ?? 'Unknown'}",
+                              softWrap:
+                                  false, // ป้องกันการตัดข้อความเป็นบรรทัดใหม่
+                              overflow: TextOverflow
+                                  .ellipsis, // ตัดข้อความหากยาวเกินไป
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
                               ),
                             ),
+
                             Text(
                               // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
                               "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",

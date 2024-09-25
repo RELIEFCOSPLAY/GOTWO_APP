@@ -232,51 +232,52 @@ class _GotwoConCus extends State<GotwoConCus> {
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            _userData("Name Lastname", "50", "Male", "24/03/2024"),
-            _statustext(
-                statusHelmet), // เปลี่ยนค่าที่ใช้จาก "Unpaid" เป็น statusHelmet
-            const SizedBox(height: 20),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            const SizedBox(height: 20),
-
-            // แสดงข้อความเฉพาะเมื่อ statusHelmet ไม่ใช่ 0
-            if (statusHelmet != 0)
-              const Text(
-                "Bring your own a helmet.",
-                style: TextStyle(fontSize: 14, color: Colors.red),
+      body: SingleChildScrollView(
+        // เพิ่ม SingleChildScrollView
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 20),
+              _userData("Name Lastname", "50", "Male", "24/03/2024"),
+              _statustext(statusHelmet),
+              const SizedBox(height: 20),
+              _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+              const SizedBox(height: 20),
+              if (statusHelmet != 0)
+                const Text(
+                  "Bring your own a helmet.",
+                  style: TextStyle(fontSize: 14, color: Colors.red),
+                ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
+                    child: const Text("To travel",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showRejectDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    child: const Text("Cancel",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
-
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    _showDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                  ),
-                  child: const Text("To travel",
-                      style: TextStyle(color: Colors.white)),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    _showRejectDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                  ),
-                  child: const Text("Cancel",
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(
+                  height: 20), // เพิ่ม Space ด้านล่างเพื่อป้องกันการล้น
+            ],
+          ),
         ),
       ),
     );
