@@ -10,7 +10,6 @@ class GotwoTotravel extends StatefulWidget {
 
 class _GotwoTotravel extends State<GotwoTotravel> {
   final _formKey = GlobalKey<FormState>();
-
   int _currentRating = 5; // Initial rating value
 
   Future<void> _showRejectDialog() async {
@@ -23,7 +22,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             children: [
               const Text(
                 'There is a request to join. Do you still want to delete this post?',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
@@ -82,19 +81,19 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         const CircleAvatar(
           radius: 30,
           backgroundColor: Colors.white,
-          child: Icon(Icons.account_circle_outlined, size: 70),
+          child: Icon(Icons.account_circle_outlined, size: 60),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Text(
           name,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text("Rate",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
             const SizedBox(width: 5),
             for (var i = 1; i <= 5; i++)
               GestureDetector(
@@ -106,64 +105,64 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 },
                 child: Icon(
                   Icons.star,
+                  size: 16,
                   color: i <= _currentRating ? Colors.yellow : Colors.grey,
                 ),
               ),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.face, size: 20),
+            const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 20)),
+            Text(sex, style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.credit_card, size: 20),
+            const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 20)),
+            Text("$balance THB", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.date_range, size: 20),
+            const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date : $date", style: const TextStyle(fontSize: 20)),
+            Text("Date: $date", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.email, size: 20),
+            const Icon(Icons.email, size: 18),
             const SizedBox(width: 5),
-            Text("Email : $email", style: const TextStyle(fontSize: 20)),
+            Text("Email: $email", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.phone, size: 20),
+            const Icon(Icons.phone, size: 18),
             const SizedBox(width: 5),
-            Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
+            Text("Tel: $tel", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
       ],
     );
   }
 
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -177,55 +176,46 @@ class _GotwoTotravel extends State<GotwoTotravel> {
           ),
         ],
       ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Pick up",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                Icon(Icons.trip_origin, color: Colors.green[800]),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(pickup,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      )),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Drop",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 1),
-            Row(
-              children: [
-                const Icon(Icons.location_on, color: Colors.red),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(dropoff,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      )),
-                ),
-              ],
-            ),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Pick up",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              Icon(Icons.trip_origin, color: Colors.green[800], size: 16),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(pickup, style: const TextStyle(fontSize: 14)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            "Drop",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              const Icon(Icons.location_on, color: Colors.red, size: 16),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(dropoff, style: const TextStyle(fontSize: 14)),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.item; // ดึงข้อมูลที่ส่งมาจากหน้าอื่น
+    final item = widget.item;
 
     return Scaffold(
       appBar: AppBar(
@@ -240,13 +230,14 @@ class _GotwoTotravel extends State<GotwoTotravel> {
         title: const Text('To travel', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        // เพิ่ม SingleChildScrollView เพื่อให้เลื่อนขึ้นลงได้
-        child: Center(
+      body: Center(
+        child: Form(
+          // เพิ่ม Form widget พร้อม key
+          key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _userData(
                 "${item['rider_name'] ?? 'Unknown'}",
                 "${item['price'] ?? '0'}",
@@ -255,12 +246,12 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 "Email Rider",
                 "0123456789",
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _pickupDropoff(
                 item['pick_up'] ?? 'Unknown',
                 item['at_drop'] ?? 'Unknown',
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () async {
                   _showRejectDialog();
@@ -268,10 +259,10 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 ),
                 child:
                     const Text("Cancel", style: TextStyle(color: Colors.white)),
