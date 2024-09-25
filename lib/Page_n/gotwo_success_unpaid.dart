@@ -56,7 +56,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
           children: [
             const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 16)),
+            Text(sex, style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -65,7 +65,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
           children: [
             const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 16)),
+            Text("$balance THB", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -74,7 +74,7 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
           children: [
             const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date: $date", style: const TextStyle(fontSize: 16)),
+            Text("Date: $date", style: const TextStyle(fontSize: 10)),
           ],
         ),
       ],
@@ -150,12 +150,12 @@ class _GotwoSuccessUnpaid extends State<GotwoSuccessUnpaid> {
         ? const Text(
             'Paid',
             style: TextStyle(
-                color: Colors.green, fontSize: 16, fontWeight: FontWeight.bold),
+                color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
           )
         : const Text(
             'Unpaid',
             style: TextStyle(
-                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+                color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
           );
   }
 

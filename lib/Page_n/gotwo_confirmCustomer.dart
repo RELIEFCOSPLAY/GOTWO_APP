@@ -107,7 +107,7 @@ class _GotwoConCus extends State<GotwoConCus> {
           children: [
             const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 16)),
+            Text(sex, style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -116,7 +116,7 @@ class _GotwoConCus extends State<GotwoConCus> {
           children: [
             const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 16)),
+            Text("$balance THB", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -125,7 +125,7 @@ class _GotwoConCus extends State<GotwoConCus> {
           children: [
             const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date: $date", style: const TextStyle(fontSize: 16)),
+            Text("Date: $date", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -194,13 +194,13 @@ class _GotwoConCus extends State<GotwoConCus> {
       return const Text(
         'Paid',
         style: TextStyle(
-            color: Colors.green, fontSize: 16, fontWeight: FontWeight.bold),
+            color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
       );
     } else if (status == 'Unpaid' || status == 0 || status == '0') {
       return const Text(
         'Unpaid',
         style: TextStyle(
-            color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+            color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
       );
     } else {
       return const Text(
@@ -230,48 +230,53 @@ class _GotwoConCus extends State<GotwoConCus> {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 10),
-            _userData("Name Lastname", "50", "Male", "24/03/2024"),
-            _statustext(statusHelmet),
-            const SizedBox(height: 10),
-            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-            const SizedBox(height: 10),
-            if (statusHelmet != 0)
-              const Text(
-                "Bring your own a helmet.",
-                style: TextStyle(fontSize: 14, color: Colors.red),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height - kToolbarHeight - 24,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min, // ป้องกันไม่ให้เลื่อน
+            children: <Widget>[
+              const SizedBox(height: 10),
+              _userData("Name Lastname", "50", "Male", "24/03/2024"),
+              _statustext(statusHelmet),
+              const SizedBox(height: 10),
+              _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+              const SizedBox(height: 10),
+              if (statusHelmet != 0)
+                const Text(
+                  "Bring your own a helmet.",
+                  style: TextStyle(fontSize: 14, color: Colors.red),
+                ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
+                    child: const Text("To travel",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      _showRejectDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    child: const Text("Cancel",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    _showDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                  ),
-                  child: const Text("To travel",
-                      style: TextStyle(color: Colors.white)),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    _showRejectDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                  ),
-                  child: const Text("Cancel",
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
-            const SizedBox(
-                height: 20), // เพิ่ม Space ด้านล่างเพื่อป้องกันการล้น
-          ],
+              const SizedBox(
+                  height: 20), // เพิ่ม Space ด้านล่างเพื่อป้องกันการล้น
+            ],
+          ),
         ),
       ),
     );

@@ -123,7 +123,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           children: [
             const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 16)),
+            Text(sex, style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -132,7 +132,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           children: [
             const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 16)),
+            Text("$balance THB", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -141,7 +141,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           children: [
             const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date: $date", style: const TextStyle(fontSize: 16)),
+            Text("Date: $date", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -150,7 +150,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           children: [
             const Icon(Icons.email, size: 18),
             const SizedBox(width: 5),
-            Text(email, style: const TextStyle(fontSize: 16)),
+            Text(email, style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -159,7 +159,7 @@ class _GotwoCancel extends State<GotwoCancel> {
           children: [
             const Icon(Icons.phone, size: 18),
             const SizedBox(width: 5),
-            Text(tel, style: const TextStyle(fontSize: 16)),
+            Text(tel, style: const TextStyle(fontSize: 10)),
           ],
         ),
       ],
