@@ -118,6 +118,10 @@ class _TabTotravelState extends State<TabTotravel> {
                             ),
                             Text(
                               "Date: ${item['date'] ?? 'Unknown'}",
+                              softWrap:
+                                  false, // ป้องกันการตัดข้อความเป็นบรรทัดใหม่
+                              overflow: TextOverflow
+                                  .ellipsis, // ตัดข้อความหากยาวเกินไป
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
