@@ -139,7 +139,6 @@ class _TabConfirmState extends State<TabConfirm> {
                                 color: Color(0xff1a1c43),
                               ),
                             ),
-
                             Text(
                               // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
                               "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",
@@ -148,10 +147,12 @@ class _TabConfirmState extends State<TabConfirm> {
                                 color: Color(0xff1a1c43),
                               ),
                             ),
-                            // แสดงค่า status_helmet
-                            // แสดงค่า status_helmet โดยไม่เปลี่ยนเป็น "Unpaid"
+                            // แสดงค่า status_helmet โดยแปลงเป็น "Paid" หรือ "Unpaid"
                             Text(
-                              "${item['status_helmet'] ?? 'Unknown'}", // แสดงค่า status_helmet ตรง ๆ โดยไม่เปลี่ยนเป็น "Unpaid"
+                              item['status_helmet'] == '1' ||
+                                      item['status_helmet'] == 1
+                                  ? "Paid"
+                                  : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),

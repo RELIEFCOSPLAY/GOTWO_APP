@@ -22,11 +22,6 @@ class _GotwoConCus extends State<GotwoConCus> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // สามารถนำไปยังหน้าถัดไปได้
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => ConfirmRiderPage()),
-                // );
               },
               child: const Text('OK'),
             ),
@@ -99,41 +94,41 @@ class _GotwoConCus extends State<GotwoConCus> {
         const CircleAvatar(
           radius: 30,
           backgroundColor: Colors.white,
-          child: Icon(Icons.account_circle_outlined, size: 70),
+          child: Icon(Icons.account_circle_outlined, size: 60),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Text(
           name,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.face, size: 20),
+            const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 20)),
+            Text(sex, style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.credit_card, size: 20),
+            const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 20)),
+            Text("$balance THB", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.date_range, size: 20),
+            const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date : $date", style: const TextStyle(fontSize: 20)),
+            Text("Date: $date", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -141,8 +136,8 @@ class _GotwoConCus extends State<GotwoConCus> {
   // แสดงสถานที่รับ-ส่ง
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.8,
+      padding: const EdgeInsets.all(12),
+      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -162,27 +157,29 @@ class _GotwoConCus extends State<GotwoConCus> {
           children: [
             const Text(
               "Pick up",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Row(
               children: [
-                Icon(Icons.trip_origin, color: Colors.green[800]),
+                Icon(Icons.trip_origin, color: Colors.green[800], size: 16),
                 const SizedBox(width: 10),
-                Expanded(child: Text(pickup)),
+                Expanded(
+                    child: Text(pickup, style: const TextStyle(fontSize: 14))),
               ],
             ),
             const SizedBox(height: 10),
             const Text(
               "Drop",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Row(
               children: [
-                Icon(Icons.location_on, color: Colors.red),
+                Icon(Icons.location_on, color: Colors.red, size: 16),
                 const SizedBox(width: 10),
-                Expanded(child: Text(dropoff)),
+                Expanded(
+                    child: Text(dropoff, style: const TextStyle(fontSize: 14))),
               ],
             ),
           ],
@@ -197,19 +194,19 @@ class _GotwoConCus extends State<GotwoConCus> {
       return const Text(
         'Paid',
         style: TextStyle(
-            color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.green, fontSize: 16, fontWeight: FontWeight.bold),
       );
     } else if (status == 'Unpaid' || status == 0 || status == '0') {
       return const Text(
         'Unpaid',
         style: TextStyle(
-            color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
       );
     } else {
       return const Text(
         'Unknown',
         style: TextStyle(
-            color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
       );
     }
   }
@@ -232,52 +229,49 @@ class _GotwoConCus extends State<GotwoConCus> {
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        // เพิ่ม SingleChildScrollView
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 20),
-              _userData("Name Lastname", "50", "Male", "24/03/2024"),
-              _statustext(statusHelmet),
-              const SizedBox(height: 20),
-              _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-              const SizedBox(height: 20),
-              if (statusHelmet != 0)
-                const Text(
-                  "Bring your own a helmet.",
-                  style: TextStyle(fontSize: 14, color: Colors.red),
-                ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      _showDialog();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                    ),
-                    child: const Text("To travel",
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      _showRejectDialog();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    child: const Text("Cancel",
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ],
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 10),
+            _userData("Name Lastname", "50", "Male", "24/03/2024"),
+            _statustext(statusHelmet),
+            const SizedBox(height: 10),
+            _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
+            const SizedBox(height: 10),
+            if (statusHelmet != 0)
+              const Text(
+                "Bring your own a helmet.",
+                style: TextStyle(fontSize: 14, color: Colors.red),
               ),
-              const SizedBox(
-                  height: 20), // เพิ่ม Space ด้านล่างเพื่อป้องกันการล้น
-            ],
-          ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    _showDialog();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: const Text("To travel",
+                      style: TextStyle(color: Colors.white)),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    _showRejectDialog();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
+            const SizedBox(
+                height: 20), // เพิ่ม Space ด้านล่างเพื่อป้องกันการล้น
+          ],
         ),
       ),
     );

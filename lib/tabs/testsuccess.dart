@@ -16,6 +16,7 @@ class _TabSuccessState extends State<TabSuccess> {
   List<dynamic> filteredList = [];
 
   String ipUser = "192.168.160.1:80";
+
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url = "http://${Global.ip_80}/gotwo/status.php"; // URL ของ API
@@ -78,8 +79,7 @@ class _TabSuccessState extends State<TabSuccess> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              GotwoSuccessUnpaid(), // ส่งข้อมูลไปหน้า Success Unpaid
+                          builder: (context) => GotwoSuccessUnpaid(),
                         ),
                       );
                     } else {
@@ -132,17 +132,14 @@ class _TabSuccessState extends State<TabSuccess> {
                             ),
                             Text(
                               "Date: ${item['date'] ?? 'Unknown'}",
-                              softWrap:
-                                  false, // ป้องกันการตัดข้อความเป็นบรรทัดใหม่
-                              overflow: TextOverflow
-                                  .ellipsis, // ตัดข้อความหากยาวเกินไป
+                              softWrap: false,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),
                               ),
                             ),
                             Text(
-                              // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
                               "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",
                               style: const TextStyle(
                                 fontSize: 12,
@@ -150,7 +147,11 @@ class _TabSuccessState extends State<TabSuccess> {
                               ),
                             ),
                             Text(
-                              "${item['status_helmet'] ?? 'Unknown'}",
+                              // ตรวจสอบ status_helmet เพื่อแสดง Paid หรือ Unpaid
+                              item['status_helmet'] == '1' ||
+                                      item['status_helmet'] == 1
+                                  ? 'Paid'
+                                  : 'Unpaid',
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff1a1c43),

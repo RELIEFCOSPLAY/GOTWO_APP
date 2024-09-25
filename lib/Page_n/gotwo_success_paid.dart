@@ -19,72 +19,63 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         const CircleAvatar(
           radius: 30,
           backgroundColor: Colors.white,
-          child: Icon(Icons.account_circle_outlined, size: 70),
+          child: Icon(Icons.account_circle_outlined, size: 60),
         ),
         const SizedBox(height: 10),
         Text(
           name,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         // Star Rating Row
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
               "Rate",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 5),
             for (var i = 1; i <= 5; i++)
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _currentRating =
-                        i; // Update the rating when a star is tapped
+                    _currentRating = i; // Update the rating when a star is tapped
                   });
                 },
                 child: Icon(
                   Icons.star,
+                  size: 16,
                   color: i <= _currentRating ? Colors.yellow : Colors.grey,
                 ),
               ),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.face,
-              size: 20,
-            ),
+            const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 20)),
+            Text(sex, style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.credit_card,
-              size: 20,
-            ),
+            const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 20)),
+            Text("$balance THB", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.date_range,
-              size: 20,
-            ),
+            const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date : $date", style: const TextStyle(fontSize: 20)),
+            Text("Date: $date", style: const TextStyle(fontSize: 16)),
           ],
         ),
       ],
@@ -93,8 +84,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
 
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.8,
+      padding: const EdgeInsets.all(12),
+      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -112,29 +103,37 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         children: [
           const Text(
             "Pick up",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Row(
             children: [
-              Icon(Icons.trip_origin, color: Colors.green[800]),
+              Icon(Icons.trip_origin, color: Colors.green[800], size: 16),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(pickup),
+                child: Text(
+                  pickup,
+                  style: const TextStyle(fontSize: 14),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           const Text(
             "Drop",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Row(
             children: [
-              const Icon(Icons.location_on, color: Colors.red),
+              const Icon(Icons.location_on, color: Colors.red, size: 16),
               const SizedBox(width: 10),
-              Expanded(child: Text(dropoff)),
+              Expanded(
+                child: Text(
+                  dropoff,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
             ],
           ),
         ],
@@ -156,7 +155,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
               const Text(
                 'Money slip',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
                 ),
@@ -210,12 +209,13 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         children: [
           Text(
             status,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(width: 5),
           Icon(
             Icons.remove_red_eye,
             color: status == 'Paid' ? Colors.green : Colors.red,
+            size: 18,
           ),
         ],
       ),
@@ -240,14 +240,12 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        // เพิ่ม SingleChildScrollView เพื่อให้เลื่อนขึ้นลงได้
         child: Center(
           child: Column(
             children: <Widget>[
               const SizedBox(height: 20),
               _userData(
-                item['rider_name'] ??
-                    "Name Lastname", // รับค่าจากข้อมูลที่ถูกส่งมา
+                item['rider_name'] ?? "Name Lastname",
                 item['price'] ?? "50",
                 "${item['rider_gender'] ?? 'Unknown'}",
                 item['date'] ?? "24/03/2024",
@@ -255,9 +253,8 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
                 "0123456789",
               ),
               _statusButton(item['status_payment'] ?? "Paid"),
-              const SizedBox(height: 20),
-              _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)",
-                  item['at_drop'] ?? "Lotus Fah Thai"),
+              const SizedBox(height: 10),
+              _pickupDropoff(item['pick_up'] ?? "Mae Fah Luang(D1)", item['at_drop'] ?? "Lotus Fah Thai"),
               const SizedBox(height: 20),
             ],
           ),

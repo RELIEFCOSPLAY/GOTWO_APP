@@ -41,7 +41,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             children: [
               const Text(
                   'There is a request to join. Do you still want to delete this post?'),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -60,7 +60,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(8),
                       )),
                   child:
                       const Text("Yes", style: TextStyle(color: Colors.white)),
@@ -72,7 +72,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(8),
                       )),
                   child: const Text("Cancel",
                       style: TextStyle(color: Colors.white)),
@@ -93,68 +93,66 @@ class _GotwoConRider extends State<GotwoConRider> {
         const CircleAvatar(
           radius: 30,
           backgroundColor: Colors.white,
-          child: Icon(Icons.account_circle_outlined, size: 70),
+          child: Icon(Icons.account_circle_outlined, size: 60),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Text(
           name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.face, size: 20),
+            const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 20)),
+            Text(sex, style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.credit_card, size: 20),
+            const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 20)),
+            Text("$balance THB", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.date_range, size: 20),
+            const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date : $date", style: const TextStyle(fontSize: 20)),
+            Text("Date: $date", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        // Email and telephone
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.email, size: 20),
+            const Icon(Icons.email, size: 18),
             const SizedBox(width: 5),
-            Text("Email : $email", style: const TextStyle(fontSize: 20)),
+            Text("Email: $email", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.phone, size: 20),
+            const Icon(Icons.phone, size: 18),
             const SizedBox(width: 5),
-            Text("Tel : $tel", style: const TextStyle(fontSize: 20)),
+            Text("Tel: $tel", style: const TextStyle(fontSize: 16)),
           ],
         ),
-        const SizedBox(height: 10),
       ],
     );
   }
 
   Widget _pickupDropoff(String pickup, String dropoff) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.8,
+      padding: const EdgeInsets.all(12),
+      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -172,29 +170,31 @@ class _GotwoConRider extends State<GotwoConRider> {
         children: [
           const Text(
             "Pick up",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
           Row(
             children: [
-              Icon(Icons.trip_origin, color: Colors.green[800]),
+              Icon(Icons.trip_origin, color: Colors.green[800], size: 16),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(pickup),
+                child: Text(pickup, style: const TextStyle(fontSize: 14)),
               ),
             ],
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 10),
           const Text(
             "Drop",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
           Row(
             children: [
-              const Icon(Icons.location_on, color: Colors.red),
+              const Icon(Icons.location_on, color: Colors.red, size: 16),
               const SizedBox(width: 10),
-              Expanded(child: Text(dropoff)),
+              Expanded(
+                child: Text(dropoff, style: const TextStyle(fontSize: 14)),
+              ),
             ],
           ),
         ],
@@ -207,12 +207,12 @@ class _GotwoConRider extends State<GotwoConRider> {
         ? const Text(
             'Paid',
             style: TextStyle(
-                color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
+                color: Colors.green, fontSize: 16, fontWeight: FontWeight.bold),
           )
         : const Text(
             'Unpaid',
             style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
           );
   }
 
@@ -238,7 +238,7 @@ class _GotwoConRider extends State<GotwoConRider> {
         child: Center(
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _userData(
                 "${item['rider_name'] ?? 'Unknown'}",
                 "${item['price'] ?? '0'}",
@@ -248,16 +248,16 @@ class _GotwoConRider extends State<GotwoConRider> {
                 "0123456789",
               ),
               _Ridertext(item['status_payment'] ?? 'Paid'),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               _pickupDropoff(
                   item['pick_up'] ?? 'Unknown', item['at_drop'] ?? 'Unknown'),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               if (item['status_helmet'] != '0')
                 const Text(
                   "Bring your own a helmet.",
                   style: TextStyle(fontSize: 14, color: Colors.red),
                 ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -283,7 +283,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // เพิ่ม Space เพื่อป้องกันการล้น
+              const SizedBox(
+                  height: 20), // เพิ่ม Space เพื่อป้องกันการล้น
             ],
           ),
         ),
