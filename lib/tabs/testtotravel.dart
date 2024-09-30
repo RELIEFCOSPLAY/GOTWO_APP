@@ -18,7 +18,7 @@ class _TabTotravelState extends State<TabTotravel> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        'http://${Global.ip_80}/gotwo/status_Rider.php'; // URL ของ API
+        'http://${Global.ip_8080}/gotwo/status_Rider.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -53,7 +53,7 @@ class _TabTotravelState extends State<TabTotravel> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://${Global.ip_80}/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -104,10 +104,7 @@ class _TabTotravelState extends State<TabTotravel> {
             final item = listData[index];
             if (userId == item['rider_id'].toString() &&
                 item['status'].toString() == 'totravel' &&
-                (item['pay'] == 'paid' ||
-                    item['pay'] == '1')) {
-              print(userId);
-              print(item['status'].toString());
+                (item['pay'] == '1' || item['pay'] == 1)) {
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
@@ -180,6 +177,19 @@ class _TabTotravelState extends State<TabTotravel> {
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff1a1c43),
+                                ),
+                              ),
+                              Text(
+                                item['pay'] == '1' ||
+                                        item['pay'] == 1
+                                    ? "Paid"
+                                    : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: item['pay'] == '1' ||
+                                          item['pay'] == 1
+                                      ? Colors.green // Green for "Paid"
+                                      : Colors.red, // Red for "Unpaid"
                                 ),
                               ),
                             ],
