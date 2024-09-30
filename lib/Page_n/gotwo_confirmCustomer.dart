@@ -8,7 +8,7 @@ class GotwoConCus extends StatefulWidget {
 }
 
 class _GotwoConCus extends State<GotwoConCus> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   // ฟังก์ชันแสดง AlertDialog เมื่อยอมรับคำขอ
   Future<void> _showDialog() async {
@@ -86,135 +86,12 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
-  // แสดงข้อมูลผู้ใช้
-  Widget _userData(String name, String balance, String sex, String date) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.account_circle_outlined, size: 60),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          name,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.face, size: 18),
-            const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 10)),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.credit_card, size: 18),
-            const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 10)),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.date_range, size: 18),
-            const SizedBox(width: 5),
-            Text("Date: $date", style: const TextStyle(fontSize: 10)),
-          ],
-        ),
-        const SizedBox(height: 8),
-      ],
-    );
-  }
-
-  // แสดงสถานที่รับ-ส่ง
-  Widget _pickupDropoff(String pickup, String dropoff) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      width: MediaQuery.of(context).size.width * 0.85,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Pick up",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                Icon(Icons.trip_origin, color: Colors.green[800], size: 16),
-                const SizedBox(width: 10),
-                Expanded(
-                    child: Text(pickup, style: const TextStyle(fontSize: 14))),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Drop",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.red, size: 16),
-                const SizedBox(width: 10),
-                Expanded(
-                    child: Text(dropoff, style: const TextStyle(fontSize: 14))),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // แสดงข้อความสถานะ
-  Widget _statustext(dynamic status) {
-    if (status == 'Paid' || status == 1) {
-      return const Text(
-        'Paid',
-        style: TextStyle(
-            color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
-      );
-    } else if (status == 'Unpaid' || status == 0 || status == '0') {
-      return const Text(
-        'Unpaid',
-        style: TextStyle(
-            color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
-      );
-    } else {
-      return const Text(
-        'Unknown',
-        style: TextStyle(
-            color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    // สมมติว่ามีการใช้ status_helmet ในการตัดสินใจ
-    dynamic statusHelmet = 0; // แทนค่า status_helmet ที่คุณได้รับจริงๆ
+    // สมมติว่ามีการใช้ status_helmet และ status_payment ในการตัดสินใจ
+    dynamic statusHelmet =
+        0; // ตัวอย่างค่า status_helmet (ยังไม่ได้ใส่หมวกกันน็อก)
+    dynamic statusPayment = 0; // ตัวอย่างค่า status_payment (ยังไม่จ่ายเงิน)
 
     return Scaffold(
       appBar: AppBar(
@@ -229,53 +106,163 @@ class _GotwoConCus extends State<GotwoConCus> {
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - kToolbarHeight - 24,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min, // ป้องกันไม่ให้เลื่อน
-            children: <Widget>[
-              const SizedBox(height: 10),
-              _userData("Name Lastname", "50", "Male", "24/03/2024"),
-              _statustext(statusHelmet),
-              const SizedBox(height: 10),
-              _pickupDropoff("Mae Fah Luang(D1)", "Lotus Fah Thai"),
-              const SizedBox(height: 10),
-              if (statusHelmet != 0)
-                const Text(
-                  "Bring your own a helmet.",
-                  style: TextStyle(fontSize: 14, color: Colors.red),
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35.0),
+              topRight: Radius.circular(35.0),
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 20),
+                const CircleAvatar(
+                  radius: 30,
+                  child: Icon(Icons.account_circle_outlined, size: 70),
+                  backgroundColor: Colors.white,
                 ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      _showDialog();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                    ),
-                    child: const Text("To travel",
-                        style: TextStyle(color: Colors.white)),
+                const SizedBox(height: 10),
+                const Text(
+                  "Name Lastname",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.face, size: 18),
+                    SizedBox(width: 5),
+                    Text("Male", style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.credit_card, size: 18),
+                    SizedBox(width: 5),
+                    Text("50 THB", style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.date_range, size: 18),
+                    SizedBox(width: 5),
+                    Text("Date: 24/03/2024", style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      _showRejectDialog();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    child: const Text("Cancel",
-                        style: TextStyle(color: Colors.white)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Pick up",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Icon(Icons.trip_origin,
+                              color: Colors.green[800], size: 16),
+                          const SizedBox(width: 10),
+                          const Expanded(
+                            child: Text("Mae Fah Luang(D1)",
+                                style: TextStyle(fontSize: 14)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      const Text(
+                        "Drop",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: const [
+                          Icon(Icons.location_on, color: Colors.red, size: 16),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text("Lotus Fah Thai",
+                                style: TextStyle(fontSize: 14)),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(
-                  height: 20), // เพิ่ม Space ด้านล่างเพื่อป้องกันการล้น
-            ],
+                ),
+                const SizedBox(height: 10),
+
+                // ตรวจสอบสถานะการชำระเงิน และแสดงข้อความ Unpaid
+                if (statusPayment == 0)
+                  const Text(
+                    "Unpaid",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+
+                const SizedBox(height: 10),
+
+                if (statusHelmet == 0)
+                  const Text(
+                    "Bring your own a helmet.",
+                    style: TextStyle(fontSize: 14, color: Colors.red),
+                  ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        _showDialog();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                      ),
+                      child: const Text("To travel",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        _showRejectDialog();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text("Cancel",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),

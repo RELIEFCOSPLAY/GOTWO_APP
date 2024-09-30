@@ -43,11 +43,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 'There is a request to join. Do you still want to delete this post?',
               ),
               const SizedBox(height: 10),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-              ),
             ],
           ),
           actions: [
@@ -106,7 +101,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
       ),
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35.0), 
@@ -138,7 +133,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     const SizedBox(width: 5),
                     Text(
                       "${item['rider_gender'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -150,7 +145,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     const SizedBox(width: 5),
                     Text(
                       "${item['price'] ?? 'Unknown'} THB",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -162,16 +157,14 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     const SizedBox(width: 5),
                     Text(
                       "Date: ${item['date'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 20), // ปรับระยะขอบให้เหมาะสม
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -206,6 +199,11 @@ class _GotwoRequestState extends State<GotwoRequest> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Comment", // แสดงคำว่า Comment
+                        style: TextStyle(fontSize: 10),
+                      ),
                       const SizedBox(height: 15),
                       const Text(
                         "Drop",
@@ -225,6 +223,11 @@ class _GotwoRequestState extends State<GotwoRequest> {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Comment", // แสดงคำว่า Comment
+                        style: TextStyle(fontSize: 10),
                       ),
                     ],
                   ),
