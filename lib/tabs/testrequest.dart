@@ -19,7 +19,7 @@ class _TabRequestState extends State<TabRequest> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        'http://${Global.ip_8080}/gotwo/status_Rider.php'; // URL ของ API
+        'http://${Global.ip_80}/gotwo/status_Rider.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -54,7 +54,7 @@ class _TabRequestState extends State<TabRequest> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_80}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -88,12 +88,12 @@ class _TabRequestState extends State<TabRequest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _tab_Request(),
+        tab_Request(),
       ],
     );
   }
 
-  Widget _tab_Request() {
+  Widget tab_Request() {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: SizedBox(
@@ -106,8 +106,8 @@ class _TabRequestState extends State<TabRequest> {
 
             if (userId == item['rider_id'].toString() &&
                 item['status'].toString() == 'required') {
-                  // print(userId);
-                  // print(item['status'].toString());
+              //  print(userId);
+              //  print(item['status'].toString());
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),

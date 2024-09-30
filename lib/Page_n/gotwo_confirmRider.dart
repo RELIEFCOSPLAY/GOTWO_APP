@@ -106,7 +106,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           children: [
             const Icon(Icons.face, size: 18),
             const SizedBox(width: 5),
-            Text(sex, style: const TextStyle(fontSize: 16)),
+            Text(sex, style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -115,7 +115,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           children: [
             const Icon(Icons.credit_card, size: 18),
             const SizedBox(width: 5),
-            Text("$balance THB", style: const TextStyle(fontSize: 16)),
+            Text("$balance THB", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -124,7 +124,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           children: [
             const Icon(Icons.date_range, size: 18),
             const SizedBox(width: 5),
-            Text("Date: $date", style: const TextStyle(fontSize: 16)),
+            Text("Date: $date", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -133,7 +133,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           children: [
             const Icon(Icons.email, size: 18),
             const SizedBox(width: 5),
-            Text("Email: $email", style: const TextStyle(fontSize: 16)),
+            Text("Email: $email", style: const TextStyle(fontSize: 10)),
           ],
         ),
         const SizedBox(height: 8),
@@ -142,7 +142,7 @@ class _GotwoConRider extends State<GotwoConRider> {
           children: [
             const Icon(Icons.phone, size: 18),
             const SizedBox(width: 5),
-            Text("Tel: $tel", style: const TextStyle(fontSize: 16)),
+            Text("Tel: $tel", style: const TextStyle(fontSize: 10)),
           ],
         ),
       ],
@@ -207,12 +207,12 @@ class _GotwoConRider extends State<GotwoConRider> {
         ? const Text(
             'Paid',
             style: TextStyle(
-                color: Colors.green, fontSize: 16, fontWeight: FontWeight.bold),
+                color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
           )
         : const Text(
             'Unpaid',
             style: TextStyle(
-                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+                color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
           );
   }
 
@@ -233,10 +233,14 @@ class _GotwoConRider extends State<GotwoConRider> {
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        // เพิ่ม SingleChildScrollView เพื่อให้สามารถเลื่อนขึ้นลงได้
-        child: Center(
+      body: Center(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height -
+              kToolbarHeight -
+              36, // ลดขนาดเล็กน้อยเพื่อป้องกันการล้น
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: 10),
               _userData(
@@ -283,8 +287,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                   ),
                 ],
               ),
-              const SizedBox(
-                  height: 20), // เพิ่ม Space เพื่อป้องกันการล้น
+              const SizedBox(height: 10), // ลดขนาดเพื่อป้องกันการล้น
             ],
           ),
         ),
