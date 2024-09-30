@@ -113,25 +113,13 @@ class _TabConfirmState extends State<TabConfirm> {
                   height: 100,
                   child: ElevatedButton(
                     onPressed: () {
-                      // ตรวจสอบค่า status_helmet เพื่อเปลี่ยนหน้า
-                      if (item['status_helmet'] == '0' ||
-                          item['status_helmet'] == 0) {
-                        // ไปยังหน้า GotwoConCus เมื่อ status_helmet เป็น 0
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => GotwoConCus(),
                           ),
                         );
-                      } else {
-                        // ไปยังหน้า GotwoConRider ตามปกติ
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GotwoConRider(item: item),
-                          ),
-                        );
-                      }
+                     
                     },
                     style: ButtonStyle(
                       backgroundColor:
