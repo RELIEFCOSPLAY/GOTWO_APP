@@ -105,8 +105,6 @@ class _TabConfirmState extends State<TabConfirm> {
             final item = listData[index];
             if (userId == item['rider_id'].toString() &&
                 item['status'].toString() == 'confirm') {
-                   print(userId);
-                   print(item['status'].toString());
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
@@ -194,13 +192,16 @@ class _TabConfirmState extends State<TabConfirm> {
                               ),
                               // แสดงค่า status_helmet โดยแปลงเป็น "Paid" หรือ "Unpaid"
                               Text(
-                                item['status_helmet'] == '1' ||
-                                        item['status_helmet'] == 1
+                                item['pay'] == '1' ||
+                                        item['pay'] == 1
                                     ? "Paid"
                                     : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
-                                  color: Color(0xff1a1c43),
+                                  color: item['pay'] == '1' ||
+                                          item['pay'] == 1
+                                      ? Colors.green // Green for "Paid"
+                                      : Colors.red, // Red for "Unpaid"
                                 ),
                               ),
                             ],
