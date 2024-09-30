@@ -103,8 +103,10 @@ class _TabTotravelState extends State<TabTotravel> {
           itemBuilder: (context, index) {
             final item = listData[index];
 
+            // เพิ่มการเช็คสถานะการชำระเงิน (paid)
             if (userId == item['rider_id'].toString() &&
-                item['status'].toString() == 'totravel') {
+                item['status'].toString() == 'totravel' &&
+                (item['status_helmet'] == '1' || item['status_helmet'] == 1)) {
               print(userId);
               print(item['status'].toString());
               return Padding(
