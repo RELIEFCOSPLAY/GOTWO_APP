@@ -54,7 +54,7 @@ class _TabConfirmState extends State<TabConfirm> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://${Global.ip_80}/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -105,8 +105,8 @@ class _TabConfirmState extends State<TabConfirm> {
             final item = listData[index];
             if (userId == item['rider_id'].toString() &&
                 item['status'].toString() == 'confirm') {
-              print(userId);
-              print(item['status'].toString());
+                   print(userId);
+                   print(item['status'].toString());
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),

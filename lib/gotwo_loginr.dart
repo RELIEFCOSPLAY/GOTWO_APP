@@ -19,7 +19,7 @@ class _LoginpageState extends State<Loginpage> {
 
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
-  bool rememberMe = false; // Remember Me option
+  bool rememberMe = true; // Remember Me option
 
   // ฟังก์ชันสำหรับบันทึกข้อมูลเข้าสู่ระบบ
   Future<void> saveLoginInfo() async {
@@ -50,7 +50,7 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-    String url = "http://${Global.ip_80}/gotwo/login_rider.php";
+    String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email.text,
@@ -188,6 +188,10 @@ class _LoginpageState extends State<Loginpage> {
                   child: Row(
                     children: [
                       Checkbox(
+                        
+                        activeColor:
+                            const Color(0xFF1A1C43), // Change the color when checked
+                        checkColor: Colors.white,
                         value: rememberMe,
                         onChanged: (value) {
                           setState(() {
