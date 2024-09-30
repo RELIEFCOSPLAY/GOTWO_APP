@@ -510,7 +510,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
 
   Widget _checkbox() {
     return Padding(
-      padding: const EdgeInsets.only(left: 35),
+      padding: const EdgeInsets.only(left: 25),
       child: CheckboxListTile(
         title: const Text(
             style: TextStyle(
@@ -518,7 +518,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
               fontSize: 16,
               color: Color(0xff1a1c43),
             ),
-            "Bring your own a helmet"),
+            "There is a helmet for you"),
         checkColor: Colors.white,
         activeColor: const Color(0xff1a1c43),
         value: isChecked,

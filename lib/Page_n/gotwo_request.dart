@@ -108,8 +108,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(35.0), 
-              topRight: Radius.circular(35.0), 
+              topLeft: Radius.circular(35.0),
+              topRight: Radius.circular(35.0),
             ),
           ),
           child: Center(
@@ -117,7 +117,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 20),
+                const SizedBox(height: 5),
                 const CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.white,
@@ -129,19 +129,35 @@ class _GotwoRequestState extends State<GotwoRequest> {
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.face, size: 18),
-                    const SizedBox(width: 5),
-                    Text(
-                      "${item['rider_gender'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 10),
-                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          item['rider_gender'] == 'male'
+                              ? Icons.male // Icon for Male
+                              : item['rider_gender'] == 'female'
+                                  ? Icons.female // Icon for Female
+                                  : Icons
+                                      .help_outline, // Default icon if gender is unknown or other
+                          color: item['rider_gender'] == 'male'
+                              ? Colors.blue
+                              : item['rider_gender'] == 'female'
+                                  ? Colors.pink
+                                  : Colors.grey,
+                        ),
+                        const SizedBox(width: 5), // Space between icon and text
+                        Text(
+                          "${item['rider_gender'] ?? 'Unknown'}",
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -153,7 +169,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -165,10 +181,11 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -239,9 +256,17 @@ class _GotwoRequestState extends State<GotwoRequest> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  "Bring your own a helmet.",
-                  style: TextStyle(fontSize: 12, color: Colors.red),
+                Text(
+                  item['status_helmet'] == '1' || item['status_helmet'] == 1
+                      ? "There is a helmet for you" // If 1, show this message
+                      : "Bring your own a helmet", // If 0, show this message
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: item['status_helmet'] == '1' ||
+                            item['status_helmet'] == 1
+                        ? Colors.green // Green for "There is a helmet for you"
+                        : Colors.red, // Red for "Bring your own a helmet"
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Row(
