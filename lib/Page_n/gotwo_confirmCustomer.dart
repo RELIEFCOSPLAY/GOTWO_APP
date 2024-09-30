@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GotwoConCus extends StatefulWidget {
-  const GotwoConCus({super.key});
+  final dynamic item;
+  const GotwoConCus({super.key, required this.item});
 
   @override
   _GotwoConCus createState() => _GotwoConCus();
@@ -10,7 +11,6 @@ class GotwoConCus extends StatefulWidget {
 class _GotwoConCus extends State<GotwoConCus> {
   final formKey = GlobalKey<FormState>();
 
-  // ฟังก์ชันแสดง AlertDialog เมื่อยอมรับคำขอ
   Future<void> _showDialog() async {
     return showDialog(
       context: context,
@@ -31,7 +31,6 @@ class _GotwoConCus extends State<GotwoConCus> {
     );
   }
 
-  // ฟังก์ชันแสดง AlertDialog เมื่อปฏิเสธคำขอ
   Future<void> _showRejectDialog() async {
     return showDialog(
       context: context,
@@ -61,7 +60,7 @@ class _GotwoConCus extends State<GotwoConCus> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(8),
                       )),
                   child:
                       const Text("Yes", style: TextStyle(color: Colors.white)),
@@ -73,7 +72,7 @@ class _GotwoConCus extends State<GotwoConCus> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(8),
                       )),
                   child: const Text("Cancel",
                       style: TextStyle(color: Colors.white)),
@@ -88,19 +87,17 @@ class _GotwoConCus extends State<GotwoConCus> {
 
   @override
   Widget build(BuildContext context) {
-    // สมมติว่ามีการใช้ status_helmet และ status_payment ในการตัดสินใจ
-    dynamic statusHelmet =
-        0; // ตัวอย่างค่า status_helmet (ยังไม่ได้ใส่หมวกกันน็อก)
-    dynamic statusPayment = 0; // ตัวอย่างค่า status_payment (ยังไม่จ่ายเงิน)
+    final item = widget.item; // ดึงข้อมูลที่ส่งมาจาก TabConfirm
 
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1C43),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // เพิ่มการทำงานของปุ่มย้อนกลับ
+            Navigator.pop(context);
           },
         ),
         title: const Text('Confirm', style: TextStyle(color: Colors.white)),
@@ -123,40 +120,59 @@ class _GotwoConCus extends State<GotwoConCus> {
                 const SizedBox(height: 20),
                 const CircleAvatar(
                   radius: 30,
-                  child: Icon(Icons.account_circle_outlined, size: 70),
                   backgroundColor: Colors.white,
+                  child: Icon(Icons.account_circle_outlined, size: 70),
                 ),
+                const SizedBox(height: 10),
+                Text(
+                  "${item['rider_name'] ?? 'Unknown'}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.face, size: 18),
+                    const SizedBox(width: 5),
+                    Text(
+                      "${item['rider_gender'] ?? 'Unknown'}",
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.credit_card, size: 18),
+                    const SizedBox(width: 5),
+                    Text(
+                      "${item['price'] ?? 'Unknown'} THB",
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.date_range, size: 18),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Date: ${item['date'] ?? 'Unknown'}",
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ],
+                ),
+                // แสดงคำว่า Paid ใต้ Date
                 const SizedBox(height: 10),
                 const Text(
-                  "Name Lastname",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.face, size: 18),
-                    SizedBox(width: 5),
-                    Text("Male", style: TextStyle(fontSize: 18)),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.credit_card, size: 18),
-                    SizedBox(width: 5),
-                    Text("50 THB", style: TextStyle(fontSize: 18)),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.date_range, size: 18),
-                    SizedBox(width: 5),
-                    Text("Date: 24/03/2024", style: TextStyle(fontSize: 18)),
-                  ],
+                  "Unpaid",
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 Container(
@@ -189,13 +205,19 @@ class _GotwoConCus extends State<GotwoConCus> {
                           Icon(Icons.trip_origin,
                               color: Colors.green[800], size: 16),
                           const SizedBox(width: 10),
-                          const Expanded(
-                            child: Text("Mae Fah Luang(D1)",
-                                style: TextStyle(fontSize: 14)),
+                          Expanded(
+                            child: Text(item['pick_up'] ?? 'Unknown',
+                                style: const TextStyle(fontSize: 14)),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
+                      // แสดงคอมเมนต์ที่ได้รับจาก item
+                      Text(
+                        "${item['comment_pick'] ?? 'No comment'}", // แสดงคอมเมนต์ drop
+                        style: const TextStyle(fontSize: 10),
+                      ),
+                      const SizedBox(height: 10),
                       const Text(
                         "Drop",
                         style: TextStyle(
@@ -203,36 +225,30 @@ class _GotwoConCus extends State<GotwoConCus> {
                       ),
                       const SizedBox(height: 10),
                       Row(
-                        children: const [
-                          Icon(Icons.location_on, color: Colors.red, size: 16),
-                          SizedBox(width: 10),
+                        children: [
+                          const Icon(Icons.location_on,
+                              color: Colors.red, size: 16),
+                          const SizedBox(width: 10),
                           Expanded(
-                            child: Text("Lotus Fah Thai",
-                                style: TextStyle(fontSize: 14)),
+                            child: Text(item['at_drop'] ?? 'Unknown',
+                                style: const TextStyle(fontSize: 14)),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 10),
+                      // แสดงคอมเมนต์ที่ได้รับจาก item
+                      Text(
+                        "${item['comment_drop'] ?? 'No comment'}", // แสดงคอมเมนต์ drop
+                        style: const TextStyle(fontSize: 10),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
-
-                // ตรวจสอบสถานะการชำระเงิน และแสดงข้อความ Unpaid
-                if (statusPayment == 0)
-                  const Text(
-                    "Unpaid",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-
-                const SizedBox(height: 10),
-
-                if (statusHelmet == 0)
+                if (item['status_helmet'] != '0')
                   const Text(
                     "Bring your own a helmet.",
-                    style: TextStyle(fontSize: 14, color: Colors.red),
+                    style: TextStyle(fontSize: 12, color: Colors.red),
                   ),
                 const SizedBox(height: 10),
                 Row(
@@ -244,6 +260,9 @@ class _GotwoConCus extends State<GotwoConCus> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
                       child: const Text("To travel",
                           style: TextStyle(color: Colors.white)),
@@ -254,6 +273,9 @@ class _GotwoConCus extends State<GotwoConCus> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
                       child: const Text("Cancel",
                           style: TextStyle(color: Colors.white)),

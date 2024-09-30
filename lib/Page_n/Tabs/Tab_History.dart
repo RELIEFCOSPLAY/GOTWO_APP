@@ -12,6 +12,8 @@ class TabHistory extends StatelessWidget {
       'status': 'Paid'
     },
   ];
+
+  TabHistory({super.key});
   @override
   Widget build(BuildContext context) {
     return Column(

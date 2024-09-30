@@ -200,7 +200,7 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
         _showPaidPopup(context); // Show popup when button is pressed
       },
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
+        foregroundColor: WidgetStateProperty.all(
           status == 'Paid' ? Colors.green : Colors.red,
         ),
       ),

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Rider_Register extends StatefulWidget {
-  const Rider_Register({Key? key}) : super(key: key);
+  const Rider_Register({super.key});
 
   @override
   State<Rider_Register> createState() => _Rider_RegisterState();

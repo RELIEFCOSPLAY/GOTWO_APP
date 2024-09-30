@@ -40,9 +40,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'There is a request to join. Do you still want to delete this post?',
-              ),
+                'There is a request to join. Do you still want to delete this post?'),
               const SizedBox(height: 10),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ],
           ),
           actions: [
@@ -116,8 +120,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 const SizedBox(height: 20),
                 const CircleAvatar(
                   radius: 30,
-                  child: Icon(Icons.account_circle_outlined, size: 70),
                   backgroundColor: Colors.white,
+                  child: Icon(Icons.account_circle_outlined, size: 70),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -200,9 +204,10 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        "Comment", // แสดงคำว่า Comment
-                        style: TextStyle(fontSize: 10),
+                      // แสดงคอมเมนต์ที่ได้รับจาก item
+                      Text(
+                        "${item['comment_pick'] ?? 'No comment'}", // แสดงคอมเมนต์ pick up
+                        style: const TextStyle(fontSize: 10),
                       ),
                       const SizedBox(height: 15),
                       const Text(
@@ -225,9 +230,10 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        "Comment", // แสดงคำว่า Comment
-                        style: TextStyle(fontSize: 10),
+                      // แสดงคอมเมนต์ที่ได้รับจาก item
+                      Text(
+                        "${item['comment_drop'] ?? 'No comment'}", // แสดงคอมเมนต์ drop
+                        style: const TextStyle(fontSize: 10),
                       ),
                     ],
                   ),
@@ -235,7 +241,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 const SizedBox(height: 10),
                 const Text(
                   "Bring your own a helmet.",
-                  style: TextStyle(fontSize: 14, color: Colors.red),
+                  style: TextStyle(fontSize: 12, color: Colors.red),
                 ),
                 const SizedBox(height: 10),
                 Row(

@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class TabSuccess extends StatefulWidget {
+  const TabSuccess({super.key});
+
   @override
   State<TabSuccess> createState() => _TabSuccessState();
 }
@@ -18,7 +20,7 @@ class _TabSuccessState extends State<TabSuccess> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        "http://${Global.ip_8080}/gotwo/status_Rider.php"; // URL ของ API
+        "http://${Global.ip_80}/gotwo/status_Rider.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -53,7 +55,7 @@ class _TabSuccessState extends State<TabSuccess> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_80}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -125,11 +127,11 @@ class _TabSuccessState extends State<TabSuccess> {
                     },
                     style: ButtonStyle(
                       backgroundColor:
-                          WidgetStateProperty.all(Color(0xfffbf8ff)),
+                          WidgetStateProperty.all(const Color(0xfffbf8ff)),
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Color(0xff1a1c43)),
+                          side: const BorderSide(color: Color(0xff1a1c43)),
                         ),
                       ),
                     ),

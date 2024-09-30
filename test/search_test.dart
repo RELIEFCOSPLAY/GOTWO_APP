@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SearchTest extends StatefulWidget {
-  const SearchTest({Key? key}) : super(key: key);
+  const SearchTest({super.key});
 
   @override
   _SearchTestState createState() => _SearchTestState();
@@ -84,10 +84,10 @@ class _SearchTestState extends State<SearchTest> {
                                 fontSize: 24, color: Colors.white),
                           ),
                           title: Text(_foundUsers[index]['name'],
-                              style: TextStyle(color: Colors.white)),
+                              style: const TextStyle(color: Colors.white)),
                           subtitle: Text(
                               '${_foundUsers[index]["age"].toString()} years old',
-                              style: TextStyle(color: Colors.white)),
+                              style: const TextStyle(color: Colors.white)),
                         ),
                       ),
                     )

@@ -88,8 +88,10 @@ class _GotwoConRider extends State<GotwoConRider> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item; // ดึงข้อมูลที่ส่งมาจาก TabConfirm
+    bool isPaid = item['status_payment'] == 'pay'; // ตรวจสอบสถานะการชำระเงิน
 
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1C43),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
         elevation: 0,
@@ -119,8 +121,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                 const SizedBox(height: 20),
                 const CircleAvatar(
                   radius: 30,
-                  child: Icon(Icons.account_circle_outlined, size: 70),
                   backgroundColor: Colors.white,
+                  child: Icon(Icons.account_circle_outlined, size: 70),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -136,7 +138,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     const SizedBox(width: 5),
                     Text(
                       "${item['rider_gender'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -148,7 +150,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     const SizedBox(width: 5),
                     Text(
                       "${item['price'] ?? 'Unknown'} THB",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -160,10 +162,51 @@ class _GotwoConRider extends State<GotwoConRider> {
                     const SizedBox(width: 5),
                     Text(
                       "Date: ${item['date'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
+                
+                // เงื่อนไขในการแสดง email และเบอร์โทร หากเป็น Paid
+                if (isPaid) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.email, size: 18),
+                      const SizedBox(width: 5),
+                      Text(
+                        "${item['email_rider'] ?? 'Unknown'}",
+                        style: const TextStyle(fontSize: 10),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.phone, size: 18),
+                      const SizedBox(width: 5),
+                      Text(
+                        "${item['rider_tel'] ?? 'Unknown'}",
+                        style: const TextStyle(fontSize: 10),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    "Paid",
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ] else ...[
+                  const Text(
+                    "Unpaid",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
                 const SizedBox(height: 20),
                 Container(
                   padding:
@@ -201,7 +244,12 @@ class _GotwoConRider extends State<GotwoConRider> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
+                      Text(
+                        "${item['comment_pick'] ?? 'No comment'}",
+                        style: const TextStyle(fontSize: 10),
+                      ),
+                      const SizedBox(height: 10),
                       const Text(
                         "Drop",
                         style: TextStyle(
@@ -219,6 +267,11 @@ class _GotwoConRider extends State<GotwoConRider> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "${item['comment_drop'] ?? 'No comment'}",
+                        style: const TextStyle(fontSize: 10),
+                      ),
                     ],
                   ),
                 ),
@@ -226,7 +279,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                 if (item['status_helmet'] != '0')
                   const Text(
                     "Bring your own a helmet.",
-                    style: TextStyle(fontSize: 14, color: Colors.red),
+                    style: TextStyle(fontSize: 12, color: Colors.red),
                   ),
                 const SizedBox(height: 10),
                 Row(
@@ -237,12 +290,12 @@ class _GotwoConRider extends State<GotwoConRider> {
                         _showDialog();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
+                        backgroundColor: isPaid ? Colors.green : Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: const Text("Accept",
+                      child: const Text("To travel",
                           style: TextStyle(color: Colors.white)),
                     ),
                     ElevatedButton(
@@ -255,7 +308,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: const Text("Reject",
+                      child: const Text("Cancel",
                           style: TextStyle(color: Colors.white)),
                     ),
                   ],

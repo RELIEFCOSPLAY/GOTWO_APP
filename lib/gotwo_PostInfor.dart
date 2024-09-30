@@ -142,7 +142,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     if (request.statusCode == 200) {
       // ข้อมูลถูกส่งสำเร็จ
       print('Success: ${request.body}');
-      print('Id Be ${userId}');
+      print('Id Be $userId');
     } else {
       // มีปัญหาในการส่งข้อมูล
       print('Error: ${request.statusCode}, Body: ${request.body}');
@@ -205,7 +205,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => GotwoPostPage(),
+            builder: (context) => const GotwoPostPage(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -644,7 +644,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => GotwoPostPage(),
+              builder: (context) => const GotwoPostPage(),
             ),
             (Route<dynamic> route) => false,
           );

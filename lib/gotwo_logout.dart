@@ -5,7 +5,7 @@ import 'package:gotwo_app/gotwo_loginr.dart';
  // import หน้า login ของคุณ
 
 class LogoutPage extends StatefulWidget {
-  const LogoutPage({Key? key}) : super(key: key);
+  const LogoutPage({super.key});
 
   @override
   _LogoutPageState createState() => _LogoutPageState();
@@ -34,7 +34,7 @@ class _LogoutPageState extends State<LogoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(), // แสดง indicator ระหว่างรอการ logout
       ),

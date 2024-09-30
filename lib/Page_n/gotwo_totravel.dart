@@ -218,6 +218,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
     final item = widget.item;
 
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1C43),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C43),
         elevation: 0,

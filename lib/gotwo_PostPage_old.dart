@@ -64,6 +64,7 @@ class _GotwoPostpageOldState extends State<GotwoPostpageOld> {
     });
   }
 
+  @override
   Widget build(Object context) {
     return Container(
       decoration: const BoxDecoration(

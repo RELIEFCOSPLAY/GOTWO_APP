@@ -5,7 +5,7 @@ import 'package:gotwo_app/gotwo_SatusRider.dart';
 import 'package:gotwo_app/gotwo_logout.dart';
 
 class GotwoDashbordrider extends StatefulWidget {
-  const GotwoDashbordrider({Key? key}) : super(key: key);
+  const GotwoDashbordrider({super.key});
 
   @override
   State<GotwoDashbordrider> createState() => _GotwoDashbordriderState();
@@ -87,7 +87,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
             Text(
               '$email',
               textAlign: TextAlign.start,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,
               ),
@@ -235,7 +235,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GotwoPostPage(),
+                      builder: (context) => const GotwoPostPage(),
                     ),
                     (Route<dynamic> route) => false,
                   );
@@ -307,7 +307,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GotwoSatusrider(),
+                      builder: (context) => const GotwoSatusrider(),
                     ),
                     (Route<dynamic> route) => false,
                   );

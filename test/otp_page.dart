@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:otp_app/pages/home_page.dart';
 
 class OTPPage extends StatefulWidget {
-  const OTPPage({Key? key}) : super(key: key);
+  const OTPPage({super.key});
 
   @override
   State<OTPPage> createState() => _OTPPageState();
@@ -133,12 +133,12 @@ class _OTPPageState extends State<OTPPage> {
                     }
                     //
                   },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                  ),
                   child: const Text(
                     'Verify',
                     style: TextStyle(fontSize: 20),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
                   ),
                 ),
               ],
