@@ -20,7 +20,7 @@ class _TestTapbarState extends State<TestTapbar> {
         ),
         body: Column(
           children: [
-            TabBar(
+            const TabBar(
               tabs: [
                 Tab(
                   icon: Icon(
@@ -58,27 +58,27 @@ class _TestTapbarState extends State<TestTapbar> {
               child: TabBarView(
                 children: [
                   Container(
-                    child: Center(
+                    child: const Center(
                       child: Text("Tabbar1"),
                     ),
                   ),
                   Container(
-                    child: Center(
+                    child: const Center(
                       child: Text("Tabbar2"),
                     ),
                   ),
                   Container(
-                    child: Center(
+                    child: const Center(
                       child: Text("Tabbar3"),
                     ),
                   ),
                   Container(
-                    child: Center(
+                    child: const Center(
                       child: Text("Tabbar4"),
                     ),
                   ),
                   Container(
-                    child: Center(
+                    child: const Center(
                       child: Text("Tabbar5"),
                     ),
                   ),

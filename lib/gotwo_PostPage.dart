@@ -175,7 +175,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => GotwoDashbordrider(),
+            builder: (context) => const GotwoDashbordrider(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -196,7 +196,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => GotwoPostinfor(),
+            builder: (context) => const GotwoPostinfor(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -280,7 +280,7 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
                                             color: Color(0xff1a1c43))))),
                             onPressed: () {
                               debugPrint("CardRequest ${item['pick_up']}");
-                              debugPrint("${userId}");
+                              debugPrint("$userId");
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:gotwo_app/Page_n/gotwo_confirmCustomer.dart';
 import 'package:gotwo_app/Page_n/gotwo_confirmRider.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'dart:convert';
@@ -8,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class TabConfirm extends StatefulWidget {
+  const TabConfirm({super.key});
+
   @override
   State<TabConfirm> createState() => _TabConfirmState();
 }
@@ -19,7 +20,7 @@ class _TabConfirmState extends State<TabConfirm> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        'http://${Global.ip_8080}/gotwo/status_Rider.php'; // URL ของ API
+        'http://${Global.ip_80}/gotwo/status_Rider.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -54,7 +55,7 @@ class _TabConfirmState extends State<TabConfirm> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_80}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
@@ -113,21 +114,23 @@ class _TabConfirmState extends State<TabConfirm> {
                   height: 100,
                   child: ElevatedButton(
                     onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GotwoConCus(),
+                      // ไปยังหน้า GotwoConCus เมื่อ status_helmet เป็น 0
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GotwoConRider(
+                            item: item,
                           ),
-                        );
-                     
+                        ),
+                      );
                     },
                     style: ButtonStyle(
                       backgroundColor:
-                          WidgetStateProperty.all(Color(0xfffbf8ff)),
+                          WidgetStateProperty.all(const Color(0xfffbf8ff)),
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Color(0xff1a1c43)),
+                          side: const BorderSide(color: Color(0xff1a1c43)),
                         ),
                       ),
                     ),
@@ -180,14 +183,12 @@ class _TabConfirmState extends State<TabConfirm> {
                               ),
                               // แสดงค่า status_helmet โดยแปลงเป็น "Paid" หรือ "Unpaid"
                               Text(
-                                item['pay'] == '1' ||
-                                        item['pay'] == 1
+                                item['pay'] == '1' || item['pay'] == 1
                                     ? "Paid"
                                     : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: item['pay'] == '1' ||
-                                          item['pay'] == 1
+                                  color: item['pay'] == '1' || item['pay'] == 1
                                       ? Colors.green // Green for "Paid"
                                       : Colors.red, // Red for "Unpaid"
                                 ),

@@ -40,8 +40,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'There is a request to join. Do you still want to delete this post?',
-              ),
+                'There is a request to join. Do you still want to delete this post?'),
               const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
@@ -121,8 +120,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 const SizedBox(height: 5),
                 const CircleAvatar(
                   radius: 30,
-                  child: Icon(Icons.account_circle_outlined, size: 70),
                   backgroundColor: Colors.white,
+                  child: Icon(Icons.account_circle_outlined, size: 70),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -166,7 +165,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     const SizedBox(width: 5),
                     Text(
                       "${item['price'] ?? 'Unknown'} THB",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -178,7 +177,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     const SizedBox(width: 5),
                     Text(
                       "Date: ${item['date'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),

@@ -50,7 +50,7 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-    String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
+    String url = "http://${Global.ip_80}/gotwo/login_rider.php";
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email.text,
@@ -62,7 +62,7 @@ class _LoginpageState extends State<Loginpage> {
         if (data == "Error") {
           // ไม่พบผู้ใช้
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Invalid login credentials.')),
+            const SnackBar(content: Text('Invalid login credentials.')),
           );
         } else {
           await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
@@ -73,12 +73,12 @@ class _LoginpageState extends State<Loginpage> {
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server error. Please try again later.')),
+          const SnackBar(content: Text('Server error. Please try again later.')),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed. Please try again.')),
+        const SnackBar(content: Text('Login failed. Please try again.')),
       );
     }
   }

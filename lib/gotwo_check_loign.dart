@@ -3,7 +3,7 @@ import 'package:gotwo_app/gotwo_user.dart';
 
 
 class check_login extends StatefulWidget {
-  const check_login({Key? key}) : super(key: key);
+  const check_login({super.key});
   @override
   State<check_login> createState() => _check_loginState();
 }
@@ -20,6 +20,6 @@ class _check_loginState extends State<check_login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }
