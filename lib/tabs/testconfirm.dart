@@ -19,7 +19,7 @@ class _TabConfirmState extends State<TabConfirm> {
   // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
     final String url =
-        'http://${Global.ip_80}/gotwo/status_Rider.php'; // URL ของ API
+        'http://${Global.ip_8080}/gotwo/status_Rider.php'; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -54,7 +54,7 @@ class _TabConfirmState extends State<TabConfirm> {
 
   Future<void> fetchUserId(String email) async {
     final String url =
-        'http://${Global.ip_80}/gotwo/getUserId_rider.php'; // URL API
+        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email, // ส่ง email เพื่อค้นหา user id
