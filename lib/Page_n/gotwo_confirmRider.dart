@@ -87,8 +87,7 @@ class _GotwoConRider extends State<GotwoConRider> {
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.item; // ดึงข้อมูลที่ส่งมาจาก TabConfirm
-    bool isPaid = item['status_payment'] == 'pay'; // ตรวจสอบสถานะการชำระเงิน
+    final item = widget.item;
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
@@ -101,7 +100,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Confirm', style: TextStyle(color: Colors.white)),
+        title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -118,31 +117,46 @@ class _GotwoConRider extends State<GotwoConRider> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 20),
+                const SizedBox(height: 5),
                 const CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.white,
                   child: Icon(Icons.account_circle_outlined, size: 70),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.face, size: 18),
-                    const SizedBox(width: 5),
-                    Text(
-                      "${item['rider_gender'] ?? 'Unknown'}",
-                      style: const TextStyle(fontSize: 10),
-                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          item['rider_gender'] == 'male'
+                              ? Icons.male // Icon for Male
+                              : item['rider_gender'] == 'female'
+                                  ? Icons.female // Icon for Female
+                                  : Icons
+                                      .help_outline, // Default icon if gender is unknown or other
+                          color: item['rider_gender'] == 'male'
+                              ? Colors.blue
+                              : item['rider_gender'] == 'female'
+                                  ? Colors.pink
+                                  : Colors.grey,
+                        ),
+                        const SizedBox(width: 5), // Space between icon and text
+                        Text(
+                          "${item['rider_gender'] ?? 'Unknown'}",
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -154,7 +168,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -166,52 +180,66 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                   ],
                 ),
-                
-                // เงื่อนไขในการแสดง email และเบอร์โทร หากเป็น Paid
-                if (isPaid) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.email, size: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        "${item['email_rider'] ?? 'Unknown'}",
-                        style: const TextStyle(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.phone, size: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        "${item['rider_tel'] ?? 'Unknown'}",
-                        style: const TextStyle(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                  const Text(
-                    "Paid",
-                    style: TextStyle(
-                        color: Colors.green,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      item['pay'] == '1' || item['pay'] == 1
+                          ? Icons.email
+                          : null,
+                      color: const Color(0xFF1A1C43),
+                    ),
+                    const SizedBox(width: 5), // Space between icon and text
+                    Text(
+                      item['pay'] == '1' || item['pay'] == 1
+                          ? "${item['rider_email'] ?? 'Unknown'}"
+                          : "", // ถ้าเป็น 1 แสดง "'rider_email", ถ้าเป็น 0 ไม่แสดง
+                      style: const TextStyle(
                         fontSize: 12,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ] else ...[
-                  const Text(
-                    "Unpaid",
-                    style: TextStyle(
-                        color: Colors.red,
+                        color: Color(0xFF1A1C43), // Red for "Unpaid"
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      item['pay'] == '1' || item['pay'] == 1
+                          ? Icons.phone
+                          : null,
+                      color: const Color(0xFF1A1C43),
+                    ),
+                    const SizedBox(width: 5), // Space between icon and text
+                    Text(
+                      item['pay'] == '1' || item['pay'] == 1
+                          ? "${item['rider_tel'] ?? 'Unknown'}"
+                          : "", // ถ้าเป็น 1 แสดง "'rider_email", ถ้าเป็น 0 ไม่แสดง
+                      style: const TextStyle(
                         fontSize: 12,
-                        fontWeight: FontWeight.bold),
+                        color: Color(0xFF1A1C43), // Red for "Unpaid"
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  item['pay'] == '1' || item['pay'] == 1
+                      ? "Paid"
+                      : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: item['pay'] == '1' || item['pay'] == 1
+                        ? Colors.green // Green for "Paid"
+                        : Colors.red, // Red for "Unpaid"
                   ),
-                ],
-                const SizedBox(height: 20),
+                ),
+                const SizedBox(height: 10),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -239,17 +267,20 @@ class _GotwoConRider extends State<GotwoConRider> {
                               color: Colors.green[800], size: 16),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Text(item['pick_up'] ?? 'Unknown',
-                                style: const TextStyle(fontSize: 14)),
+                            child: Text(
+                              item['pick_up'] ?? 'Unknown',
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 10),
+                      // แสดงคอมเมนต์ที่ได้รับจาก item
                       Text(
-                        "${item['comment_pick'] ?? 'No comment'}",
+                        "${item['comment_pick'] ?? 'No comment'}", // แสดงคอมเมนต์ pick up
                         style: const TextStyle(fontSize: 10),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                       const Text(
                         "Drop",
                         style: TextStyle(
@@ -262,44 +293,63 @@ class _GotwoConRider extends State<GotwoConRider> {
                               color: Colors.red, size: 16),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Text(item['at_drop'] ?? 'Unknown',
-                                style: const TextStyle(fontSize: 14)),
+                            child: Text(
+                              item['at_drop'] ?? 'Unknown',
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 10),
+                      // แสดงคอมเมนต์ที่ได้รับจาก item
                       Text(
-                        "${item['comment_drop'] ?? 'No comment'}",
+                        "${item['comment_drop'] ?? 'No comment'}", // แสดงคอมเมนต์ drop
                         style: const TextStyle(fontSize: 10),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
-                if (item['status_helmet'] != '0')
-                  const Text(
-                    "Bring your own a helmet.",
-                    style: TextStyle(fontSize: 12, color: Colors.red),
+                Text(
+                  item['status_helmet'] == '1' || item['status_helmet'] == 1
+                      ? "There is a helmet for you" // If 1, show this message
+                      : "Bring your own a helmet", // If 0, show this message
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: item['status_helmet'] == '1' ||
+                            item['status_helmet'] == 1
+                        ? Colors.green // Green for "There is a helmet for you"
+                        : Colors.red, // Red for "Bring your own a helmet"
                   ),
-                const SizedBox(height: 10),
+                ),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () async {
-                        _showDialog();
-                      },
+                      onPressed: (item['pay'] == '1' || item['pay'] == 1)
+                          ? () async {
+                              _showDialog();
+                            }
+                          : null, // ปุ่มจะกดไม่ได้เมื่อ onPressed เป็น null
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isPaid ? Colors.green : Colors.grey,
+                        backgroundColor: (item['pay'] == '1' ||
+                                item['pay'] == 1)
+                            ? Colors.green
+                            : Colors
+                                .grey, // ปุ่มจะเปลี่ยนเป็นสีเทาเมื่อ pay == 0
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: const Text("To travel",
-                          style: TextStyle(color: Colors.white)),
+                      child: const Text(
+                        "To Travel",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: () async {
+                        debugPrint(item.toString());
                         _showRejectDialog();
                       },
                       style: ElevatedButton.styleFrom(
