@@ -180,6 +180,17 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                   ],
                 ),
+                Text(
+                  item['pay'] == '1' || item['pay'] == 1
+                      ? "Paid"
+                      : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: item['pay'] == '1' || item['pay'] == 1
+                        ? Colors.green // Green for "Paid"
+                        : Colors.red, // Red for "Unpaid"
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -223,17 +234,6 @@ class _GotwoConRider extends State<GotwoConRider> {
                       ),
                     ),
                   ],
-                ),
-                Text(
-                  item['pay'] == '1' || item['pay'] == 1
-                      ? "Paid"
-                      : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: item['pay'] == '1' || item['pay'] == 1
-                        ? Colors.green // Green for "Paid"
-                        : Colors.red, // Red for "Unpaid"
-                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
@@ -349,7 +349,6 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        debugPrint(item.toString());
                         _showRejectDialog();
                       },
                       style: ElevatedButton.styleFrom(
