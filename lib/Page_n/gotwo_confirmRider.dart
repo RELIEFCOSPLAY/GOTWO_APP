@@ -88,7 +88,7 @@ class _GotwoConRider extends State<GotwoConRider> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-
+    int _currentRating = int.parse(item['review']);
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
       appBar: AppBar(
@@ -100,7 +100,7 @@ class _GotwoConRider extends State<GotwoConRider> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Request', style: TextStyle(color: Colors.white)),
+        title: const Text('Confirm', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -117,17 +117,31 @@ class _GotwoConRider extends State<GotwoConRider> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 5),
                 const CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.account_circle_outlined, size: 70),
+                  child: Icon(Icons.account_circle_outlined, size: 50),
                 ),
-                const SizedBox(height: 5),
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Rate",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 5),
+                    for (var i = 1; i <= 5; i++)
+                      Icon(
+                        Icons.star,
+                        size: 12,
+                        color:
+                            i <= _currentRating ? Colors.yellow : Colors.grey,
+                      ),
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -150,13 +164,13 @@ class _GotwoConRider extends State<GotwoConRider> {
                         const SizedBox(width: 5), // Space between icon and text
                         Text(
                           "${item['rider_gender'] ?? 'Unknown'}",
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ],
                     )
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 2),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -168,7 +182,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 2),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
