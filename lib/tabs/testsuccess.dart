@@ -107,7 +107,7 @@ class _TabSuccessState extends State<TabSuccess> {
 
             // เพิ่มการเช็คสถานะการชำระเงิน (paid)
             if (userId == item['rider_id'].toString() &&
-                item['status'].toString() == 'success' &&
+                item['status'] == '4' ||  item['status'] == 4 &&
                 (item['pay'] == '1' || item['pay'] == 1)) {
               return Padding(
                 padding:

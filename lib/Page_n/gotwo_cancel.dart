@@ -332,12 +332,16 @@ class _GotwoCancel extends State<GotwoCancel> {
                       ),
                     ],
                   ),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Reason',
                         style: TextStyle(fontSize: 16),
+                      ),
+                      Text(
+                        '${item['comment'] ?? 'No comment'}',
+                        style: const TextStyle(fontSize: 12),
                       ),
                     ],
                   ),

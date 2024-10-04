@@ -105,7 +105,7 @@ class _TabConfirmState extends State<TabConfirm> {
           itemBuilder: (context, index) {
             final item = listData[index];
             if (userId == item['rider_id'].toString() &&
-                item['status'].toString() == 'confirm') {
+               item['status'] == '2' ||  item['status'] == 2) {
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),

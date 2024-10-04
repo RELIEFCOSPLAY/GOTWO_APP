@@ -107,7 +107,7 @@ class _TabRequestState extends State<TabRequest> {
             final item = listData[index];
 
             if (userId == item['rider_id'].toString() &&
-                item['status'].toString() == 'required') {
+                item['status'] == '1' ||  item['status'] == 1) {
               //  print(userId);
               //  print(item['status'].toString());
               return Padding(

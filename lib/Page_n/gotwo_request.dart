@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/global_ip.dart';
+import 'package:http/http.dart' as http;
 
 class GotwoRequest extends StatefulWidget {
   final dynamic item;
@@ -9,21 +11,90 @@ class GotwoRequest extends StatefulWidget {
 }
 
 class _GotwoRequestState extends State<GotwoRequest> {
+  TextEditingController rejectComment = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  final url =
+      Uri.parse('http://${Global.ip_8080}/gotwo/update_statusRaider.php');
+  Future<void> update_status_Accept(
+      String status, String status_post_id, String action,String no_comment,) async {
+    var request = await http.post(url, body: {
+      "action": action,
+      "status": status,
+      "status_post_id": status_post_id,
+      "Comment": no_comment,
+    });
+
+    if (request.statusCode == 200) {
+      // ข้อมูลถูกส่งสำเร็จ
+      print('Success: ${request.body}');
+    } else {
+      // มีปัญหาในการส่งข้อมูล
+      print('Error: ${request.statusCode}, Body: ${request.body}');
+    }
+  }
+
+  Future<void> update_status_Cancel(
+      String status, String status_post_id, String action, String rejectComment) async {
+    var request = await http.post(url, body: {
+      "action": action,
+      "status": status,
+      "status_post_id": status_post_id,
+      "Comment": rejectComment,
+    });
+
+    if (request.statusCode == 200) {
+      // ข้อมูลถูกส่งสำเร็จ
+      print('Success: ${request.body}');
+    } else {
+      // มีปัญหาในการส่งข้อมูล
+      print('Error: ${request.statusCode}, Body: ${request.body}');
+    }
+  }
+
   Future<void> _showDialog() async {
+    final item = widget.item;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Request'),
-          content: const Text('Request has been accepted.'),
+          title: const Text('Accept'),
+          content: const Text('Are you sure to Accept?'),
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    String no_comment ="No comment";
+                    String action = "accept";
+                    String status = '2';
+                    String status_post_id =
+                        '${item['status_post_id'] ?? 'Unknown'}';
+                    update_status_Accept(status, status_post_id, action,no_comment);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      )),
+                  child:
+                      const Text("Yes", style: TextStyle(color: Colors.white)),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      )),
+                  child:
+                      const Text("back", style: TextStyle(color: Colors.white)),
+                ),
+              ],
             ),
           ],
         );
@@ -32,6 +103,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
   }
 
   Future<void> _showRejectDialog() async {
+    final item = widget.item;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -40,9 +112,10 @@ class _GotwoRequestState extends State<GotwoRequest> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'There is a request to join. Do you still want to delete this post?'),
+                  'There is a request to join. Do you still want to delete this post?'),
               const SizedBox(height: 10),
               TextFormField(
+                controller: rejectComment,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
@@ -56,6 +129,11 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
+                    String action = "cancel";
+                    String status = '5';
+                    String status_post_id =
+                        '${item['status_post_id'] ?? 'Unknown'}';
+                    update_status_Cancel(status, status_post_id, action,rejectComment.text);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -287,7 +365,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        debugPrint(item.toString());
                         _showRejectDialog();
                       },
                       style: ElevatedButton.styleFrom(
