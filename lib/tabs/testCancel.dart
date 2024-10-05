@@ -224,8 +224,8 @@ class _TabCancelState extends State<TabCancel> {
                                                       .blue // Blue for "Pending"
                                                   : item['pay'] == '4' ||
                                                           item['pay'] == 4
-                                                      ? Colors
-                                                          .grey // Grey for "Completed"
+                                                      ? Colors.green[
+                                                          300] // Grey for "Completed"
                                                       : Colors
                                                           .black, // Black for "Unknown"
                                 ),

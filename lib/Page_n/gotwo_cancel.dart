@@ -174,26 +174,60 @@ class _GotwoCancel extends State<GotwoCancel> {
                 SizedBox(
                   height: 30,
                   child: TextButton.icon(
-                    onPressed: item['pay'] == '1' || item['pay'] == 1
+                    onPressed: item['pay'] == '4' || item['pay'] == 4
                         ? () {
                             _showPaidPopup(context);
                           }
                         : null, // ถ้าเป็น "Unpaid" ปุ่มจะกดไม่ได้
                     icon: item['pay'] == '1' || item['pay'] == 1
-                        ? const Icon(Icons.visibility,
+                        ? const Icon(Icons.visibility_off,
                             color: Colors.green, size: 16) // ไอคอนสำหรับ "Paid"
-                        : const Icon(Icons.visibility_off,
-                            color: Colors.red,
-                            size: 16), // ไอคอนสำหรับ "Unpaid"
+                        : item['pay'] == '0' || item['pay'] == 0
+                            ? const Icon(Icons.visibility_off,
+                                color: Colors.red,
+                                size: 16) // ไอคอนสำหรับ "Unpaid"
+                            : item['pay'] == '2' || item['pay'] == 2
+                                ? const Icon(Icons.visibility_off,
+                                    color: Colors.orange,
+                                    size: 16) // ไอคอนสำหรับ "Refund"
+                                : item['pay'] == '3' || item['pay'] == 3
+                                    ? const Icon(Icons.visibility_off,
+                                        color: Colors.blue,
+                                        size: 16) // ไอคอนสำหรับ "Pending"
+                                    : item['pay'] == '4' || item['pay'] == 4
+                                        ? Icon(Icons.visibility,
+                                            color: Colors.green[300],
+                                            size: 16) // ไอคอนสำหรับ "Completed"
+                                        : const Icon(Icons.visibility_off,
+                                            color: Colors.black,
+                                            size: 16), // Default ไอคอน
                     label: Text(
                       item['pay'] == '1' || item['pay'] == 1
                           ? "Paid"
-                          : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                          : item['pay'] == '0' || item['pay'] == 0
+                              ? "Unpaid"
+                              : item['pay'] == '2' || item['pay'] == 2
+                                  ? "Cus Refund"
+                                  : item['pay'] == '3' || item['pay'] == 3
+                                      ? "Pending"
+                                      : item['pay'] == '4' || item['pay'] == 4
+                                          ? "Completed"
+                                          : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                       style: TextStyle(
                         fontSize: 12,
                         color: item['pay'] == '1' || item['pay'] == 1
-                            ? Colors.green // สีเขียวสำหรับ "Paid"
-                            : Colors.red, // สีแดงสำหรับ "Unpaid"
+                            ? Colors.green // Green for "Paid"
+                            : item['pay'] == '0' || item['pay'] == 0
+                                ? Colors.red // Red for "Unpaid"
+                                : item['pay'] == '2' || item['pay'] == 2
+                                    ? Colors.orange // Orange for "Refund"
+                                    : item['pay'] == '3' || item['pay'] == 3
+                                        ? Colors.blue // Blue for "Pending"
+                                        : item['pay'] == '4' || item['pay'] == 4
+                                            ? Colors.green[
+                                                300] // Grey for "Completed"
+                                            : Colors
+                                                .black, // Black for "Unknown"
                       ),
                     ),
                   ),
@@ -316,7 +350,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                     ],
                   ),
                 ),
-                const SizedBox(height:5),
+                const SizedBox(height: 5),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   padding: const EdgeInsets.all(12.0),

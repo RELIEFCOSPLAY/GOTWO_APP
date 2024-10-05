@@ -17,12 +17,18 @@ class _GotwoRequestState extends State<GotwoRequest> {
   final url =
       Uri.parse('http://${Global.ip_8080}/gotwo/update_statusRaider.php');
   Future<void> update_status_Accept(
-      String status, String status_post_id, String action,String no_comment,) async {
+    String status,
+    String status_post_id,
+    String action,
+    String no_comment,
+    String pay,
+  ) async {
     var request = await http.post(url, body: {
       "action": action,
       "status": status,
       "status_post_id": status_post_id,
       "Comment": no_comment,
+      "pay": pay,
     });
 
     if (request.statusCode == 200) {
@@ -35,12 +41,18 @@ class _GotwoRequestState extends State<GotwoRequest> {
   }
 
   Future<void> update_status_Cancel(
-      String status, String status_post_id, String action, String rejectComment) async {
+    String status,
+    String status_post_id,
+    String action,
+    String rejectComment,
+    String pay,
+  ) async {
     var request = await http.post(url, body: {
       "action": action,
       "status": status,
       "status_post_id": status_post_id,
       "Comment": rejectComment,
+      "pay": pay,
     });
 
     if (request.statusCode == 200) {
@@ -67,12 +79,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
+                    String pay = "0"; // กำหนดค่าเริ่มต้น
                     String no_comment ="No comment";
                     String action = "accept";
                     String status = '2';
                     String status_post_id =
                         '${item['status_post_id'] ?? 'Unknown'}';
-                    update_status_Accept(status, status_post_id, action,no_comment);
+                    update_status_Accept(status, status_post_id, action, no_comment,pay);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -129,11 +142,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
+                    String pay = "4"; 
                     String action = "cancel";
                     String status = '5';
                     String status_post_id =
                         '${item['status_post_id'] ?? 'Unknown'}';
-                    update_status_Cancel(status, status_post_id, action,rejectComment.text);
+                    update_status_Cancel(status, status_post_id, action,
+                        rejectComment.text, pay);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
