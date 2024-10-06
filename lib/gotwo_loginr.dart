@@ -50,22 +50,49 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-    String url = "http://${Global.ip_80}/gotwo/login_rider.php";
+  String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
+  try {
+    final response = await http.post(Uri.parse(url), body: {
+      'email': email.text,
+      'password': pass.text,
+    });
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data == "Error") {
+        // ไม่พบผู้ใช้
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter a correct email or password.')),
+        );
+      } else {
+        await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Server error. Please try again later.')),
+      );
+    }
+  } catch (e) {
+    // ถ้าพอร์ต 8080 ใช้ไม่ได้ จะลองใช้พอร์ต 80 แทน
     try {
-      final response = await http.post(Uri.parse(url), body: {
+      String fallbackUrl = "http://${Global.ip_80}/gotwo/login_rider.php";
+      final fallbackResponse = await http.post(Uri.parse(fallbackUrl), body: {
         'email': email.text,
         'password': pass.text,
       });
 
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
+      if (fallbackResponse.statusCode == 200) {
+        var data = json.decode(fallbackResponse.body);
         if (data == "Error") {
-          // ไม่พบผู้ใช้
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Invalid login credentials.')),
+            const SnackBar(content: Text('Please enter a correct email or password.')),
           );
         } else {
-          await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
+          await saveLoginInfo();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
@@ -82,6 +109,8 @@ class _LoginpageState extends State<Loginpage> {
       );
     }
   }
+}
+
 
   @override
   void initState() {
