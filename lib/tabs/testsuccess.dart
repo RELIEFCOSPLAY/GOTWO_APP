@@ -107,8 +107,8 @@ class _TabSuccessState extends State<TabSuccess> {
 
             // เพิ่มการเช็คสถานะการชำระเงิน (paid)
             if (userId == item['rider_id'].toString() &&
-                item['status'].toString() == 'success' &&
-                (item['pay'] == '1' || item['pay'] == 1)) {
+                    item['status'] == '4' ||
+                item['status'] == 4) {
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
@@ -184,18 +184,41 @@ class _TabSuccessState extends State<TabSuccess> {
                                 ),
                               ),
                               Text(
-                                item['pay'] == '1' ||
-                                        item['pay'] == 1
+                                item['pay'] == '1' || item['pay'] == 1
                                     ? "Paid"
-                                    : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                                    : item['pay'] == '0' || item['pay'] == 0
+                                        ? "Unpaid"
+                                        : item['pay'] == '2' || item['pay'] == 2
+                                            ? "Refund"
+                                            : item['pay'] == '3' ||
+                                                    item['pay'] == 3
+                                                ? "Pending"
+                                                : item['pay'] == '4' ||
+                                                        item['pay'] == 4
+                                                    ? "Completed"
+                                                    : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: item['pay'] == '1' ||
-                                          item['pay'] == 1
+                                  color: item['pay'] == '1' || item['pay'] == 1
                                       ? Colors.green // Green for "Paid"
-                                      : Colors.red, // Red for "Unpaid"
+                                      : item['pay'] == '0' || item['pay'] == 0
+                                          ? Colors.red // Red for "Unpaid"
+                                          : item['pay'] == '2' ||
+                                                  item['pay'] == 2
+                                              ? Colors
+                                                  .orange // Orange for "Refund"
+                                              : item['pay'] == '3' ||
+                                                      item['pay'] == 3
+                                                  ? Colors
+                                                      .blue // Blue for "Pending"
+                                                  : item['pay'] == '4' ||
+                                                          item['pay'] == 4
+                                                      ? Colors.green[
+                                                          300] // Grey for "Completed"
+                                                      : Colors
+                                                          .black, // Black for "Unknown"
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),
@@ -225,7 +248,6 @@ class _TabSuccessState extends State<TabSuccess> {
                                         color: Color(0xff1a1c43),
                                       ),
                                     ),
-                                    
                                   ),
                                 ],
                               ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/global_ip.dart';
+import 'package:http/http.dart' as http;
 
 class GotwoTotravel extends StatefulWidget {
   final dynamic item; // รับข้อมูลจากหน้าก่อน
@@ -9,9 +11,37 @@ class GotwoTotravel extends StatefulWidget {
 }
 
 class _GotwoTotravel extends State<GotwoTotravel> {
+   TextEditingController rejectComment = TextEditingController();
+
+    final url =
+      Uri.parse('http://${Global.ip_8080}/gotwo/update_statusRaider.php');
   final formKey = GlobalKey<FormState>();
+  Future<void> update_status_Cancel(
+    String status,
+    String status_post_id,
+    String action,
+    String rejectComment,
+    String pay,
+  ) async {
+    var request = await http.post(url, body: {
+      "action": action,
+      "status": status,
+      "status_post_id": status_post_id,
+      "Comment": rejectComment,
+      "pay": pay,
+    });
+
+    if (request.statusCode == 200) {
+      // ข้อมูลถูกส่งสำเร็จ
+      print('Success: ${request.body}');
+    } else {
+      // มีปัญหาในการส่งข้อมูล
+      print('Error: ${request.statusCode}, Body: ${request.body}');
+    }
+  }
 
   Future<void> _showRejectDialog() async {
+    final item = widget.item;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -20,12 +50,10 @@ class _GotwoTotravel extends State<GotwoTotravel> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'There is a request to join. Do you still want to delete this post?',
-                style: TextStyle(fontSize: 14),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
+                  'There is a request to join. Do you still want to delete this post?'),
+              const SizedBox(height: 10),
               TextFormField(
+                controller: rejectComment,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
@@ -39,12 +67,24 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    // Add your logic for confirmation
+                    String pay = "0"; // กำหนดค่าเริ่มต้น
+                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
+                      pay = "2";
+                    } else if (item['pay'].toString() == "0" ||
+                        item['pay'] == 0) {
+                      pay = "4";
+                    }
+                    String action = "cancel";
+                    String status = '5';
+                    String status_post_id =
+                        '${item['status_post_id'] ?? 'Unknown'}';
+                    update_status_Cancel(status, status_post_id, action,
+                        rejectComment.text, pay);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(0),
                     ),
                   ),
                   child:
@@ -52,15 +92,13 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // Close the dialog
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+                      backgroundColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      )),
                   child: const Text("Cancel",
                       style: TextStyle(color: Colors.white)),
                 ),

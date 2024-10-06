@@ -105,7 +105,7 @@ class _TabTotravelState extends State<TabTotravel> {
           itemBuilder: (context, index) {
             final item = listData[index];
             if (userId == item['rider_id'].toString() &&
-                item['status'].toString() == 'totravel' &&
+                item['status'] == '3' ||  item['status'] == 3 &&
                 (item['pay'] == '1' || item['pay'] == 1)) {
               return Padding(
                 padding:
