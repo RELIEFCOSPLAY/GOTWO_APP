@@ -621,7 +621,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         );
         // String checked = isChecked.toString();
         String checked = isChecked ? "1" : "0";
-        String cusId = "1";
+        String cusId = "0";
         String? riderId = userId;
 
         if (dateController.text.isNotEmpty &&
