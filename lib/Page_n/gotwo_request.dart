@@ -163,7 +163,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    String pay = "4";
+                    String pay = "0"; // กำหนดค่าเริ่มต้น
+                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
+                      pay = "2";
+                    } else if (item['pay'].toString() == "0" ||
+                        item['pay'] == 0) {
+                      pay = "4";
+                    }
                     String action = "cancel";
                     String status = '5';
                     String post_id = item!['post_id'];
