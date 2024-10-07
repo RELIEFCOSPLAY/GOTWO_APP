@@ -260,7 +260,9 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
                     itemBuilder: (context, index) {
                       final item = filteredList[index];
 
-                      if (userId == item['rider_id'].toString()) {
+                      if (userId == item['rider_id'].toString() &&
+                          (item['check_status'] == '0' ||
+                              item['check_status'] == 0)) {
                         return Container(
                           width: 300,
                           height: 100,
