@@ -42,7 +42,7 @@ class _GotwoSatusriderState extends State<GotwoSatusrider> {
                       child: _backButton(),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(left: 80),
+                      padding: EdgeInsets.only(left: 60),
                       child: Text(
                         "Status",
                         style: TextStyle(
@@ -58,9 +58,9 @@ class _GotwoSatusriderState extends State<GotwoSatusrider> {
             ),
           ),
         ),
-        body: Column(
+        body: const Column(
           children: [
-            const TabBar(
+            TabBar(
               labelStyle: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.bold,

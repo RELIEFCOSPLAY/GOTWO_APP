@@ -40,6 +40,26 @@ class _GotwoRequestState extends State<GotwoRequest> {
     }
   }
 
+  final url_check_status =
+      Uri.parse('http://${Global.ip_8080}/gotwo/check_status.php');
+  Future<void> check_status(
+    String check_status,
+    String post_id,
+  ) async {
+    var request = await http.post(url_check_status, body: {
+      "check_status": check_status,
+      "post_id": post_id,
+    });
+
+    if (request.statusCode == 200) {
+      // ข้อมูลถูกส่งสำเร็จ
+      print('Success: ${request.body}');
+    } else {
+      // มีปัญหาในการส่งข้อมูล
+      print('Error: ${request.statusCode}, Body: ${request.body}');
+    }
+  }
+
   Future<void> update_status_Cancel(
     String status,
     String status_post_id,
@@ -80,12 +100,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     String pay = "0"; // กำหนดค่าเริ่มต้น
-                    String no_comment ="No comment";
+                    String no_comment = "No comment";
                     String action = "accept";
                     String status = '2';
                     String status_post_id =
                         '${item['status_post_id'] ?? 'Unknown'}';
-                    update_status_Accept(status, status_post_id, action, no_comment,pay);
+                    update_status_Accept(
+                        status, status_post_id, action, no_comment, pay);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -142,13 +163,25 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ElevatedButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    String pay = "4"; 
+                    String pay = "0"; // กำหนดค่าเริ่มต้น
+                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
+                      pay = "2";
+                    } else if (item['pay'].toString() == "0" ||
+                        item['pay'] == 0) {
+                      pay = "4";
+                    }
                     String action = "cancel";
                     String status = '5';
+                    String post_id = item!['post_id'];
+                    String checkstatus = '0';
                     String status_post_id =
                         '${item['status_post_id'] ?? 'Unknown'}';
                     update_status_Cancel(status, status_post_id, action,
                         rejectComment.text, pay);
+                    check_status(
+                      checkstatus,
+                      post_id,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
