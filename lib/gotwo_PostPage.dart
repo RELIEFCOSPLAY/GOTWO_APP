@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/gotwo_PostInfor.dart';
+import 'package:gotwo_app/gotwo_Post_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 // import 'package:network_info_plus/network_info_plus.dart';
@@ -281,7 +282,14 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
                                         side: const BorderSide(
                                             color: Color(0xff1a1c43))))),
                             onPressed: () {
-                              debugPrint("CardRequest ${item['pick_up']}");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Gotwo_Post_Detail(
+                                      item:
+                                          item), // ส่งข้อมูลไปยัง GotwoTotravel
+                                ),
+                              );
                               debugPrint("$userId");
                             },
                             child: Row(
