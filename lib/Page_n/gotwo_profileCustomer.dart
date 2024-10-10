@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GotwoProfile extends StatelessWidget {
-  const GotwoProfile({super.key});
+class GotwoProfileRider extends StatelessWidget {
+  const GotwoProfileRider({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class GotwoProfile extends StatelessWidget {
             const SizedBox(height: 20),
             _buildProfileInfo(Icons.phone, '0123456789'),
             _buildProfileInfo(Icons.calendar_today, '21/03/2024'),
-            _buildProfileInfo(Icons.email, 'Email Rider'),
+            _buildProfileInfo(Icons.email, 'Email Customer'),
             _buildProfileInfo(Icons.admin_panel_settings, 'Contact Admin'),
             const Spacer(),
             TextButton.icon(
