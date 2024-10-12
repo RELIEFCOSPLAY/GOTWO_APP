@@ -27,30 +27,30 @@ class _GotwoInformationState extends State<GotwoInformation> {
 
   String dropdownValue = list.first;
 
-  Uint8List? _image;
-  void selectImage() async {
-    List<int>? imageBytes = await pickImage(ImageSource.gallery);
-    if (imageBytes != null) {
-      setState(() {
-        _image = Uint8List.fromList(imageBytes);
-      });
-    } else {
-      debugPrint('No image selected');
-    }
-  }
+  // Uint8List? _image;
+  // void selectImage() async {
+  //   List<int>? imageBytes = await pickImage(ImageSource.gallery);
+  //   if (imageBytes != null) {
+  //     setState(() {
+  //       _image = Uint8List.fromList(imageBytes);
+  //     });
+  //   } else {
+  //     debugPrint('No image selected');
+  //   }
+  // }
 
-  Future<List<int>?> pickImage(ImageSource source) async {
-    final ImagePicker imagePicker = ImagePicker();
-    try {
-      XFile? file = await imagePicker.pickImage(source: source);
-      if (file != null) {
-        return await file.readAsBytes();
-      }
-    } catch (e) {
-      debugPrint('Error picking image: $e');
-    }
-    return null;
-  }
+  // Future<List<int>?> pickImage(ImageSource source) async {
+  //   final ImagePicker imagePicker = ImagePicker();
+  //   try {
+  //     XFile? file = await imagePicker.pickImage(source: source);
+  //     if (file != null) {
+  //       return await file.readAsBytes();
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Error picking image: $e');
+  //   }
+  //   return null;
+  // }
 
 //==========================================================================
   bool isImageSelected_idcardBtn = false;
