@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GotwoInformation extends StatefulWidget {
@@ -23,16 +26,33 @@ class _GotwoInformationState extends State<GotwoInformation> {
   ];
   String dropdownValue = list.first;
 
+  late File im_path;
+  final picker = ImagePicker();
   Uint8List? _image;
   void selectImage() async {
+    var pickedImage = await picker.pickImage(source: ImageSource.gallery);
     List<int>? imageBytes = await pickImage(ImageSource.gallery);
     if (imageBytes != null) {
       setState(() {
         _image = Uint8List.fromList(imageBytes);
+        im_path = File(pickedImage!.path);
       });
     } else {
       debugPrint('No image selected');
     }
+  }
+
+  Future<List<int>?> pickImage(ImageSource source) async {
+    final ImagePicker imagePicker = ImagePicker();
+    try {
+      XFile? file = await imagePicker.pickImage(source: source);
+      if (file != null) {
+        return await file.readAsBytes();
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+    }
+    return null;
   }
 
   @override
@@ -87,7 +107,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _page() {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(left: 32,right: 32,top: 15),
+        padding: const EdgeInsets.only(left: 32, right: 32, top: 15),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -302,11 +322,16 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: Column(
         children: [
           if (_image != null)
-          const SizedBox(
-            height: 0,
-          ),
+            const SizedBox(
+              height: 0,
+            ),
           ElevatedButton(
-            onPressed: selectImage,
+            // onPressed: selectImage,
+            onPressed: () {
+              selectImage();
+              print(_image);
+              print(im_path);
+            },
             style: ButtonStyle(
               backgroundColor: const WidgetStatePropertyAll(Colors.white),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -348,9 +373,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: Column(
         children: [
           if (_image != null)
-          const SizedBox(
-            height: 0,
-          ),
+            const SizedBox(
+              height: 0,
+            ),
           ElevatedButton(
             onPressed: selectImage,
             style: ButtonStyle(
@@ -389,9 +414,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: Column(
         children: [
           if (_image != null)
-          const SizedBox(
-            height: 0,
-          ),
+            const SizedBox(
+              height: 0,
+            ),
           ElevatedButton(
             onPressed: selectImage,
             style: ButtonStyle(
@@ -430,9 +455,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: Column(
         children: [
           if (_image != null)
-          const SizedBox(
-            height: 0,
-          ),
+            const SizedBox(
+              height: 0,
+            ),
           ElevatedButton(
             onPressed: selectImage,
             style: ButtonStyle(
@@ -471,9 +496,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: Column(
         children: [
           if (_image != null)
-          const SizedBox(
-            height: 0,
-          ),
+            const SizedBox(
+              height: 0,
+            ),
           ElevatedButton(
             onPressed: selectImage,
             style: ButtonStyle(
@@ -552,17 +577,4 @@ class _GotwoInformationState extends State<GotwoInformation> {
     }
     return Container();
   }
-}
-
-Future<List<int>?> pickImage(ImageSource source) async {
-  final ImagePicker imagePicker = ImagePicker();
-  try {
-    XFile? file = await imagePicker.pickImage(source: source);
-    if (file != null) {
-      return await file.readAsBytes();
-    }
-  } catch (e) {
-    debugPrint('Error picking image: $e');
-  }
-  return null;
 }
