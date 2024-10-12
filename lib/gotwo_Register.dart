@@ -1,8 +1,8 @@
-import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Rider_Register extends StatefulWidget {
   const Rider_Register({super.key});
@@ -12,18 +12,6 @@ class Rider_Register extends StatefulWidget {
 }
 
 class _Rider_RegisterState extends State<Rider_Register> {
-  Uint8List? _image;
-  void selectImage() async {
-    List<int>? imageBytes = await pickImage(ImageSource.gallery);
-    if (imageBytes != null) {
-      setState(() {
-        _image = Uint8List.fromList(imageBytes);
-      });
-    } else {
-      debugPrint('No image selected');
-    }
-  }
-
   TextEditingController usernameController = TextEditingController();
   TextEditingController emaiController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -36,6 +24,25 @@ class _Rider_RegisterState extends State<Rider_Register> {
     'Female',
   ];
   String dropdownValue = list.first;
+
+  String? userCardImagePath;
+  File? user_card_im_path;
+  final picker = ImagePicker();
+  Future user_getImageGallery() async {
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        user_card_im_path = File(pickedFile.path);
+        userCardImagePath = pickedFile.path;
+      } else {
+        print("No Image Picked");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +116,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
               const SizedBox(height: 10),
               _inputField("Confirm Password", confirmPasswordController,
                   isPassword: true),
-              const SizedBox(height: 15),
+              const SizedBox(height: 5),
               _registerBtn(),
             ],
           ),
@@ -150,23 +157,42 @@ class _Rider_RegisterState extends State<Rider_Register> {
   Widget _addPhoto() {
     return Column(
       children: [
-        if (_image != null)
-          const SizedBox(
-            height: 10,
-          ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xffffffff),
             elevation: 0.0,
             shadowColor: Colors.transparent,
           ),
-          onPressed: selectImage,
+          onPressed: () {
+            user_getImageGallery(); // เรียกใช้งานฟังก์ชันเพื่อเลือกรูปภาพ
+          },
           child: Container(
+            width: 60, // ตั้งขนาดของ Container
+            height: 60, // ตั้งขนาดของ Container
             decoration: BoxDecoration(
+              color: const Color(0xff1a1c43),
+              shape: BoxShape.circle,
+              border: Border.all(
                 color: const Color(0xff1a1c43),
-                border: Border.all(color: const Color(0xff1a1c43), width: 3),
-                shape: BoxShape.circle),
-            child: const Icon(Icons.person, color: Colors.white, size: 50),
+                width: 3,
+              ),
+            ),
+            child: user_card_im_path !=
+                    null // ตรวจสอบว่ามีรูปภาพที่เลือกหรือไม่
+                ? ClipOval(
+                    // ใช้ ClipOval เพื่อทำให้รูปเป็นวงกลม
+                    child: Image.file(
+                      File(userCardImagePath!),
+                      fit: BoxFit.cover, // ปรับขนาดรูปภาพให้พอดีกับ Container
+                      width: 60,
+                      height: 60,
+                    ),
+                  )
+                : const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 25,
+                  ),
           ),
         ),
       ],
@@ -240,6 +266,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
         debugPrint("Create Password : ${createPasswordController.text}");
         debugPrint("Confirm Password : ${confirmPasswordController.text}");
         debugPrint("Gender: $dropdownValue");
+        debugPrint(userCardImagePath);
       },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 34),
@@ -306,17 +333,4 @@ class _Rider_RegisterState extends State<Rider_Register> {
     }
     return Container();
   }
-}
-
-Future<List<int>?> pickImage(ImageSource source) async {
-  final ImagePicker imagePicker = ImagePicker();
-  try {
-    XFile? file = await imagePicker.pickImage(source: source);
-    if (file != null) {
-      return await file.readAsBytes();
-    }
-  } catch (e) {
-    debugPrint('Error picking image: $e');
-  }
-  return null;
 }
