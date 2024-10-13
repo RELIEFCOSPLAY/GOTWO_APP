@@ -1,12 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gotwo_app/Page_n/login_page.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class GotwoInformation extends StatefulWidget {
-  const GotwoInformation({super.key});
+  final String username;
+  final String email;
+  final String phone;
+  final String createPassword;
+  final String confirmPassword;
+  final String gender;
+  final String? userCardImagePath;
+  const GotwoInformation(
+      {super.key,
+      required this.username,
+      required this.email,
+      required this.phone,
+      required this.createPassword,
+      required this.confirmPassword,
+      required this.gender,
+      this.userCardImagePath});
 
   @override
   State<GotwoInformation> createState() => _GotwoInformationState();
@@ -53,6 +71,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   // }
 
 //==========================================================================
+  String? idCardImagePath;
   bool isImageSelected_idcardBtn = false;
   File? id_card_im_path;
   final picker = ImagePicker();
@@ -65,7 +84,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
     setState(() {
       if (pickedFile != null) {
         id_card_im_path = File(pickedFile.path);
-        //widget.imgUrl = null;
+        idCardImagePath = pickedFile.path;
       } else {
         print("No Image Picked");
       }
@@ -73,6 +92,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
 //===============================================
+  String? licenseCardImagePath;
   bool isImageSelected_license = false;
   File? license_card_im_path;
   Future license_getImageGallery() async {
@@ -84,7 +104,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
     setState(() {
       if (pickedFile != null) {
         license_card_im_path = File(pickedFile.path);
-        //widget.imgUrl = null;
+        licenseCardImagePath = pickedFile.path;
       } else {
         print("No Image Picked");
       }
@@ -92,6 +112,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
 //===============================================
+  String? carpicCardImagePath;
   bool isImageSelected_carpic = false;
   File? carpic_card_im_path;
   Future carpic_getImageGallery() async {
@@ -103,7 +124,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
     setState(() {
       if (pickedFile != null) {
         carpic_card_im_path = File(pickedFile.path);
-        //widget.imgUrl = null;
+        carpicCardImagePath = pickedFile.path;
       } else {
         print("No Image Picked");
       }
@@ -111,6 +132,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
 //===============================================
+  String? regCardImagePath;
   bool isImageSelected_Reg = false;
   File? reg_card_im_path;
   Future reg_getImageGallery() async {
@@ -122,7 +144,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
     setState(() {
       if (pickedFile != null) {
         reg_card_im_path = File(pickedFile.path);
-        //widget.imgUrl = null;
+        regCardImagePath = pickedFile.path;
       } else {
         print("No Image Picked");
       }
@@ -130,6 +152,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
 //===============================================
+  String? atcCardImagePath;
   bool isImageSelected_Atc = false;
   File? atc_card_im_path;
   Future atc_getImageGallery() async {
@@ -141,7 +164,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
     setState(() {
       if (pickedFile != null) {
         atc_card_im_path = File(pickedFile.path);
-        //widget.imgUrl = null;
+        atcCardImagePath = pickedFile.path;
       } else {
         print("No Image Picked");
       }
@@ -149,6 +172,66 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
   //===============================================
+  Uri url = Uri.parse('http://${Global.ip_8080}/gotwo/rider_Register.php');
+  Future<void> insert_Register(
+    String imgProfile,
+    String name,
+    String email,
+    String tel,
+    String gender,
+    String password,
+    String imgIdCard,
+    String imgDriverLicense,
+    String imgCarPicture,
+    String imgCarRegistration,
+    String imgAct,
+    String expirationDate,
+    String carRegistration,
+    String carBrand,
+    String bank,
+    String nameAccount,
+    String numberBank,
+    String statusRider,
+    String reason,
+  ) async {
+    try {
+      var response = await http.post(
+        url,
+        body: {
+          "img_profile": imgProfile,
+          "name": name,
+          "email": email,
+          "tel": tel,
+          "gender": gender,
+          "password": password,
+          "img_id_card": imgIdCard,
+          "img_driver_license": imgDriverLicense,
+          "img_car_picture": imgCarPicture,
+          "img_car_registration": imgCarRegistration,
+          "img_act": imgAct,
+          "expiration_date": expirationDate,
+          "car_rigistration": carRegistration,
+          "car_brand": carBrand,
+          "bank": bank,
+          "name_account": nameAccount,
+          "number_bank": numberBank,
+          "status_rider": statusRider,
+          "reason": reason,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Check for success message from PHP
+        var jsonResponse = json.decode(response.body);
+        print("Insert success: $jsonResponse");
+      } else {
+        print("Failed to insert: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error occurred: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -177,7 +260,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                       child: _backButton(),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(left: 20),
+                      padding: EdgeInsets.only(left: 15),
                       child: Text(
                         "Information Personal",
                         style: TextStyle(
@@ -295,8 +378,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
   Widget _inputField(String hintText, TextEditingController controller,
       {isPassword = false}) {
     var border = OutlineInputBorder(
-        borderRadius: BorderRadius.circular(18),
-        borderSide: const BorderSide(color: Color(0xff1a1c43)));
+      borderRadius: BorderRadius.circular(18),
+      borderSide: const BorderSide(color: Color(0xff1a1c43)),
+    );
 
     return SizedBox(
       height: 40,
@@ -304,11 +388,16 @@ class _GotwoInformationState extends State<GotwoInformation> {
       child: TextField(
         style: const TextStyle(color: Color(0xff1a1c43), fontSize: 12),
         controller: controller,
+        textAlign: TextAlign.center, // จัดตัวหนังสือให้ตรงกลางในแนวนอน
+        textAlignVertical:
+            TextAlignVertical.center, // จัดตัวหนังสือให้ตรงกลางในแนวตั้ง
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: const TextStyle(color: Color(0xff1a1c43)),
           enabledBorder: border,
           focusedBorder: border,
+          contentPadding: const EdgeInsets.symmetric(
+              vertical: 10), // ปรับ Padding ให้อยู่ตรงกลาง
         ),
         obscureText: isPassword,
       ),
@@ -390,6 +479,56 @@ class _GotwoInformationState extends State<GotwoInformation> {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
+        );
+        String statusRider0 = "0";
+        String reasonNo = "no";
+        debugPrint("imgProfile: ${widget.userCardImagePath}");
+        debugPrint("Username: ${widget.username}");
+        debugPrint("Email: ${widget.email}");
+        debugPrint("Phone: ${widget.phone}");
+        debugPrint("Gender: ${widget.gender}");
+        debugPrint("password : ${widget.createPassword}");
+        debugPrint("imgIdCard : $idCardImagePath");
+        debugPrint("imgDriverLicense : $licenseCardImagePath");
+        debugPrint("imgCarPicture : $carpicCardImagePath");
+        debugPrint("imgCarRegistration : $regCardImagePath");
+        debugPrint("imgAct : $atcCardImagePath");
+        debugPrint("expirationDate : ${expirationController.text}");
+        debugPrint("carRegistration : ${carRegistrationController.text}");
+        debugPrint("carBrand : ${carBrandController.text}");
+        debugPrint("bank : ${dropdownValue.toString()}");
+        debugPrint("nameAccount : ${namebankAccountController.text}");
+        debugPrint("numberBank : ${accountNumberController.text}");
+        debugPrint("statusRider : $statusRider0");
+        debugPrint("reason : ${widget.confirmPassword}");
+
+        insert_Register(
+            widget.userCardImagePath.toString(),
+            widget.username,
+            widget.email,
+            widget.phone,
+            widget.gender,
+            widget.createPassword,
+            idCardImagePath.toString(),
+            licenseCardImagePath.toString(),
+            carpicCardImagePath.toString(),
+            regCardImagePath.toString(),
+            atcCardImagePath.toString(),
+            expirationController.text,
+            carRegistrationController.text,
+            carBrandController.text,
+            dropdownValue.toString(),
+            namebankAccountController.text,
+            accountNumberController.text,
+            statusRider0,
+            reasonNo);
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+          (Route<dynamic> route) => false,
         );
       },
       style: ElevatedButton.styleFrom(

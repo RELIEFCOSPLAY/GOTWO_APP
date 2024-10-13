@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:http/http.dart' as http;
@@ -121,10 +123,17 @@ class _Gotwo_Post_Detail extends State<Gotwo_Post_Detail> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.account_circle_outlined, size: 50),
+                const SizedBox(
+                  height: 10,
+                ),
+                ClipOval(
+                  // ใช้ ClipOval เพื่อทำให้รูปเป็นวงกลม
+                  child: Image.file(
+                    File(item['rider_img_profile']),
+                    fit: BoxFit.cover, // ปรับขนาดรูปภาพให้พอดีกับ Container
+                    width: 60,
+                    height: 60,
+                  ),
                 ),
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gotwo_app/gotwo_Information.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -265,8 +266,25 @@ class _Rider_RegisterState extends State<Rider_Register> {
         debugPrint("Phone : ${phoneController.text}");
         debugPrint("Create Password : ${createPasswordController.text}");
         debugPrint("Confirm Password : ${confirmPasswordController.text}");
-        debugPrint("Gender: $dropdownValue");
+        debugPrint("Gender: ${dropdownValue.toLowerCase()}");
         debugPrint(userCardImagePath);
+
+        // Navigate to GotwoInformation and send data
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GotwoInformation(
+              username: usernameController.text,
+              email: emaiController.text,
+              phone: phoneController.text,
+              createPassword: createPasswordController.text,
+              confirmPassword: confirmPasswordController.text,
+              gender: dropdownValue.toLowerCase(),
+              userCardImagePath: userCardImagePath,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 34),
