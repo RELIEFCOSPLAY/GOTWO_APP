@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GotwoProfileRider extends StatelessWidget {
-  const GotwoProfileRider({super.key});
+class GotwoProfileCustomer extends StatelessWidget {
+  const GotwoProfileCustomer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,11 @@ class GotwoProfileRider extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text('Profile', style: TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold)),
+        title: const Text('Profile',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 22,
+                fontWeight: FontWeight.bold)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
@@ -40,26 +44,33 @@ class GotwoProfileRider extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Color(0xFF1A1C43),
                   ),
-                  child: const Icon(Icons.account_circle, size: 60, color: Colors.white),
+                  child: const Icon(Icons.account_circle,
+                      size: 60, color: Colors.white),
                 ),
                 const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Jenny Joy', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text('Jenny Joy',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                     Row(
                       children: [
-                        for (var i = 0; i < 5; i++) const Icon(Icons.star, color: Colors.yellow, size: 20),
+                        for (var i = 0; i < 5; i++)
+                          const Icon(Icons.star,
+                              color: Colors.yellow, size: 20),
                       ],
                     ),
                     const SizedBox(height: 5),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text('Expiration date\n00/00/0000', style: TextStyle(fontSize: 12)),
+                      child: const Text('Expiration date\n00/00/0000',
+                          style: TextStyle(fontSize: 12)),
                     ),
                   ],
                 ),
