@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gotwo_app/Page_n/gotwo_profileRider.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:gotwo_app/gotwo_SatusRider.dart';
-import 'package:gotwo_app/gotwo_logout.dart';
 
 class GotwoDashbordrider extends StatefulWidget {
   const GotwoDashbordrider({super.key});
@@ -332,7 +332,8 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   debugPrint("Profile");
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const LogoutPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const GotwoProfileRider()),
                   );
                 },
                 child: const Column(
