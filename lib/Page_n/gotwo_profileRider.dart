@@ -23,10 +23,8 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
     fetchData();
   }
 
-  // ฟังก์ชันดึงข้อมูลจาก API
   Future<void> fetchData() async {
-    final String url =
-        'http://${Global.ip_80}/gotwo/status_Rider.php'; // URL ของ API
+    final String url = 'http://${Global.ip_80}/gotwo/status_Rider.php';
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -34,7 +32,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
 
       if (response.statusCode == 200) {
         setState(() {
-          listData = json.decode(response.body); // แปลง JSON เป็น List
+          listData = json.decode(response.body);
           isLoading = false;
         });
       } else {
@@ -44,7 +42,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
         });
       }
     } catch (e) {
-      print("Error be Fix: $e");
+      print("Error: $e");
       setState(() {
         isLoading = false;
       });
@@ -60,23 +58,22 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
       emails = savedEmail;
     });
     if (emails != null) {
-      fetchUserId(emails!); // เรียกใช้ API เพื่อตรวจสอบ user id
+      fetchUserId(emails!);
     }
   }
 
   Future<void> fetchUserId(String email) async {
-    final String url =
-        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
+    final String url = 'http://${Global.ip_8080}/gotwo/getUserId_rider.php';
     try {
       final response = await http.post(Uri.parse(url), body: {
-        'email': email, // ส่ง email เพื่อค้นหา user id
+        'email': email,
       });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success']) {
           setState(() {
-            userId = data['user_id']; // เก็บ user id ที่ได้มา
+            userId = data['user_id'];
           });
         } else {
           print('Error: ${data['message']}');
@@ -96,13 +93,15 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text('Profile',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+              color: Color(0xFF1A1C43),
+              fontSize: 22,
+              fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF1A1C43)),
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
@@ -114,7 +113,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit, color: Colors.black),
+            icon: const Icon(Icons.edit, color: Color(0xFF1A1C43)),
             onPressed: () {
               // เพิ่มฟังก์ชันแก้ไขโปรไฟล์
             },
@@ -130,6 +129,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // ส่วนของโปรไฟล์ด้านบน
                       Row(
                         children: [
                           Container(
@@ -151,7 +151,9 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                     ? listData[0]['rider_name'] ?? 'N/A'
                                     : 'N/A',
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1A1C43)),
                               ),
                               Row(
                                 children: [
@@ -164,45 +166,95 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                           ),
                         ],
                       ),
-                      Divider(height: 40, color: Colors.grey[300]),
-                      const Text(
-                        '140.00 Baht',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      const Text(
-                        'wallet',
-                        style: TextStyle(color: Colors.grey),
-                      ),
                       const SizedBox(height: 20),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: listData.length,
-                          itemBuilder: (context, index) {
-                            final item = listData[index];
-                            return Card(
-                              margin: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: ListTile(
-                                leading: Icon(Icons.account_circle,
-                                    color: Colors.blue),
-                                title: Text(item['rider_name'] ?? 'N/A',
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                subtitle: Text(
-                                    'Phone: ${item['rider_tel'] ?? 'N/A'}'),
-                                trailing:
-                                    Icon(Icons.star, color: Colors.yellow),
+                      // ส่วนของ Wallet
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE0E7FF),
+                          border: Border(
+                            top: BorderSide(
+                                color: Colors.grey.shade300, width: 1),
+                            bottom: BorderSide(
+                                color: Colors.grey.shade300, width: 1),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              listData.isNotEmpty &&
+                                      listData[0]['price'] != null
+                                  ? '${listData[0]['price']} Baht'
+                                  : '0.00 Baht',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1A1C43),
                               ),
-                              
-                            );
-                          },
+                            ),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'wallet',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      // ส่วนเบอร์โทร
+                      Row(
+                        children: [
+                          const Icon(Icons.phone, color: Color(0xFF1A1C43)),
+                          const SizedBox(width: 10),
+                          Text(
+                            listData.isNotEmpty
+                                ? listData[0]['rider_tel'] ?? 'N/A'
+                                : 'N/A',
+                            style: const TextStyle(
+                                fontSize: 16, color: Color(0xFF1A1C43)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      // ปุ่ม Email Rider
+                      TextButton.icon(
+                        icon: const Icon(Icons.email, color: Color(0xFF1A1C43)),
+                        label: const Text('Email Rider',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF1A1C43),
+                            )),
+                        onPressed: () {
+                          // เพิ่มการทำงานส่งอีเมลถึง Rider
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      // ปุ่ม Contact Admin
+                      TextButton.icon(
+                        icon:
+                            const Icon(Icons.person, color: Color(0xFF1A1C43)),
+                        label: const Text('Contact Admin',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF1A1C43),
+                            )),
+                        onPressed: () {
+                          // เพิ่มการทำงานติดต่อแอดมิน
+                        },
+                      ),
+                      const Spacer(),
+                      // ปุ่ม Log out
                       TextButton.icon(
                         icon: const Icon(Icons.logout, color: Colors.red),
-                        label: const Text('Log out',
-                            style: TextStyle(color: Colors.red)),
+                        label: const Text(
+                          'Log out',
+                          style: TextStyle(color: Colors.red),
+                        ),
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
