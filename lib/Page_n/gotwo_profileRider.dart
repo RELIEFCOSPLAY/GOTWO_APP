@@ -143,26 +143,30 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                 size: 60, color: Colors.white),
                           ),
                           const SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                listData.isNotEmpty
-                                    ? listData[0]['rider_name'] ?? 'N/A'
-                                    : 'N/A',
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1A1C43)),
-                              ),
-                              Row(
-                                children: [
-                                  for (var i = 0; i < 5; i++)
-                                    const Icon(Icons.star,
-                                        color: Colors.yellow, size: 20),
-                                ],
-                              ),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  listData.isNotEmpty
+                                      ? listData[0]['rider_name'] ?? 'N/A'
+                                      : 'N/A',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF1A1C43)),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                Row(
+                                  children: [
+                                    for (var i = 0; i < 5; i++)
+                                      const Icon(Icons.star,
+                                          color: Colors.yellow, size: 20),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
