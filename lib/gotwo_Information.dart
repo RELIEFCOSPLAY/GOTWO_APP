@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gotwo_app/Page_n/login_page.dart';
 import 'package:gotwo_app/global_ip.dart';
+import 'package:gotwo_app/gotwo_loginr.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
@@ -526,7 +526,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const LoginPage(),
+            builder: (context) => const Loginpage(),
           ),
           (Route<dynamic> route) => false,
         );

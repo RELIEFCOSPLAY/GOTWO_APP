@@ -127,14 +127,20 @@ class _Gotwo_Post_Detail extends State<Gotwo_Post_Detail> {
                   height: 10,
                 ),
                 ClipOval(
-                  // ใช้ ClipOval เพื่อทำให้รูปเป็นวงกลม
-                  child: Image.file(
-                    File(item['rider_img_profile']),
-                    fit: BoxFit.cover, // ปรับขนาดรูปภาพให้พอดีกับ Container
-                    width: 60,
-                    height: 60,
-                  ),
+                  child: File(item['rider_img_profile']).existsSync()
+                      ? Image.file(
+                          File(item['rider_img_profile']),
+                          fit: BoxFit.cover,
+                          width: 60,
+                          height: 60,
+                        )
+                      : const Icon(
+                          Icons.account_circle, // หรือไอคอนที่ต้องการ
+                          size: 60,
+                          color: Color(0xFF1A1C43),
+                        ),
                 ),
+
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",
                   style: const TextStyle(
