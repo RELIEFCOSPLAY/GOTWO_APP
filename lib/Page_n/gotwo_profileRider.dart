@@ -15,16 +15,18 @@ class GotwoProfileRider extends StatefulWidget {
 
 class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   List<dynamic> listData = [];
-  bool isLoading = true;
+  List<dynamic> filteredList = [];
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    loadLoginInfo();
   }
 
   Future<void> fetchData() async {
-    final String url = 'http://${Global.ip_80}/gotwo/status_Rider.php';
+    final String url =
+        "http://${Global.ip_80}/gotwo/status_Rider.php"; // URL ของ API
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -32,26 +34,22 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
 
       if (response.statusCode == 200) {
         setState(() {
-          listData = json.decode(response.body);
-          isLoading = false;
+          listData = json.decode(response.body); // แปลง JSON เป็น List
+          filteredList =
+              listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });
       } else {
         print("Failed to load data");
-        setState(() {
-          isLoading = false;
-        });
       }
     } catch (e) {
       print("Error: $e");
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 
   final storage = const FlutterSecureStorage();
   String? emails;
   String? userId;
+
   Future<void> loadLoginInfo() async {
     String? savedEmail = await storage.read(key: 'email');
     setState(() {
@@ -63,7 +61,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   }
 
   Future<void> fetchUserId(String email) async {
-    final String url = 'http://${Global.ip_8080}/gotwo/getUserId_rider.php';
+    final String url = 'http://${Global.ip_80}/gotwo/getUserId_rider.php';
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email,
@@ -120,157 +118,152 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
           ),
         ],
       ),
-      body: isLoading
+      body: listData.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : listData.isEmpty
-              ? const Center(child: Text("No data available"))
-              : Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ส่วนของโปรไฟล์ด้านบน
+                  Row(
                     children: [
-                      // ส่วนของโปรไฟล์ด้านบน
-                      Row(
-                        children: [
-                          Container(
-                            width: 70,
-                            height: 70,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFF1A1C43),
-                            ),
-                            child: const Icon(Icons.account_circle,
-                                size: 60, color: Colors.white),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  listData.isNotEmpty
-                                      ? listData[0]['rider_name'] ?? 'N/A'
-                                      : 'N/A',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1A1C43)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                Row(
-                                  children: [
-                                    for (var i = 0; i < 5; i++)
-                                      const Icon(Icons.star,
-                                          color: Colors.yellow, size: 20),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      // ส่วนของ Wallet
                       Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE0E7FF),
-                          border: Border(
-                            top: BorderSide(
-                                color: Colors.grey.shade300, width: 1),
-                            bottom: BorderSide(
-                                color: Colors.grey.shade300, width: 1),
-                          ),
+                        width: 70,
+                        height: 70,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFF1A1C43),
                         ),
+                        child: const Icon(Icons.account_circle,
+                            size: 60, color: Colors.white),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              listData.isNotEmpty &&
-                                      listData[0]['price'] != null
-                                  ? '${listData[0]['price']} Baht'
-                                  : '0.00 Baht',
+                              listData.isNotEmpty
+                                  ? listData[0]['rider_name'] ?? 'N/A'
+                                  : 'N/A',
                               style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1A1C43),
-                              ),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1A1C43)),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
-                            const SizedBox(height: 5),
-                            const Text(
-                              'wallet',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
+                            Row(
+                              children: [
+                                for (var i = 0; i < 5; i++)
+                                  const Icon(Icons.star,
+                                      color: Colors.yellow, size: 20),
+                              ],
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      // ส่วนเบอร์โทร
-                      Row(
-                        children: [
-                          const Icon(Icons.phone, color: Color(0xFF1A1C43)),
-                          const SizedBox(width: 10),
-                          Text(
-                            listData.isNotEmpty
-                                ? listData[0]['rider_tel'] ?? 'N/A'
-                                : 'N/A',
-                            style: const TextStyle(
-                                fontSize: 16, color: Color(0xFF1A1C43)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // ส่วนของ Wallet
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE0E7FF),
+                      border: Border(
+                        top: BorderSide(color: Colors.grey.shade300, width: 1),
+                        bottom:
+                            BorderSide(color: Colors.grey.shade300, width: 1),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          listData.isNotEmpty && listData[0]['price'] != null
+                              ? '${listData[0]['price']} Baht'
+                              : '0.00 Baht',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1A1C43),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      // ปุ่ม Email Rider
-                      TextButton.icon(
-                        icon: const Icon(Icons.email, color: Color(0xFF1A1C43)),
-                        label: const Text('Email Rider',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF1A1C43),
-                            )),
-                        onPressed: () {
-                          // เพิ่มการทำงานส่งอีเมลถึง Rider
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      // ปุ่ม Contact Admin
-                      TextButton.icon(
-                        icon:
-                            const Icon(Icons.person, color: Color(0xFF1A1C43)),
-                        label: const Text('Contact Admin',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF1A1C43),
-                            )),
-                        onPressed: () {
-                          // เพิ่มการทำงานติดต่อแอดมิน
-                        },
-                      ),
-                      const Spacer(),
-                      // ปุ่ม Log out
-                      TextButton.icon(
-                        icon: const Icon(Icons.logout, color: Colors.red),
-                        label: const Text(
-                          'Log out',
-                          style: TextStyle(color: Colors.red),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LogoutPage(),
-                            ),
-                          );
-                        },
+                        const SizedBox(height: 5),
+                        const Text(
+                          'wallet',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // ส่วนเบอร์โทร
+                  Row(
+                    children: [
+                      const Icon(Icons.phone, color: Color(0xFF1A1C43)),
+                      const SizedBox(width: 10),
+                      Text(
+                        listData.isNotEmpty
+                            ? listData[0]['rider_tel'] ?? 'N/A'
+                            : 'N/A',
+                        style: const TextStyle(
+                            fontSize: 16, color: Color(0xFF1A1C43)),
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  // ปุ่ม Email Rider
+                  TextButton.icon(
+                    icon: const Icon(Icons.email, color: Color(0xFF1A1C43)),
+                    label: const Text('Email Rider',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF1A1C43),
+                        )),
+                    onPressed: () {
+                      // เพิ่มการทำงานส่งอีเมลถึง Rider
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  // ปุ่ม Contact Admin
+                  TextButton.icon(
+                    icon: const Icon(Icons.person, color: Color(0xFF1A1C43)),
+                    label: const Text('Contact Admin',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF1A1C43),
+                        )),
+                    onPressed: () {
+                      // เพิ่มการทำงานติดต่อแอดมิน
+                    },
+                  ),
+                  const Spacer(),
+                  // ปุ่ม Log out
+                  TextButton.icon(
+                    icon: const Icon(Icons.logout, color: Colors.red),
+                    label: const Text(
+                      'Log out',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LogoutPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
