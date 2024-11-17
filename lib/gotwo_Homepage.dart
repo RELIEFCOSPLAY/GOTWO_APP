@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/gotwo_Register.dart';
+import 'package:gotwo_app/gotwo_loginr.dart';
 
 class GotwoHomepage extends StatefulWidget {
   const GotwoHomepage({super.key});
@@ -83,6 +85,10 @@ class _GotwoHomepageState extends State<GotwoHomepage> {
     return ElevatedButton(
       onPressed: () {
         debugPrint("LoginBtn");
+         Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Loginpage()),
+        );
       },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(250, 60),
@@ -110,6 +116,10 @@ class _GotwoHomepageState extends State<GotwoHomepage> {
     return ElevatedButton(
       onPressed: () {
         debugPrint("RegisterBtn");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Rider_Register()),
+        );
       },
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(250, 60),
