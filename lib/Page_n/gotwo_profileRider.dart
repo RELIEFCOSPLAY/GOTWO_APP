@@ -25,8 +25,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   }
 
   Future<void> fetchData() async {
-    final String url =
-        "http://${Global.ip_80}/gotwo/status_Rider.php"; // URL ของ API
+    final String url = "http://${Global.ip_80}/gotwo/status_Rider.php";
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -34,9 +33,8 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
 
       if (response.statusCode == 200) {
         setState(() {
-          listData = json.decode(response.body); // แปลง JSON เป็น List
-          filteredList =
-              listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
+          listData = json.decode(response.body);
+          filteredList = listData;
         });
       } else {
         print("Failed to load data");
@@ -113,7 +111,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
           IconButton(
             icon: const Icon(Icons.edit, color: Color(0xFF1A1C43)),
             onPressed: () {
-              // เพิ่มฟังก์ชันแก้ไขโปรไฟล์
+              // Add edit profile functionality here
             },
           ),
         ],
@@ -125,7 +123,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ส่วนของโปรไฟล์ด้านบน
+                  // Profile Header
                   Row(
                     children: [
                       Container(
@@ -167,7 +165,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  // ส่วนของ Wallet
+                  // Wallet Section
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 20),
@@ -204,7 +202,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // ส่วนเบอร์โทร
+                  // Contact Section
                   Row(
                     children: [
                       const Icon(Icons.phone, color: Color(0xFF1A1C43)),
@@ -219,7 +217,6 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  // ปุ่ม Email Rider
                   TextButton.icon(
                     icon: const Icon(Icons.email, color: Color(0xFF1A1C43)),
                     label: const Text('Email Rider',
@@ -228,11 +225,10 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                           color: Color(0xFF1A1C43),
                         )),
                     onPressed: () {
-                      // เพิ่มการทำงานส่งอีเมลถึง Rider
+                      // Add email functionality
                     },
                   ),
                   const SizedBox(height: 10),
-                  // ปุ่ม Contact Admin
                   TextButton.icon(
                     icon: const Icon(Icons.person, color: Color(0xFF1A1C43)),
                     label: const Text('Contact Admin',
@@ -241,11 +237,11 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                           color: Color(0xFF1A1C43),
                         )),
                     onPressed: () {
-                      // เพิ่มการทำงานติดต่อแอดมิน
+                      // Add contact admin functionality
                     },
                   ),
                   const Spacer(),
-                  // ปุ่ม Log out
+                  // Logout Button with Confirmation
                   TextButton.icon(
                     icon: const Icon(Icons.logout, color: Colors.red),
                     label: const Text(
@@ -253,11 +249,37 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                       style: TextStyle(color: Colors.red),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LogoutPage(),
-                        ),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Confirm Logout'),
+                            content:
+                                const Text('Are you sure you want to log out?'),
+                            actions: [
+                              TextButton(
+                                child: const Text('Cancel',
+                                    style: TextStyle(color: Colors.grey)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text('Log Out',
+                                    style: TextStyle(color: Colors.red)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LogoutPage(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
                   ),
