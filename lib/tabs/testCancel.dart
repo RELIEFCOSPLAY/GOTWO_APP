@@ -29,6 +29,12 @@ class _TabCancelState extends State<TabCancel> {
       if (response.statusCode == 200) {
         setState(() {
           listData = json.decode(response.body); // แปลง JSON เป็น List
+          listData.sort((a, b) {
+            // รวม date และ time เพื่อเปรียบเทียบ
+            DateTime dateTimeA = DateTime.parse('${a['date']} ${a['time']}');
+            DateTime dateTimeB = DateTime.parse('${b['date']} ${b['time']}');
+            return dateTimeB.compareTo(dateTimeA);
+          });
           filteredList =
               listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });
@@ -206,7 +212,7 @@ class _TabCancelState extends State<TabCancel> {
                                                 ? "Pending"
                                                 : item['pay'] == '4' ||
                                                         item['pay'] == 4
-                                                    ? "Completed"
+                                                    ? "Cencel"
                                                     : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                                 style: TextStyle(
                                   fontSize: 12,
@@ -224,8 +230,8 @@ class _TabCancelState extends State<TabCancel> {
                                                       .blue // Blue for "Pending"
                                                   : item['pay'] == '4' ||
                                                           item['pay'] == 4
-                                                      ? Colors.green[
-                                                          300] // Grey for "Completed"
+                                                      ? Colors
+                                                          .red // Grey for "Completed"
                                                       : Colors
                                                           .black, // Black for "Unknown"
                                 ),

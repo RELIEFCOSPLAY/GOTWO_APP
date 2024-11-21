@@ -20,14 +20,11 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   TextEditingController commentController1 = TextEditingController();
   TextEditingController commentController2 = TextEditingController();
 
-  static const List<String> list = <String>[
-    'Select Location',
-    'Mae Fah Luang(D1)',
-    'Lotus Fah Thai',
-  ];
-  String dropdownPickup = list.first;
-  String dropdownDrop = list.first;
+  String dropdownPickup = 'Select Location';
+  String dropdownDrop = 'Select Location';
+  List<dynamic> listlocation = [];
   bool isChecked = false;
+  bool isPostBtnEnabled = false;
 
   //=======================================
   final storage = const FlutterSecureStorage();
@@ -105,10 +102,47 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
   }
 
   //--------------------------------------------------------------------
+  Future<void> fetchLocation() async {
+    final String url = "http://${Global.ip_8080}/gotwo/get_location.php";
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          listlocation = json.decode(response.body); // แปลง JSON เป็น List
+          // ไม่เปลี่ยนค่า dropdownPickup และ dropdownDrop ที่ตั้งค่าเป็น "Select Location"
+        });
+      } else {
+        print("Failed to load data");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  //--------------------------------------------------------------------
+  void validateFields() {
+    setState(() {
+      isPostBtnEnabled = dateController.text.isNotEmpty &&
+          timeController.text.isNotEmpty &&
+          priceController.text.isNotEmpty &&
+          dropdownPickup != 'Select Location' &&
+          dropdownDrop != 'Select Location';
+    });
+  }
+
+  //--------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
     loadLoginInfo();
+    fetchLocation();
+    // เพิ่ม Listener เพื่อเช็คเมื่อมีการเปลี่ยนแปลงข้อมูล
+    dateController.addListener(validateFields);
+    timeController.addListener(validateFields);
+    priceController.addListener(validateFields);
+    commentController1.addListener(validateFields);
+    commentController2.addListener(validateFields);
   }
 
 // ---------------URI----------------
@@ -558,17 +592,25 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         ),
         borderRadius: BorderRadius.circular(18),
         onChanged: (String? value) {
-          // This is called when the user selects an item.
           setState(() {
             dropdownPickup = value!;
           });
         },
-        items: list.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+        items: [
+          const DropdownMenuItem<String>(
+            value: 'Select Location',
+            child: Text(
+              'Select Location',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+          ...listlocation.map<DropdownMenuItem<String>>((dynamic location) {
+            return DropdownMenuItem<String>(
+              value: location['LocationList'],
+              child: Text(location['LocationList']),
+            );
+          }).toList(),
+        ],
       ),
     );
   }
@@ -577,13 +619,17 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Color(0xff1a1c43)));
+
     return Container(
       padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           enabledBorder: border,
           focusedBorder: border,
-          prefixIcon: const Icon(Icons.location_on, color: Color(0xffE51A1A)),
+          prefixIcon: const Icon(
+            Icons.location_on,
+            color: Color(0xffE51A1A),
+          ),
         ),
         value: dropdownDrop,
         elevation: 16,
@@ -593,69 +639,71 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
         ),
         borderRadius: BorderRadius.circular(18),
         onChanged: (String? value) {
-          // This is called when the user selects an item.
           setState(() {
             dropdownDrop = value!;
           });
         },
-        items: list.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+        items: [
+          const DropdownMenuItem<String>(
+            value: 'Select Location',
+            child: Text(
+              'Select Location',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+          ...listlocation.map<DropdownMenuItem<String>>((dynamic location) {
+            return DropdownMenuItem<String>(
+              value: location['LocationList'],
+              child: Text(location['LocationList']),
+            );
+          }).toList(),
+        ],
       ),
     );
   }
 
   Widget _postBtn() {
     return ElevatedButton(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: _snackBarnotification(),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-        // String checked = isChecked.toString();
-        String checked = isChecked ? "1" : "0";
-        String cusId = "1";
-        String? riderId = userId;
-
-        if (dateController.text.isNotEmpty &&
-            timeController.text.isNotEmpty &&
-            priceController.text.isNotEmpty) {
-          insert(
-              dropdownPickup,
-              commentController1.text,
-              dropdownDrop,
-              commentController2.text,
-              dateController.text,
-              timeController.text,
-              priceController.text,
-              checked,
-              cusId,
-              riderId!
-              // isChecked ? "1" : "0",
+      onPressed: isPostBtnEnabled
+          ? () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: _snackBarnotification(),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                ),
               );
+              String checked = isChecked ? "1" : "0";
+              String cusId = "1";
+              String? riderId = userId;
 
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const GotwoPostPage(),
-            ),
-            (Route<dynamic> route) => false,
-          );
-        } else {
-          debugPrint("Please fill in all required fields");
-        }
-      },
+              insert(
+                  dropdownPickup,
+                  commentController1.text,
+                  dropdownDrop,
+                  commentController2.text,
+                  dateController.text,
+                  timeController.text,
+                  priceController.text,
+                  checked,
+                  cusId,
+                  riderId!);
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const GotwoPostPage(),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            }
+          : null,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 24),
         foregroundColor: Colors.blue,
-        backgroundColor: const Color(0xff1a1c43),
+        backgroundColor:
+            isPostBtnEnabled ? const Color(0xff1a1c43) : Colors.grey,
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 2),
       ),

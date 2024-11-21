@@ -42,33 +42,25 @@ class _GotwoInformationState extends State<GotwoInformation> {
     'Bank 1',
     'Bank 2',
   ];
-
   String dropdownValue = list.first;
+  List<dynamic> listlocation = [];
 
-  // Uint8List? _image;
-  // void selectImage() async {
-  //   List<int>? imageBytes = await pickImage(ImageSource.gallery);
-  //   if (imageBytes != null) {
-  //     setState(() {
-  //       _image = Uint8List.fromList(imageBytes);
-  //     });
-  //   } else {
-  //     debugPrint('No image selected');
-  //   }
-  // }
+  Future<void> fetchLocation() async {
+    final String url = "http://${Global.ip_8080}/gotwo/get_location.php";
+    try {
+      final response = await http.get(Uri.parse(url));
 
-  // Future<List<int>?> pickImage(ImageSource source) async {
-  //   final ImagePicker imagePicker = ImagePicker();
-  //   try {
-  //     XFile? file = await imagePicker.pickImage(source: source);
-  //     if (file != null) {
-  //       return await file.readAsBytes();
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Error picking image: $e');
-  //   }
-  //   return null;
-  // }
+      if (response.statusCode == 200) {
+        setState(() {
+          listlocation = json.decode(response.body); // แปลง JSON เป็น List
+        });
+      } else {
+        print("Failed to load data");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
 
 //==========================================================================
   String? idCardImagePath;
@@ -366,6 +358,13 @@ class _GotwoInformationState extends State<GotwoInformation> {
     return GestureDetector(
       onTap: () {
         debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Loginpage(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
       child: const Icon(
         Icons.arrow_back_ios,

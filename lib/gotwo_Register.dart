@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gotwo_app/gotwo_Homepage.dart';
 import 'package:gotwo_app/gotwo_Information.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -130,6 +131,12 @@ class _Rider_RegisterState extends State<Rider_Register> {
     return GestureDetector(
       onTap: () {
         debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GotwoHomepage(),),
+          (Route<dynamic> route) => false,
+        );
       },
       child: const Icon(
         Icons.arrow_back_ios,

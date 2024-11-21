@@ -148,6 +148,13 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
               GestureDetector(
                 onTap: () {
                   debugPrint("1");
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GotwoSatusrider(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 child: Container(
                   width: 300,
@@ -190,6 +197,13 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
               GestureDetector(
                 onTap: () {
                   debugPrint("2");
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GotwoSatusrider(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 child: Container(
                   width: 300,

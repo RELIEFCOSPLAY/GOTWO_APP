@@ -29,6 +29,12 @@ class _TabTotravelState extends State<TabTotravel> {
       if (response.statusCode == 200) {
         setState(() {
           listData = json.decode(response.body); // แปลง JSON เป็น List
+          listData.sort((a, b) {
+            // รวม date และ time เพื่อเปรียบเทียบ
+            DateTime dateTimeA = DateTime.parse('${a['date']} ${a['time']}');
+            DateTime dateTimeB = DateTime.parse('${b['date']} ${b['time']}');
+            return dateTimeB.compareTo(dateTimeA);
+          });
           filteredList =
               listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });
@@ -105,8 +111,9 @@ class _TabTotravelState extends State<TabTotravel> {
           itemBuilder: (context, index) {
             final item = listData[index];
             if (userId == item['rider_id'].toString() &&
-                item['status'] == '3' ||  item['status'] == 3 &&
-                (item['pay'] == '1' || item['pay'] == 1)) {
+                    item['status'] == '3' ||
+                item['status'] == 3 &&
+                    (item['pay'] == '1' || item['pay'] == 1)) {
               return Padding(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
@@ -182,14 +189,12 @@ class _TabTotravelState extends State<TabTotravel> {
                                 ),
                               ),
                               Text(
-                                item['pay'] == '1' ||
-                                        item['pay'] == 1
+                                item['pay'] == '1' || item['pay'] == 1
                                     ? "Paid"
                                     : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: item['pay'] == '1' ||
-                                          item['pay'] == 1
+                                  color: item['pay'] == '1' || item['pay'] == 1
                                       ? Colors.green // Green for "Paid"
                                       : Colors.red, // Red for "Unpaid"
                                 ),

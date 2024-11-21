@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
+import 'package:gotwo_app/gotwo_Homepage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Import secure storage
 
@@ -50,49 +51,23 @@ class _LoginpageState extends State<Loginpage> {
 
   // ฟังก์ชันสำหรับเข้าสู่ระบบ
   Future<void> signIn() async {
-  String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
-  try {
-    final response = await http.post(Uri.parse(url), body: {
-      'email': email.text,
-      'password': pass.text,
-    });
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      if (data == "Error") {
-        // ไม่พบผู้ใช้
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please enter a correct email or password.')),
-        );
-      } else {
-        await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
-        );
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Server error. Please try again later.')),
-      );
-    }
-  } catch (e) {
-    // ถ้าพอร์ต 8080 ใช้ไม่ได้ จะลองใช้พอร์ต 80 แทน
+    String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
     try {
-      String fallbackUrl = "http://${Global.ip_80}/gotwo/login_rider.php";
-      final fallbackResponse = await http.post(Uri.parse(fallbackUrl), body: {
+      final response = await http.post(Uri.parse(url), body: {
         'email': email.text,
         'password': pass.text,
       });
 
-      if (fallbackResponse.statusCode == 200) {
-        var data = json.decode(fallbackResponse.body);
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
         if (data == "Error") {
+          // ไม่พบผู้ใช้
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Please enter a correct email or password.')),
+            const SnackBar(
+                content: Text('Please enter a correct email or password.')),
           );
         } else {
-          await saveLoginInfo();
+          await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
@@ -100,17 +75,47 @@ class _LoginpageState extends State<Loginpage> {
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Server error. Please try again later.')),
+          const SnackBar(
+              content: Text('Server error. Please try again later.')),
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login failed. Please try again.')),
-      );
+      // ถ้าพอร์ต 8080 ใช้ไม่ได้ จะลองใช้พอร์ต 80 แทน
+      try {
+        String fallbackUrl = "http://${Global.ip_80}/gotwo/login_rider.php";
+        final fallbackResponse = await http.post(Uri.parse(fallbackUrl), body: {
+          'email': email.text,
+          'password': pass.text,
+        });
+
+        if (fallbackResponse.statusCode == 200) {
+          var data = json.decode(fallbackResponse.body);
+          if (data == "Error") {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text('Please enter a correct email or password.')),
+            );
+          } else {
+            await saveLoginInfo();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const GotwoDashbordrider()),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Server error. Please try again later.')),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login failed. Please try again.')),
+        );
+      }
     }
   }
-}
-
 
   @override
   void initState() {
@@ -124,12 +129,7 @@ class _LoginpageState extends State<Loginpage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context); // ย้อนกลับไปยังหน้าก่อนหน้านี้
-          },
-        ),
+        leading: _backButton(),
       ),
       body: SafeArea(
         child: Center(
@@ -217,9 +217,8 @@ class _LoginpageState extends State<Loginpage> {
                   child: Row(
                     children: [
                       Checkbox(
-                        
-                        activeColor:
-                            const Color(0xFF1A1C43), // Change the color when checked
+                        activeColor: const Color(
+                            0xFF1A1C43), // Change the color when checked
                         checkColor: Colors.white,
                         value: rememberMe,
                         onChanged: (value) {
@@ -262,6 +261,26 @@ class _LoginpageState extends State<Loginpage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _backButton() {
+    return GestureDetector(
+      onTap: () {
+        debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const GotwoHomepage(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 30,
+        color: Color(0xff1a1c43),
       ),
     );
   }

@@ -47,6 +47,12 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
       if (response.statusCode == 200) {
         setState(() {
           listData = json.decode(response.body); // แปลง JSON เป็น List
+          listData.sort((a, b) {
+            // รวม date และ time เพื่อเปรียบเทียบ
+            DateTime dateTimeA = DateTime.parse('${a['date']} ${a['time']}');
+            DateTime dateTimeB = DateTime.parse('${b['date']} ${b['time']}');
+            return dateTimeB.compareTo(dateTimeA);
+          });
           filteredList =
               listData; // เริ่มต้นให้ filteredList มีค่าเท่ากับ listData ทั้งหมด
         });

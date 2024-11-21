@@ -195,8 +195,8 @@ class _GotwoCancel extends State<GotwoCancel> {
                                         color: Colors.blue,
                                         size: 16) // ไอคอนสำหรับ "Pending"
                                     : item['pay'] == '4' || item['pay'] == 4
-                                        ? Icon(Icons.visibility,
-                                            color: Colors.green[300],
+                                        ? const Icon(Icons.visibility,
+                                            color: Colors.red,
                                             size: 16) // ไอคอนสำหรับ "Completed"
                                         : const Icon(Icons.visibility_off,
                                             color: Colors.black,
@@ -211,7 +211,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                                   : item['pay'] == '3' || item['pay'] == 3
                                       ? "Pending"
                                       : item['pay'] == '4' || item['pay'] == 4
-                                          ? "Completed"
+                                          ? "Cencel"
                                           : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                       style: TextStyle(
                         fontSize: 12,
@@ -224,8 +224,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                                     : item['pay'] == '3' || item['pay'] == 3
                                         ? Colors.blue // Blue for "Pending"
                                         : item['pay'] == '4' || item['pay'] == 4
-                                            ? Colors.green[
-                                                300] // Grey for "Completed"
+                                            ? Colors.red// Grey for "Completed"
                                             : Colors
                                                 .black, // Black for "Unknown"
                       ),
