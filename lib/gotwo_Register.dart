@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_Homepage.dart';
 import 'package:gotwo_app/gotwo_Information.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
+import 'package:path/path.dart' as path;
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class Rider_Register extends StatefulWidget {
   const Rider_Register({super.key});
@@ -27,23 +33,72 @@ class _Rider_RegisterState extends State<Rider_Register> {
   ];
   String dropdownValue = list.first;
 
-  String? userCardImagePath;
-  File? user_card_im_path;
-  final picker = ImagePicker();
-  Future user_getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+  File? _userIimage; // เก็บภาพที่เลือก
+  String? _userImageUrl; // เก็บ URL รูปภาพที่อัปโหลด
+  Future<void> user_getImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        user_card_im_path = File(pickedFile.path);
-        userCardImagePath = pickedFile.path;
+    if (pickedFile != null) {
+      // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final directory = await getTemporaryDirectory();
+      final newFileName = "GRU_$timestamp${path.extension(pickedFile.path)}";
+      final newFilePath = path.join(directory.path, newFileName);
+
+      final renamedFile = await File(pickedFile.path).copy(newFilePath);
+
+      setState(() {
+        _userIimage = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+      });
+
+      // อัปโหลดไฟล์
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://${Global.ip_8080}/gotwo/upload_p.php'),
+      );
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _userIimage!.path));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        final data = json.decode(res.body);
+
+        if (data['file'] != null) {
+          setState(() {
+            _userImageUrl = data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+          });
+        }
       } else {
-        print("No Image Picked");
+        print('File upload failed');
       }
+    }
+  }
+
+  bool isRegisterBtnEnabled = false; // สถานะปุ่ม
+  void validateFields() {
+    setState(() {
+      isRegisterBtnEnabled = usernameController.text.isNotEmpty &&
+          emaiController.text.isNotEmpty &&
+          phoneController.text.isNotEmpty &&
+          createPasswordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty &&
+          dropdownValue != "Gender" &&
+          _userImageUrl != null; // ตรวจสอบว่ามีรูปภาพหรือไม่
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // เพิ่ม Listener เพื่อเช็คเมื่อข้อมูลเปลี่ยนแปลง
+    usernameController.addListener(validateFields);
+    emaiController.addListener(validateFields);
+    phoneController.addListener(validateFields);
+    createPasswordController.addListener(validateFields);
+    confirmPasswordController.addListener(validateFields);
   }
 
   @override
@@ -134,7 +189,8 @@ class _Rider_RegisterState extends State<Rider_Register> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => GotwoHomepage(),),
+            builder: (context) => GotwoHomepage(),
+          ),
           (Route<dynamic> route) => false,
         );
       },
@@ -145,22 +201,6 @@ class _Rider_RegisterState extends State<Rider_Register> {
       ),
     );
   }
-
-  // Widget _icon() {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       debugPrint("Add Photo");
-  //       // selectImage,
-  //     },
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //           color: const Color(0xff1a1c43),
-  //           border: Border.all(color: const Color(0xff1a1c43), width: 3),
-  //           shape: BoxShape.circle),
-  //       child: const Icon(Icons.person, color: Colors.white, size: 50),
-  //     ),
-  //   );
-  // }
 
   Widget _addPhoto() {
     return Column(
@@ -185,17 +225,15 @@ class _Rider_RegisterState extends State<Rider_Register> {
                 width: 3,
               ),
             ),
-            child: user_card_im_path !=
-                    null // ตรวจสอบว่ามีรูปภาพที่เลือกหรือไม่
+            child: _userImageUrl != null // ตรวจสอบว่ามีรูปภาพที่เลือกหรือไม่
                 ? ClipOval(
                     // ใช้ ClipOval เพื่อทำให้รูปเป็นวงกลม
-                    child: Image.file(
-                      File(userCardImagePath!),
-                      fit: BoxFit.cover, // ปรับขนาดรูปภาพให้พอดีกับ Container
-                      width: 60,
-                      height: 60,
-                    ),
-                  )
+                    child: Image.network(
+                    _userImageUrl!,
+                    fit: BoxFit.cover, // ปรับขนาดรูปภาพให้พอดีกับ Container
+                    width: 60,
+                    height: 60,
+                  ))
                 : const Icon(
                     Icons.person,
                     color: Colors.white,
@@ -259,44 +297,58 @@ class _Rider_RegisterState extends State<Rider_Register> {
 
   Widget _registerBtn() {
     return ElevatedButton(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: _snackBarnotification(),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-        debugPrint("Username : ${usernameController.text}");
-        debugPrint("Emai : ${emaiController.text}");
-        debugPrint("Phone : ${phoneController.text}");
-        debugPrint("Create Password : ${createPasswordController.text}");
-        debugPrint("Confirm Password : ${confirmPasswordController.text}");
-        debugPrint("Gender: ${dropdownValue.toLowerCase()}");
-        debugPrint(userCardImagePath);
+      onPressed: isRegisterBtnEnabled
+          ? () {
+              if (createPasswordController.text !=
+                  confirmPasswordController.text) {
+                // แสดงข้อความแจ้งเตือนหากรหัสผ่านไม่ตรงกัน
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Passwords do not match!"),
+                  ),
+                );
+                return;
+              }
 
-        // Navigate to GotwoInformation and send data
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GotwoInformation(
-              username: usernameController.text,
-              email: emaiController.text,
-              phone: phoneController.text,
-              createPassword: createPasswordController.text,
-              confirmPassword: confirmPasswordController.text,
-              gender: dropdownValue.toLowerCase(),
-              userCardImagePath: userCardImagePath,
-            ),
-          ),
-          (Route<dynamic> route) => false,
-        );
-      },
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Registration Next"),
+                ),
+              );
+
+              debugPrint("Username : ${usernameController.text}");
+              debugPrint("Emai : ${emaiController.text}");
+              debugPrint("Phone : ${phoneController.text}");
+              debugPrint("Create Password : ${createPasswordController.text}");
+              debugPrint(
+                  "Confirm Password : ${confirmPasswordController.text}");
+              debugPrint("Gender: ${dropdownValue.toLowerCase()}");
+              debugPrint(_userImageUrl);
+
+              // Navigate to GotwoInformation and send data
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GotwoInformation(
+                    username: usernameController.text,
+                    email: emaiController.text,
+                    phone: phoneController.text,
+                    createPassword: createPasswordController.text,
+                    confirmPassword: confirmPasswordController.text,
+                    gender: dropdownValue.toLowerCase(),
+                    userCardImagePath: _userImageUrl,
+                  ),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            }
+          : null, // ปิดการใช้งานปุ่มหากข้อมูลไม่ครบ
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 34),
         foregroundColor: Colors.blue,
-        backgroundColor: const Color(0xff1a1c43),
+        backgroundColor: isRegisterBtnEnabled
+            ? const Color(0xff1a1c43)
+            : Colors.grey, // สีปุ่มเปลี่ยนตามสถานะ
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 6),
       ),
@@ -310,52 +362,58 @@ class _Rider_RegisterState extends State<Rider_Register> {
     );
   }
 
+  // Widget _snackBarnotification() {
+  //   if (usernameController.text == "" &&
+  //       emaiController.text == "" &&
+  //       phoneController.text == "" &&
+  //       createPasswordController.text == "" &&
+  //       confirmPasswordController.text == "" &&
+  //       dropdownValue == "Gender") {
+  //     return Container(
+  //       padding: const EdgeInsets.all(8),
+  //       height: 70,
+  //       decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.circular(20),
+  //           border: Border.all(color: Colors.redAccent)),
+  //       child: const Row(
+  //         children: [
+  //           SizedBox(
+  //             width: 48,
+  //           ),
+  //           Expanded(
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Text(
+  //                   "Oh snap!",
+  //                   style: TextStyle(
+  //                     fontSize: 14,
+  //                     color: Color(0xff1a1c43),
+  //                   ),
+  //                 ),
+  //                 Text(
+  //                   "Username or Password is Wrong",
+  //                   style: TextStyle(
+  //                     fontSize: 12,
+  //                     color: Color(0xff1a1c43),
+  //                   ),
+  //                   maxLines: 2,
+  //                   overflow: TextOverflow.ellipsis,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }
+  //   return Container();
+  // }
+
   Widget _snackBarnotification() {
-    if (usernameController.text == "" &&
-        emaiController.text == "" &&
-        phoneController.text == "" &&
-        createPasswordController.text == "" &&
-        confirmPasswordController.text == "" &&
-        dropdownValue == "Gender") {
-      return Container(
-        padding: const EdgeInsets.all(8),
-        height: 70,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.redAccent)),
-        child: const Row(
-          children: [
-            SizedBox(
-              width: 48,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Oh snap!",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xff1a1c43),
-                    ),
-                  ),
-                  Text(
-                    "Username or Password is Wrong",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xff1a1c43),
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    return Container();
+    return const SnackBar(
+      content: Text("Please fill in all fields before continuing."),
+    );
   }
 }

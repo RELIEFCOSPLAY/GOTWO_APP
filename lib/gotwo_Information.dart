@@ -6,7 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_loginr.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class GotwoInformation extends StatefulWidget {
   final String username;
@@ -37,14 +40,50 @@ class _GotwoInformationState extends State<GotwoInformation> {
   TextEditingController namebankAccountController = TextEditingController();
   TextEditingController accountNumberController = TextEditingController();
 
+  // เพิ่มสถานะปุ่ม
+  bool isNextBtnEnabled = false;
+
+  // ฟังก์ชันตรวจสอบข้อมูล
+  void validateFields() {
+    setState(() {
+      isNextBtnEnabled = expirationController.text.isNotEmpty &&
+          carRegistrationController.text.isNotEmpty &&
+          carBrandController.text.isNotEmpty &&
+          namebankAccountController.text.isNotEmpty &&
+          accountNumberController.text.isNotEmpty &&
+          _idImageUrl != null &&
+          _licensemageUrl != null &&
+          _carpicmageUrl != null &&
+          _regCardmageUrl != null &&
+          _atcCardmageUrl != null &&
+          dropdownValue != "Bank Select";
+    });
+  }
+
+  List<dynamic> listlBank = [];
+  Future<void> fetchBank() async {
+    final String url = "http://${Global.ip_8080}/gotwo/get_bank.php";
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          listlBank = json.decode(response.body); // แปลง JSON เป็น List
+          // ไม่เปลี่ยนค่า dropdownPickup และ dropdownDrop ที่ตั้งค่าเป็น "Select Location"
+        });
+      } else {
+        print("Failed to load data");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   static const List<String> list = <String>[
     'Bank Select',
-    'Bank 1',
-    'Bank 2',
   ];
   String dropdownValue = list.first;
   List<dynamic> listlocation = [];
-
   Future<void> fetchLocation() async {
     final String url = "http://${Global.ip_8080}/gotwo/get_location.php";
     try {
@@ -55,112 +94,240 @@ class _GotwoInformationState extends State<GotwoInformation> {
           listlocation = json.decode(response.body); // แปลง JSON เป็น List
         });
       } else {
-        print("Failed to load data");
+        debugPrint("Failed to load data");
       }
     } catch (e) {
-      print("Error: $e");
+      debugPrint("Error: $e");
     }
   }
 
 //==========================================================================
-  String? idCardImagePath;
+
   bool isImageSelected_idcardBtn = false;
-  File? id_card_im_path;
-  final picker = ImagePicker();
-  Future id_getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+  File? _idIimage; // เก็บภาพที่เลือก
+  String? _idImageUrl; // เก็บ URL รูปภาพที่อัปโหลด
+  Future<void> id_getImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        id_card_im_path = File(pickedFile.path);
-        idCardImagePath = pickedFile.path;
+    if (pickedFile != null) {
+      // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final directory = await getTemporaryDirectory();
+      final newFileName = "GRID_$timestamp${path.extension(pickedFile.path)}";
+      final newFilePath = path.join(directory.path, newFileName);
+
+      final renamedFile = await File(pickedFile.path).copy(newFilePath);
+
+      setState(() {
+        _idIimage = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+      });
+
+      // อัปโหลดไฟล์
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://${Global.ip_8080}/gotwo/upload_p.php'),
+      );
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _idIimage!.path));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        final data = json.decode(res.body);
+
+        if (data['file'] != null) {
+          setState(() {
+            _idImageUrl = data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+          });
+        }
       } else {
-        print("No Image Picked");
+        debugPrint('File upload failed');
       }
-    });
+    }
   }
 
 //===============================================
-  String? licenseCardImagePath;
   bool isImageSelected_license = false;
-  File? license_card_im_path;
-  Future license_getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+  File? _licenseimage; // เก็บภาพที่เลือก
+  String? _licensemageUrl; // เก็บ URL รูปภาพที่อัปโหลด
+  Future<void> license_getImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        license_card_im_path = File(pickedFile.path);
-        licenseCardImagePath = pickedFile.path;
+    if (pickedFile != null) {
+      // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final directory = await getTemporaryDirectory();
+      final newFileName = "GRLIC_$timestamp${path.extension(pickedFile.path)}";
+      final newFilePath = path.join(directory.path, newFileName);
+
+      final renamedFile = await File(pickedFile.path).copy(newFilePath);
+
+      setState(() {
+        _licenseimage = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+      });
+
+      // อัปโหลดไฟล์
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://${Global.ip_8080}/gotwo/upload_p.php'),
+      );
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _licenseimage!.path));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        final data = json.decode(res.body);
+
+        if (data['file'] != null) {
+          setState(() {
+            _licensemageUrl = data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+          });
+        }
       } else {
-        print("No Image Picked");
+        debugPrint('File upload failed');
       }
-    });
+    }
   }
 
 //===============================================
-  String? carpicCardImagePath;
+
   bool isImageSelected_carpic = false;
-  File? carpic_card_im_path;
-  Future carpic_getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+  File? _carpicimage; // เก็บภาพที่เลือก
+  String? _carpicmageUrl; // เก็บ URL รูปภาพที่อัปโหลด
+  Future<void> carpic_getImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        carpic_card_im_path = File(pickedFile.path);
-        carpicCardImagePath = pickedFile.path;
+    if (pickedFile != null) {
+      // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final directory = await getTemporaryDirectory();
+      final newFileName = "GRCAR_$timestamp${path.extension(pickedFile.path)}";
+      final newFilePath = path.join(directory.path, newFileName);
+
+      final renamedFile = await File(pickedFile.path).copy(newFilePath);
+
+      setState(() {
+        _carpicimage = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+      });
+
+      // อัปโหลดไฟล์
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://${Global.ip_8080}/gotwo/upload_p.php'),
+      );
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _carpicimage!.path));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        final data = json.decode(res.body);
+
+        if (data['file'] != null) {
+          setState(() {
+            _carpicmageUrl = data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+          });
+        }
       } else {
-        print("No Image Picked");
+        debugPrint('File upload failed');
       }
-    });
+    }
   }
 
 //===============================================
-  String? regCardImagePath;
+
   bool isImageSelected_Reg = false;
-  File? reg_card_im_path;
-  Future reg_getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+  File? _regCardimage; // เก็บภาพที่เลือก
+  String? _regCardmageUrl; // เก็บ URL รูปภาพที่อัปโหลด
+  Future<void> regCard_getImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        reg_card_im_path = File(pickedFile.path);
-        regCardImagePath = pickedFile.path;
+    if (pickedFile != null) {
+      // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final directory = await getTemporaryDirectory();
+      final newFileName = "GRREG_$timestamp${path.extension(pickedFile.path)}";
+      final newFilePath = path.join(directory.path, newFileName);
+
+      final renamedFile = await File(pickedFile.path).copy(newFilePath);
+
+      setState(() {
+        _regCardimage = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+      });
+
+      // อัปโหลดไฟล์
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://${Global.ip_8080}/gotwo/upload_p.php'),
+      );
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _regCardimage!.path));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        final data = json.decode(res.body);
+
+        if (data['file'] != null) {
+          setState(() {
+            _regCardmageUrl = data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+          });
+        }
       } else {
-        print("No Image Picked");
+        debugPrint('File upload failed');
       }
-    });
+    }
   }
 
 //===============================================
-  String? atcCardImagePath;
-  bool isImageSelected_Atc = false;
-  File? atc_card_im_path;
-  Future atc_getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
 
-    setState(() {
-      if (pickedFile != null) {
-        atc_card_im_path = File(pickedFile.path);
-        atcCardImagePath = pickedFile.path;
+  bool isImageSelected_Atc = false;
+  File? _atcCardimage; // เก็บภาพที่เลือก
+  String? _atcCardmageUrl; // เก็บ URL รูปภาพที่อัปโหลด
+  Future<void> atcCard_getImageGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final directory = await getTemporaryDirectory();
+      final newFileName = "GRATC_$timestamp${path.extension(pickedFile.path)}";
+      final newFilePath = path.join(directory.path, newFileName);
+
+      final renamedFile = await File(pickedFile.path).copy(newFilePath);
+
+      setState(() {
+        _atcCardimage = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+      });
+
+      // อัปโหลดไฟล์
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://${Global.ip_8080}/gotwo/upload_p.php'),
+      );
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _atcCardimage!.path));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        final data = json.decode(res.body);
+
+        if (data['file'] != null) {
+          setState(() {
+            _atcCardmageUrl = data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+          });
+        }
       } else {
-        print("No Image Picked");
+        debugPrint('File upload failed');
       }
-    });
+    }
   }
 
   //===============================================
@@ -199,29 +366,46 @@ class _GotwoInformationState extends State<GotwoInformation> {
           "img_id_card": imgIdCard,
           "img_driver_license": imgDriverLicense,
           "img_car_picture": imgCarPicture,
-          "img_car_registration": imgCarRegistration,
+          "img_car_registration":
+              imgCarRegistration, // ตรวจสอบชื่อให้ตรงกับ PHP
           "img_act": imgAct,
           "expiration_date": expirationDate,
-          "car_rigistration": carRegistration,
+          "car_rigistration": carRegistration, // ใช้คีย์ที่ PHP รู้จัก
           "car_brand": carBrand,
           "bank": bank,
           "name_account": nameAccount,
-          "number_bank": numberBank,
+          "number_bank": numberBank, // Flutter ส่งเป็น String
           "status_rider": statusRider,
           "reason": reason,
         },
       );
 
       if (response.statusCode == 200) {
-        // Check for success message from PHP
-        var jsonResponse = json.decode(response.body);
-        print("Insert success: $jsonResponse");
+        var data = jsonDecode(response.body); // แปลง JSON เป็น Map
+        if (data['status'] == 'success') {
+          print(data['message']); // "Insert Success"
+        } else {
+          print(data['message']); // "Error Insert!"
+        }
       } else {
-        print("Failed to insert: ${response.statusCode}");
+        print("Server Error: ${response.statusCode}");
       }
     } catch (e) {
       print("Error occurred: $e");
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBank();
+
+    // เพิ่ม Listener เพื่อเช็คเมื่อมีการเปลี่ยนแปลงข้อมูล
+    expirationController.addListener(validateFields);
+    carRegistrationController.addListener(validateFields);
+    carBrandController.addListener(validateFields);
+    namebankAccountController.addListener(validateFields);
+    accountNumberController.addListener(validateFields);
   }
 
   @override
@@ -312,7 +496,10 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   ),
                   const SizedBox(width: 5),
                   Expanded(
-                    child: _inputField("Expiration date", expirationController),
+                    child: Expanded(
+                      child: _inputFieldDatePicker(
+                          "Expiration date", expirationController),
+                    ),
                   )
                 ],
               ),
@@ -344,10 +531,62 @@ class _GotwoInformationState extends State<GotwoInformation> {
               const SizedBox(height: 10),
               _inputField2("Bank account name", namebankAccountController),
               const SizedBox(height: 10),
-              _inputField2("Enter account number", accountNumberController),
+              _inputField3("Enter account number", accountNumberController),
               const SizedBox(height: 5),
               _nextBtn(),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _inputFieldDatePicker(
+      String hintText, TextEditingController controller) {
+    var border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(18),
+      borderSide: const BorderSide(color: Color(0xff1a1c43)),
+    );
+
+    return GestureDetector(
+      onTap: () async {
+        // เปิด Date Picker
+        DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000), // วันที่เริ่มต้นที่สามารถเลือกได้
+          lastDate: DateTime(2100), // วันที่สิ้นสุดที่สามารถเลือกได้
+        );
+
+        if (pickedDate != null) {
+          // อัปเดตค่าใน TextEditingController
+          String formattedDate =
+              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+          setState(() {
+            controller.text = formattedDate; // แปลงวันที่เป็น String
+          });
+        }
+      },
+      child: AbsorbPointer(
+        // ใช้ AbsorbPointer เพื่อปิดการป้อนข้อความตรงๆ
+        child: SizedBox(
+          height: 40,
+          width: 100,
+          child: TextField(
+            style: const TextStyle(color: Color(0xff1a1c43), fontSize: 12),
+            controller: controller,
+            textAlign: TextAlign.center, // จัดตัวหนังสือให้ตรงกลางในแนวนอน
+            textAlignVertical:
+                TextAlignVertical.center, // จัดตัวหนังสือให้ตรงกลางในแนวตั้ง
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: const TextStyle(color: Color(0xff1a1c43)),
+              enabledBorder: border,
+              focusedBorder: border,
+              contentPadding: const EdgeInsets.symmetric(
+                  vertical: 10), // ปรับ Padding ให้อยู่ตรงกลาง
+            ),
+            readOnly: true, // ทำให้ไม่สามารถพิมพ์ในช่องนี้ได้
           ),
         ),
       ),
@@ -417,7 +656,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Color(0xff1a1c43)),
+          hintStyle: const TextStyle(color: Colors.grey),
           enabledBorder: border,
           focusedBorder: border,
         ),
@@ -425,6 +664,34 @@ class _GotwoInformationState extends State<GotwoInformation> {
       ),
     );
   }
+
+  Widget _inputField3(String hintText, TextEditingController controller,
+    {isPassword = false}) {
+  var border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(18),
+      borderSide: const BorderSide(color: Color(0xff1a1c43)));
+
+  return SizedBox(
+    child: TextField(
+      style: const TextStyle(
+        color: Color(0xff1a1c43),
+      ),
+      controller: controller,
+      keyboardType: TextInputType.number, // บังคับให้พิมพ์ได้เฉพาะตัวเลข
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly, // กรองเฉพาะตัวเลขเท่านั้น
+      ],
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Colors.grey),
+        enabledBorder: border,
+        focusedBorder: border,
+      ),
+      obscureText: isPassword,
+    ),
+  );
+}
+
 
   Widget _bText() {
     return const Text(
@@ -441,12 +708,11 @@ class _GotwoInformationState extends State<GotwoInformation> {
         borderSide: const BorderSide(color: Color(0xff1a1c43)));
 
     return DropdownButtonFormField<String>(
-      hint: const Text('Gender'),
       decoration: InputDecoration(
         enabledBorder: border,
         focusedBorder: border,
       ),
-      value: dropdownValue,
+      value: dropdownValue, // ค่าเริ่มต้นที่จะแสดง
       elevation: 16,
       style: const TextStyle(
         color: Color(0xff1a1c43),
@@ -454,96 +720,111 @@ class _GotwoInformationState extends State<GotwoInformation> {
       ),
       borderRadius: BorderRadius.circular(18),
       onChanged: (String? value) {
-        // This is called when the user selects an item.
+        // ฟังก์ชันที่เรียกใช้เมื่อมีการเปลี่ยนค่า
         setState(() {
           dropdownValue = value!;
         });
       },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      items: [
+        const DropdownMenuItem<String>(
+          value: 'Bank Select',
+          child: Text(
+            'Bank Select',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+        ...listlBank.map<DropdownMenuItem<String>>((dynamic bank) {
+          return DropdownMenuItem<String>(
+            value: bank['bank_List'], // สมมติว่าคีย์ชื่อธนาคารคือ 'bank_List'
+            child: Text(bank['bank_List']),
+          );
+        }).toList(),
+      ],
     );
   }
 
   Widget _nextBtn() {
     return ElevatedButton(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: _snackBarnotification(),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-        String statusRider0 = "0";
-        String reasonNo = "no";
-        debugPrint("imgProfile: ${widget.userCardImagePath}");
-        debugPrint("Username: ${widget.username}");
-        debugPrint("Email: ${widget.email}");
-        debugPrint("Phone: ${widget.phone}");
-        debugPrint("Gender: ${widget.gender}");
-        debugPrint("password : ${widget.createPassword}");
-        debugPrint("imgIdCard : $idCardImagePath");
-        debugPrint("imgDriverLicense : $licenseCardImagePath");
-        debugPrint("imgCarPicture : $carpicCardImagePath");
-        debugPrint("imgCarRegistration : $regCardImagePath");
-        debugPrint("imgAct : $atcCardImagePath");
-        debugPrint("expirationDate : ${expirationController.text}");
-        debugPrint("carRegistration : ${carRegistrationController.text}");
-        debugPrint("carBrand : ${carBrandController.text}");
-        debugPrint("bank : ${dropdownValue.toString()}");
-        debugPrint("nameAccount : ${namebankAccountController.text}");
-        debugPrint("numberBank : ${accountNumberController.text}");
-        debugPrint("statusRider : $statusRider0");
-        debugPrint("reason : ${widget.confirmPassword}");
+      onPressed: isNextBtnEnabled
+          ? () {
+              // ดำเนินการเมื่อข้อมูลครบถ้วน
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Processing Registration..."),
+                ),
+              );
 
-        insert_Register(
-            widget.userCardImagePath.toString(),
-            widget.username,
-            widget.email,
-            widget.phone,
-            widget.gender,
-            widget.createPassword,
-            idCardImagePath.toString(),
-            licenseCardImagePath.toString(),
-            carpicCardImagePath.toString(),
-            regCardImagePath.toString(),
-            atcCardImagePath.toString(),
-            expirationController.text,
-            carRegistrationController.text,
-            carBrandController.text,
-            dropdownValue.toString(),
-            namebankAccountController.text,
-            accountNumberController.text,
-            statusRider0,
-            reasonNo);
+              String statusRider0 = "0";
+              String reasonNo = "no";
 
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Loginpage(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-      },
+              insert_Register(
+                widget.userCardImagePath.toString(),
+                widget.username,
+                widget.email,
+                widget.phone,
+                widget.gender,
+                widget.createPassword,
+                _idImageUrl.toString(),
+                _licensemageUrl.toString(),
+                _carpicmageUrl.toString(),
+                _regCardmageUrl.toString(),
+                _atcCardmageUrl.toString(),
+                expirationController.text,
+                carRegistrationController.text,
+                carBrandController.text,
+                dropdownValue.toString(),
+                namebankAccountController.text,
+                accountNumberController.text,
+                statusRider0,
+                reasonNo,
+              );
+
+              debugPrint("imgProfile: ${widget.userCardImagePath}");
+              debugPrint("Username: ${widget.username}");
+              debugPrint("Email: ${widget.email}");
+              debugPrint("Phone: ${widget.phone}");
+              debugPrint("Gender: ${widget.gender}");
+              debugPrint("password : ${widget.createPassword}");
+              debugPrint("imgIdCard : $_idImageUrl");
+              debugPrint("imgDriverLicense : $_licensemageUrl");
+              debugPrint("imgCarPicture : $_carpicmageUrl");
+              debugPrint("imgCarRegistration : $_regCardmageUrl");
+              debugPrint("imgAct : $_atcCardmageUrl");
+              debugPrint("expirationDate : ${expirationController.text}");
+              debugPrint("carRegistration : ${carRegistrationController.text}");
+              debugPrint("carBrand : ${carBrandController.text}");
+              debugPrint("bank : ${dropdownValue.toString()}");
+              debugPrint("nameAccount : ${namebankAccountController.text}");
+              debugPrint("numberBank : ${accountNumberController.text}");
+              debugPrint("statusRider : $statusRider0");
+              debugPrint("reason : ${widget.confirmPassword}");
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Loginpage(),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            }
+          : null, // ปิดการใช้งานปุ่มหากข้อมูลไม่ครบ
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(120, 24),
         foregroundColor: Colors.blue,
-        backgroundColor: const Color(0xff1a1c43),
+        backgroundColor: isNextBtnEnabled
+            ? const Color(0xff1a1c43)
+            : Colors.grey, // สีปุ่มเปลี่ยนตามสถานะ
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 2),
       ),
       child: const SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Next",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.white),
-          )),
+        width: double.infinity,
+        child: Text(
+          "Register",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+      ),
     );
   }
 
@@ -555,9 +836,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              print(id_card_im_path);
+              debugPrint(_idImageUrl);
               id_getImageGallery().then((_) {
-                if (id_card_im_path != null) {
+                if (_idImageUrl != null) {
                   setState(() {
                     isImageSelected_idcardBtn =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
@@ -577,9 +858,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            id_card_im_path != null
-                                ? Image.file(
-                                    id_card_im_path!) // แสดงรูปภาพที่อัปโหลด
+                            _idImageUrl != null
+                                ? Image.network(
+                                    _idImageUrl!) // แสดงรูปภาพที่อัปโหลด
                                 : const Text("No image selected"),
                           ],
                         ),
@@ -587,7 +868,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              print(id_card_im_path);
+                              debugPrint(_idImageUrl);
                             },
                             child: const Text(
                               "Close",
@@ -656,9 +937,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              print(license_card_im_path);
+              debugPrint(_licensemageUrl);
               license_getImageGallery().then((_) {
-                if (license_card_im_path != null) {
+                if (_licensemageUrl != null) {
                   setState(() {
                     isImageSelected_license =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
@@ -678,9 +959,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            license_card_im_path != null
-                                ? Image.file(
-                                    license_card_im_path!) // แสดงรูปภาพที่อัปโหลด
+                            _licensemageUrl != null
+                                ? Image.network(
+                                    _licensemageUrl!) // แสดงรูปภาพที่อัปโหลด
                                 : const Text("No image selected"),
                           ],
                         ),
@@ -688,7 +969,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              print(license_card_im_path);
+                              debugPrint(_licensemageUrl);
                             },
                             child: const Text(
                               "Close",
@@ -757,9 +1038,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              print(carpic_card_im_path);
+              debugPrint(_carpicmageUrl);
               carpic_getImageGallery().then((_) {
-                if (carpic_card_im_path != null) {
+                if (_carpicmageUrl != null) {
                   setState(() {
                     isImageSelected_carpic =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
@@ -779,9 +1060,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            carpic_card_im_path != null
-                                ? Image.file(
-                                    carpic_card_im_path!) // แสดงรูปภาพที่อัปโหลด
+                            _carpicmageUrl != null
+                                ? Image.network(
+                                    _carpicmageUrl!) // แสดงรูปภาพที่อัปโหลด
                                 : const Text("No image selected"),
                           ],
                         ),
@@ -789,7 +1070,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              print(carpic_card_im_path);
+                              debugPrint(_carpicmageUrl);
                             },
                             child: const Text(
                               "Close",
@@ -858,9 +1139,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              print(reg_card_im_path);
-              reg_getImageGallery().then((_) {
-                if (reg_card_im_path != null) {
+              debugPrint(_regCardmageUrl);
+              regCard_getImageGallery().then((_) {
+                if (_regCardmageUrl != null) {
                   setState(() {
                     isImageSelected_Reg =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
@@ -880,9 +1161,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            reg_card_im_path != null
-                                ? Image.file(
-                                    reg_card_im_path!) // แสดงรูปภาพที่อัปโหลด
+                            _regCardmageUrl != null
+                                ? Image.network(
+                                    _regCardmageUrl!) // แสดงรูปภาพที่อัปโหลด
                                 : const Text("No image selected"),
                           ],
                         ),
@@ -890,7 +1171,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              print(reg_card_im_path);
+                              debugPrint(_regCardmageUrl);
                             },
                             child: const Text(
                               "Close",
@@ -959,9 +1240,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              print(atc_card_im_path);
-              atc_getImageGallery().then((_) {
-                if (atc_card_im_path != null) {
+              debugPrint(_atcCardmageUrl);
+              atcCard_getImageGallery().then((_) {
+                if (_atcCardmageUrl != null) {
                   setState(() {
                     isImageSelected_Atc =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
@@ -981,9 +1262,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            atc_card_im_path != null
-                                ? Image.file(
-                                    atc_card_im_path!) // แสดงรูปภาพที่อัปโหลด
+                            _atcCardmageUrl != null
+                                ? Image.network(
+                                    _atcCardmageUrl!) // แสดงรูปภาพที่อัปโหลด
                                 : const Text("No image selected"),
                           ],
                         ),
@@ -991,7 +1272,7 @@ class _GotwoInformationState extends State<GotwoInformation> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              print(atc_card_im_path);
+                              debugPrint(_atcCardmageUrl);
                             },
                             child: const Text(
                               "Close",
@@ -1053,50 +1334,8 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
   Widget _snackBarnotification() {
-    if (expirationController.text == "" &&
-        carRegistrationController.text == "" &&
-        carBrandController.text == "" &&
-        namebankAccountController.text == "" &&
-        accountNumberController.text == "") {
-      return Container(
-        padding: const EdgeInsets.all(8),
-        height: 70,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.redAccent)),
-        child: const Row(
-          children: [
-            SizedBox(
-              width: 48,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Oh snap!",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xff1a1c43),
-                    ),
-                  ),
-                  Text(
-                    "Username or Password is Wrong",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xff1a1c43),
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    return Container();
+    return const SnackBar(
+      content: Text("Please fill in all fields and upload all images."),
+    );
   }
 }
