@@ -53,24 +53,30 @@ class _LoginpageState extends State<Loginpage> {
   Future<void> signIn() async {
     String url = "http://${Global.ip_8080}/gotwo/login_rider.php";
     try {
-      final response = await http.post(Uri.parse(url), body: {
-        'email': email.text,
-        'password': pass.text,
-      });
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'email': email.text,
+          'password': pass.text,
+        },
+      );
+      debugPrint("Response: ${response.body}");
 
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        if (data == "Error") {
-          // ไม่พบผู้ใช้
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Please enter a correct email or password.')),
-          );
-        } else {
-          await saveLoginInfo(); // บันทึกข้อมูลการเข้าสู่ระบบ
+        if (data == "Success") {
+          // Login success
+          await saveLoginInfo();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const GotwoDashbordrider()),
+          );
+        } else {
+          // Login failed
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please enter a correct email or password.'),
+            ),
           );
         }
       } else {
@@ -80,40 +86,7 @@ class _LoginpageState extends State<Loginpage> {
         );
       }
     } catch (e) {
-      // ถ้าพอร์ต 8080 ใช้ไม่ได้ จะลองใช้พอร์ต 80 แทน
-      try {
-        String fallbackUrl = "http://${Global.ip_80}/gotwo/login_rider.php";
-        final fallbackResponse = await http.post(Uri.parse(fallbackUrl), body: {
-          'email': email.text,
-          'password': pass.text,
-        });
-
-        if (fallbackResponse.statusCode == 200) {
-          var data = json.decode(fallbackResponse.body);
-          if (data == "Error") {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text('Please enter a correct email or password.')),
-            );
-          } else {
-            await saveLoginInfo();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const GotwoDashbordrider()),
-            );
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Server error. Please try again later.')),
-          );
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login failed. Please try again.')),
-        );
-      }
+      debugPrint('Error: $e');
     }
   }
 
@@ -139,9 +112,6 @@ class _LoginpageState extends State<Loginpage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _icon(),
-                const SizedBox(
-                  height: 5,
-                ),
                 const Text(
                   "LOGIN",
                   style: TextStyle(
@@ -150,7 +120,6 @@ class _LoginpageState extends State<Loginpage> {
                     color: Color(0xFF1A1C43),
                   ),
                 ),
-                const SizedBox(height: 30),
 
                 // Email textformfield
                 Padding(
@@ -231,7 +200,7 @@ class _LoginpageState extends State<Loginpage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
 
                 // Login button
                 Center(
@@ -286,6 +255,10 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Widget _icon() {
-    return Image.asset('asset/images/pngegg.png');
+    return Image.asset(
+      'asset/images/pngegg.png',
+      height: 175,
+      width: 175,
+    );
   }
 }

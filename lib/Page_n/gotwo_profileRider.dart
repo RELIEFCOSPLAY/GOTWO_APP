@@ -25,7 +25,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   }
 
   Future<void> fetchData() async {
-    final String url = "http://${Global.ip_80}/gotwo/status_Rider.php";
+    final String url = "http://${Global.ip_8080}/gotwo/status_Rider.php";
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -59,7 +59,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   }
 
   Future<void> fetchUserId(String email) async {
-    final String url = 'http://${Global.ip_80}/gotwo/getUserId_rider.php';
+    final String url = 'http://${Global.ip_8080}/gotwo/getUserId_rider.php';
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email,

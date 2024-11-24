@@ -797,7 +797,8 @@ class _GotwoInformationState extends State<GotwoInformation> {
               debugPrint("nameAccount : ${namebankAccountController.text}");
               debugPrint("numberBank : ${accountNumberController.text}");
               debugPrint("statusRider : $statusRider0");
-              debugPrint("reason : ${widget.confirmPassword}");
+              // ignore: unnecessary_brace_in_string_interps
+              debugPrint("reason : ${reasonNo}");
 
               Navigator.pushAndRemoveUntil(
                 context,
