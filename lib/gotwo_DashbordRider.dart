@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gotwo_app/Page_n/gotwo_profileRider.dart';
+import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:gotwo_app/gotwo_SatusRider.dart';
-
+import 'package:http/http.dart' as http;
 
 class GotwoDashbordrider extends StatefulWidget {
   const GotwoDashbordrider({super.key});
@@ -14,13 +17,45 @@ class GotwoDashbordrider extends StatefulWidget {
 
 class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   final storage = const FlutterSecureStorage();
-  String? email;
+
+  String? userId;
+  String? imgUrl;
+  String? emails;
 
   Future<void> loadLoginInfo() async {
     String? savedEmail = await storage.read(key: 'email');
     setState(() {
-      email = savedEmail;
+      emails = savedEmail;
     });
+    if (emails != null) {
+      fetchUserId(emails!); // เรียกใช้ API เพื่อตรวจสอบ user id
+    }
+  }
+
+  Future<void> fetchUserId(String email) async {
+    final String url =
+        'http://${Global.ip_8080}/gotwo/getUserId_rider.php'; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'email': email, // ส่ง email เพื่อค้นหา user id
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            userId = data['user_id']; // เก็บ user id ที่ได้มา
+            imgUrl = data['imgUrl'];
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 
   @override
@@ -82,11 +117,21 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
               minRadius: 25,
               maxRadius: 40,
               backgroundColor: Colors.white,
-              child: Image.asset('asset/images/pngegg.png'),
+              child: imgUrl != null
+                  ? ClipOval(
+                      // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
+                      child: Image.network(
+                        imgUrl!,
+                        fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
+                        width: 80, // กำหนดขนาดความกว้าง
+                        height: 80, // กำหนดขนาดความสูง
+                      ),
+                    )
+                  : const Icon(Icons.person),
             ),
             const SizedBox(height: 10),
             Text(
-              '$email',
+              '$emails',
               textAlign: TextAlign.start,
               style: const TextStyle(
                 fontSize: 20,
@@ -351,9 +396,10 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   //       builder: (context) => const GotwoProfileRider()),
                   // );
                   Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) =>  const GotwoProfileRider()),
-              );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const GotwoProfileRider()),
+                  );
                 },
                 child: const Column(
                   children: [
