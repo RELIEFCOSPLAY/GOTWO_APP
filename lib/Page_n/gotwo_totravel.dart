@@ -168,10 +168,27 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const CircleAvatar(
-                  radius: 30,
+                const SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(
+                  minRadius: 25,
+                  maxRadius: 40,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.account_circle_outlined, size: 50),
+                  child: item!['img_profile'] != null
+                      ? ClipOval(
+                          // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
+                          child: Image.network(
+                            item!['img_profile'],
+                            fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
+                            width: 80, // กำหนดขนาดความกว้าง
+                            height: 80, // กำหนดขนาดความสูง
+                          ),
+                        )
+                      : const Icon(Icons.person),
+                ),
+                const SizedBox(
+                  height: 5,
                 ),
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",
@@ -303,7 +320,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 const SizedBox(height: 10),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -345,7 +362,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                         "${item['comment_pick'] ?? 'No comment'}", // แสดงคอมเมนต์ pick up
                         style: const TextStyle(fontSize: 10),
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       const Text(
                         "Drop",
                         style: TextStyle(
@@ -374,7 +391,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Text(
                   item['status_helmet'] == '1' || item['status_helmet'] == 1
                       ? "There is a helmet for you" // If 1, show this message

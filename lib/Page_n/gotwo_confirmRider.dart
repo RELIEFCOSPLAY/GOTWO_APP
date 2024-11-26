@@ -250,10 +250,27 @@ class _GotwoConRider extends State<GotwoConRider> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const CircleAvatar(
-                  radius: 30,
+                const SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(
+                  minRadius: 25,
+                  maxRadius: 40,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.account_circle_outlined, size: 50),
+                  child: item!['img_profile'] != null
+                      ? ClipOval(
+                          // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
+                          child: Image.network(
+                            item!['img_profile'],
+                            fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
+                            width: 80, // กำหนดขนาดความกว้าง
+                            height: 80, // กำหนดขนาดความสูง
+                          ),
+                        )
+                      : const Icon(Icons.person),
+                ),
+                const SizedBox(
+                  height: 5,
                 ),
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",
@@ -382,10 +399,9 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -402,6 +418,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 5),
                       const Text(
                         "Pick up",
                         style: TextStyle(
@@ -456,7 +473,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Text(
                   item['status_helmet'] == '1' || item['status_helmet'] == 1
                       ? "There is a helmet for you" // If 1, show this message

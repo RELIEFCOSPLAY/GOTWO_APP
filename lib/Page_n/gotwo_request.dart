@@ -244,10 +244,27 @@ class _GotwoRequestState extends State<GotwoRequest> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 5),
-                const CircleAvatar(
-                  radius: 30,
+                const SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(
+                  minRadius: 25,
+                  maxRadius: 40,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.account_circle_outlined, size: 70),
+                  child: item!['img_profile'] != null
+                      ? ClipOval(
+                          // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
+                          child: Image.network(
+                            item!['img_profile'],
+                            fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
+                            width: 80, // กำหนดขนาดความกว้าง
+                            height: 80, // กำหนดขนาดความสูง
+                          ),
+                        )
+                      : const Icon(Icons.person),
+                ),
+                const SizedBox(
+                  height: 5,
                 ),
                 const SizedBox(height: 10),
                 Text(
