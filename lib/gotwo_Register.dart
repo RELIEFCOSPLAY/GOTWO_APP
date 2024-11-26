@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gotwo_app/global_ip.dart';
-import 'package:gotwo_app/gotwo_Homepage.dart';
 import 'package:gotwo_app/gotwo_Information.dart';
+import 'package:gotwo_app/gotwo_condition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
@@ -189,7 +189,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => GotwoHomepage(),
+            builder: (context) => const GotwoCondition(),
           ),
           (Route<dynamic> route) => false,
         );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gotwo_app/gotwo_Register.dart';
+import 'package:gotwo_app/gotwo_condition.dart';
 import 'package:gotwo_app/gotwo_loginr.dart';
 
 class GotwoHomepage extends StatefulWidget {
@@ -118,7 +118,7 @@ class _GotwoHomepageState extends State<GotwoHomepage> {
         debugPrint("RegisterBtn");
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Rider_Register()),
+          MaterialPageRoute(builder: (context) => const  GotwoCondition()),
         );
       },
       style: ElevatedButton.styleFrom(
