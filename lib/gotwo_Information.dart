@@ -383,6 +383,9 @@ class _GotwoInformationState extends State<GotwoInformation> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body); // แปลง JSON เป็น Map
         if (data['status'] == 'success') {
+          if (data['p'] == 'success') {
+            print(data['messages']);
+          }
           print(data['message']); // "Insert Success"
         } else {
           print(data['message']); // "Error Insert!"
@@ -666,32 +669,31 @@ class _GotwoInformationState extends State<GotwoInformation> {
   }
 
   Widget _inputField3(String hintText, TextEditingController controller,
-    {isPassword = false}) {
-  var border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(18),
-      borderSide: const BorderSide(color: Color(0xff1a1c43)));
+      {isPassword = false}) {
+    var border = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(color: Color(0xff1a1c43)));
 
-  return SizedBox(
-    child: TextField(
-      style: const TextStyle(
-        color: Color(0xff1a1c43),
+    return SizedBox(
+      child: TextField(
+        style: const TextStyle(
+          color: Color(0xff1a1c43),
+        ),
+        controller: controller,
+        keyboardType: TextInputType.number, // บังคับให้พิมพ์ได้เฉพาะตัวเลข
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly, // กรองเฉพาะตัวเลขเท่านั้น
+        ],
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.grey),
+          enabledBorder: border,
+          focusedBorder: border,
+        ),
+        obscureText: isPassword,
       ),
-      controller: controller,
-      keyboardType: TextInputType.number, // บังคับให้พิมพ์ได้เฉพาะตัวเลข
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.digitsOnly, // กรองเฉพาะตัวเลขเท่านั้น
-      ],
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.grey),
-        enabledBorder: border,
-        focusedBorder: border,
-      ),
-      obscureText: isPassword,
-    ),
-  );
-}
-
+    );
+  }
 
   Widget _bText() {
     return const Text(
