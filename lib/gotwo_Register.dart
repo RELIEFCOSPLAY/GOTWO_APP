@@ -203,6 +203,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
   }
 
   Widget _addPhoto() {
+    String imgShow = 'http://${Global.ip_8080}/$_userImageUrl';
     return Column(
       children: [
         ElevatedButton(
@@ -229,7 +230,7 @@ class _Rider_RegisterState extends State<Rider_Register> {
                 ? ClipOval(
                     // ใช้ ClipOval เพื่อทำให้รูปเป็นวงกลม
                     child: Image.network(
-                    _userImageUrl!,
+                    imgShow,
                     fit: BoxFit.cover, // ปรับขนาดรูปภาพให้พอดีกับ Container
                     width: 60,
                     height: 60,

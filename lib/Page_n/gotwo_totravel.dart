@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
+import 'package:gotwo_app/gotwo_SatusRider.dart';
 import 'package:http/http.dart' as http;
 
 class GotwoTotravel extends StatefulWidget {
@@ -86,7 +87,6 @@ class _GotwoTotravel extends State<GotwoTotravel> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    Navigator.of(context).pop();
                     String pay = "0"; // กำหนดค่าเริ่มต้น
                     if (item['pay'].toString() == "1" || item['pay'] == 1) {
                       pay = "2";
@@ -106,6 +106,13 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       checkstatus,
                       post_id,
                     );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoSatusrider(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -114,7 +121,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                     ),
                   ),
                   child:
-                      const Text("Yes", style: TextStyle(color: Colors.white)),
+                      const Text("Cancel", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -125,7 +132,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Cancel",
+                  child: const Text("Back",
                       style: TextStyle(color: Colors.white)),
                 ),
               ],
@@ -139,6 +146,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
+    String imgShow = 'http://${Global.ip_8080}/${item['img_profile']}';
     int _currentRating = int.parse(item['review']);
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
@@ -179,7 +187,7 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       ? ClipOval(
                           // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
                           child: Image.network(
-                            item!['img_profile'],
+                            imgShow,
                             fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
                             width: 80, // กำหนดขนาดความกว้าง
                             height: 80, // กำหนดขนาดความสูง

@@ -839,51 +839,53 @@ class _GotwoInformationState extends State<GotwoInformation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              debugPrint(_idImageUrl);
               id_getImageGallery().then((_) {
                 if (_idImageUrl != null) {
                   setState(() {
+                    String imgShowId = 'http://${Global.ip_8080}/$_idImageUrl';
+                    debugPrint(_idImageUrl);
+                    debugPrint(imgShowId);
                     isImageSelected_idcardBtn =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "Id card",
+                            style: TextStyle(
+                              color: Color(0xff1a1c43),
+                            ),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _idImageUrl != null
+                                  ? Image.network(
+                                      imgShowId) // แสดงรูปภาพที่อัปโหลด
+                                  : const Text("No image selected"),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                debugPrint(_idImageUrl);
+                              },
+                              child: const Text(
+                                "Close",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   });
 
                   // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          "Id card",
-                          style: TextStyle(
-                            color: Color(0xff1a1c43),
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _idImageUrl != null
-                                ? Image.network(
-                                    _idImageUrl!) // แสดงรูปภาพที่อัปโหลด
-                                : const Text("No image selected"),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              debugPrint(_idImageUrl);
-                            },
-                            child: const Text(
-                              "Close",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
                 }
               });
             },
@@ -946,45 +948,46 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   setState(() {
                     isImageSelected_license =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
-                  });
-
-                  // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          "license",
-                          style: TextStyle(
-                            color: Color(0xff1a1c43),
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _licensemageUrl != null
-                                ? Image.network(
-                                    _licensemageUrl!) // แสดงรูปภาพที่อัปโหลด
-                                : const Text("No image selected"),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              debugPrint(_licensemageUrl);
-                            },
-                            child: const Text(
-                              "Close",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                    // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
+                    String imgShowlicense =
+                        'http://${Global.ip_8080}/$_licensemageUrl';
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "license",
+                            style: TextStyle(
+                              color: Color(0xff1a1c43),
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  );
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _licensemageUrl != null
+                                  ? Image.network(
+                                      imgShowlicense) // แสดงรูปภาพที่อัปโหลด
+                                  : const Text("No image selected"),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                debugPrint(_licensemageUrl);
+                              },
+                              child: const Text(
+                                "Close",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  });
                 }
               });
             },
@@ -1047,45 +1050,46 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   setState(() {
                     isImageSelected_carpic =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
-                  });
-
-                  // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          "carpicture",
-                          style: TextStyle(
-                            color: Color(0xff1a1c43),
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _carpicmageUrl != null
-                                ? Image.network(
-                                    _carpicmageUrl!) // แสดงรูปภาพที่อัปโหลด
-                                : const Text("No image selected"),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              debugPrint(_carpicmageUrl);
-                            },
-                            child: const Text(
-                              "Close",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                    String imgShowcarPicture =
+                        'http://${Global.ip_8080}/$_carpicmageUrl';
+                    // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "carpicture",
+                            style: TextStyle(
+                              color: Color(0xff1a1c43),
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  );
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _carpicmageUrl != null
+                                  ? Image.network(
+                                      imgShowcarPicture) // แสดงรูปภาพที่อัปโหลด
+                                  : const Text("No image selected"),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                debugPrint(_carpicmageUrl);
+                              },
+                              child: const Text(
+                                "Close",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  });
                 }
               });
             },
@@ -1148,45 +1152,46 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   setState(() {
                     isImageSelected_Reg =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
-                  });
-
-                  // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          "CarRegistration",
-                          style: TextStyle(
-                            color: Color(0xff1a1c43),
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _regCardmageUrl != null
-                                ? Image.network(
-                                    _regCardmageUrl!) // แสดงรูปภาพที่อัปโหลด
-                                : const Text("No image selected"),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              debugPrint(_regCardmageUrl);
-                            },
-                            child: const Text(
-                              "Close",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                    String imgShowcarRegistration =
+                        'http://${Global.ip_8080}/$_regCardmageUrl';
+                    // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "CarRegistration",
+                            style: TextStyle(
+                              color: Color(0xff1a1c43),
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  );
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _regCardmageUrl != null
+                                  ? Image.network(
+                                      imgShowcarRegistration) // แสดงรูปภาพที่อัปโหลด
+                                  : const Text("No image selected"),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                debugPrint(_regCardmageUrl);
+                              },
+                              child: const Text(
+                                "Close",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  });
                 }
               });
             },
@@ -1249,45 +1254,46 @@ class _GotwoInformationState extends State<GotwoInformation> {
                   setState(() {
                     isImageSelected_Atc =
                         true; // เปลี่ยนสถานะเมื่อเลือกรูปภาพสำเร็จ
-                  });
-
-                  // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          "carACT",
-                          style: TextStyle(
-                            color: Color(0xff1a1c43),
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _atcCardmageUrl != null
-                                ? Image.network(
-                                    _atcCardmageUrl!) // แสดงรูปภาพที่อัปโหลด
-                                : const Text("No image selected"),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              debugPrint(_atcCardmageUrl);
-                            },
-                            child: const Text(
-                              "Close",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                    String imgShowACT =
+                        'http://${Global.ip_8080}/$_atcCardmageUrl';
+                    // แสดงไดอะล็อกพร้อมรูปภาพที่อัปโหลด
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "carACT",
+                            style: TextStyle(
+                              color: Color(0xff1a1c43),
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  );
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _atcCardmageUrl != null
+                                  ? Image.network(
+                                      imgShowACT) // แสดงรูปภาพที่อัปโหลด
+                                  : const Text("No image selected"),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                debugPrint(_atcCardmageUrl);
+                              },
+                              child: const Text(
+                                "Close",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  });
                 }
               });
             },

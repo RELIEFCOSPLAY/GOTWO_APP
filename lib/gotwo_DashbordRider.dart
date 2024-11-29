@@ -105,6 +105,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   }
 
   Widget _inforAvaterBox() {
+    String imgShow = 'http://${Global.ip_8080}/$imgUrl';
     return GestureDetector(
       onTap: () {
         debugPrint("CircleAvatar");
@@ -121,7 +122,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   ? ClipOval(
                       // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
                       child: Image.network(
-                        imgUrl!,
+                        imgShow,
                         fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
                         width: 80, // กำหนดขนาดความกว้าง
                         height: 80, // กำหนดขนาดความสูง

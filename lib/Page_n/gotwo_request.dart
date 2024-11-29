@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
+import 'package:gotwo_app/gotwo_SatusRider.dart';
 import 'package:http/http.dart' as http;
 
 class GotwoRequest extends StatefulWidget {
@@ -98,7 +99,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    Navigator.of(context).pop();
                     String pay = "0"; // กำหนดค่าเริ่มต้น
                     String no_comment = "No comment";
                     String action = "accept";
@@ -107,6 +107,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         '${item['status_post_id'] ?? 'Unknown'}';
                     update_status_Accept(
                         status, status_post_id, action, no_comment, pay);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoSatusrider(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -126,7 +133,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         borderRadius: BorderRadius.circular(0),
                       )),
                   child:
-                      const Text("back", style: TextStyle(color: Colors.white)),
+                      const Text("Back", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -162,7 +169,6 @@ class _GotwoRequestState extends State<GotwoRequest> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    Navigator.of(context).pop();
                     String pay = "0"; // กำหนดค่าเริ่มต้น
                     if (item['pay'].toString() == "1" || item['pay'] == 1) {
                       pay = "2";
@@ -182,6 +188,13 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       checkstatus,
                       post_id,
                     );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoSatusrider(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -189,7 +202,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                         borderRadius: BorderRadius.circular(0),
                       )),
                   child:
-                      const Text("Yes", style: TextStyle(color: Colors.white)),
+                      const Text("Cancel", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -200,7 +213,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Cancel",
+                  child: const Text("Back",
                       style: TextStyle(color: Colors.white)),
                 ),
               ],
@@ -214,7 +227,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-
+    String imgShow = 'http://${Global.ip_8080}/${item['img_profile']}';
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
       appBar: AppBar(
@@ -255,7 +268,7 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       ? ClipOval(
                           // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
                           child: Image.network(
-                            item!['img_profile'],
+                            imgShow,
                             fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
                             width: 80, // กำหนดขนาดความกว้าง
                             height: 80, // กำหนดขนาดความสูง

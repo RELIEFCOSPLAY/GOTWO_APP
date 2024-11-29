@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
+import 'package:gotwo_app/gotwo_SatusRider.dart';
 import 'package:http/http.dart' as http;
 
 class GotwoConRider extends StatefulWidget {
@@ -78,7 +79,13 @@ class _GotwoConRider extends State<GotwoConRider> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    Navigator.of(context).pop();
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoSatusrider(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                     String pay = "0"; // กำหนดค่าเริ่มต้น
                     if (item['pay'].toString() == "1" || item['pay'] == 1) {
                       pay = "1";
@@ -112,7 +119,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                         borderRadius: BorderRadius.circular(0),
                       )),
                   child:
-                      const Text("back", style: TextStyle(color: Colors.white)),
+                      const Text("Back", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -168,7 +175,13 @@ class _GotwoConRider extends State<GotwoConRider> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    Navigator.of(context).pop();
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GotwoSatusrider(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                     String pay = "0"; // กำหนดค่าเริ่มต้น
                     if (item['pay'].toString() == "1" || item['pay'] == 1) {
                       pay = "2";
@@ -196,7 +209,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                     ),
                   ),
                   child:
-                      const Text("Yes", style: TextStyle(color: Colors.white)),
+                      const Text("Cancel", style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -207,7 +220,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Cancel",
+                  child: const Text("Back",
                       style: TextStyle(color: Colors.white)),
                 ),
               ],
@@ -221,6 +234,7 @@ class _GotwoConRider extends State<GotwoConRider> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
+    String imgShow = 'http://${Global.ip_8080}/${item['img_profile']}';
     int _currentRating = int.parse(item['review']);
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
@@ -261,7 +275,7 @@ class _GotwoConRider extends State<GotwoConRider> {
                       ? ClipOval(
                           // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
                           child: Image.network(
-                            item!['img_profile'],
+                            imgShow,
                             fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
                             width: 80, // กำหนดขนาดความกว้าง
                             height: 80, // กำหนดขนาดความสูง

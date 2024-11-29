@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gotwo_app/global_ip.dart';
 
 class GotwoCancel extends StatefulWidget {
   final dynamic item; // รับข้อมูลที่ส่งมา
@@ -65,6 +66,7 @@ class _GotwoCancel extends State<GotwoCancel> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
+    String imgShow = 'http://${Global.ip_8080}/${item['img_profile']}';
     int _currentRating = int.parse(item['review']);
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
@@ -105,7 +107,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                       ? ClipOval(
                           // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
                           child: Image.network(
-                            item!['img_profile'],
+                            imgShow,
                             fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
                             width: 80, // กำหนดขนาดความกว้าง
                             height: 80, // กำหนดขนาดความสูง
