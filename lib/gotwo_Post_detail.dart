@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:http/http.dart' as http;
@@ -126,21 +124,22 @@ class _Gotwo_Post_Detail extends State<Gotwo_Post_Detail> {
                 const SizedBox(
                   height: 10,
                 ),
-                ClipOval(
-                  child: File(item['rider_img_profile']).existsSync()
-                      ? Image.file(
-                          File(item['rider_img_profile']),
-                          fit: BoxFit.cover,
-                          width: 60,
-                          height: 60,
+                CircleAvatar(
+                  minRadius: 25,
+                  maxRadius: 40,
+                  backgroundColor: Colors.white,
+                  child: item!['img_profile'] != null
+                      ? ClipOval(
+                          // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
+                          child: Image.network(
+                            item!['img_profile'],
+                            fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
+                            width: 80, // กำหนดขนาดความกว้าง
+                            height: 80, // กำหนดขนาดความสูง
+                          ),
                         )
-                      : const Icon(
-                          Icons.account_circle, // หรือไอคอนที่ต้องการ
-                          size: 60,
-                          color: Color(0xFF1A1C43),
-                        ),
+                      : const Icon(Icons.person),
                 ),
-
                 Text(
                   "${item['rider_name'] ?? 'Unknown'}",
                   style: const TextStyle(
