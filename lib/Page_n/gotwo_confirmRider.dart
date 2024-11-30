@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_SatusRider.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class GotwoConRider extends StatefulWidget {
   final dynamic item;
@@ -23,6 +31,7 @@ class _GotwoConRider extends State<GotwoConRider> {
     String action,
     String no_comment,
     String pay,
+    String imgTravel,
   ) async {
     var request = await http.post(url, body: {
       "action": action,
@@ -30,6 +39,7 @@ class _GotwoConRider extends State<GotwoConRider> {
       "status_post_id": status_post_id,
       "Comment": no_comment,
       "pay": pay,
+      "imgTravel": imgTravel,
     });
 
     if (request.statusCode == 200) {
@@ -47,6 +57,7 @@ class _GotwoConRider extends State<GotwoConRider> {
     String action,
     String rejectComment,
     String pay,
+    String imgTravel,
   ) async {
     var request = await http.post(url, body: {
       "action": action,
@@ -54,6 +65,7 @@ class _GotwoConRider extends State<GotwoConRider> {
       "status_post_id": status_post_id,
       "Comment": rejectComment,
       "pay": pay,
+      "imgTravel": imgTravel,
     });
 
     if (request.statusCode == 200) {
@@ -65,65 +77,147 @@ class _GotwoConRider extends State<GotwoConRider> {
     }
   }
 
+  bool isImageSelected = false;
+  File? _image; // เก็บภาพที่เลือก
+  String? _imageUrl; // เก็บ URL รูปภาพที่อัปโหลด
   Future<void> _showDialog() async {
     final item = widget.item;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('To Travel'),
-          content: const Text('Are you sure to To Travel?'),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const GotwoSatusrider(),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: const Text(
+                'To Travel',
+                textAlign: TextAlign.center,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Are you sure to To Travel?'),
+                  const SizedBox(
+                      height: 20), // เพิ่มช่องว่างระหว่างข้อความและปุ่มใหม่
+                  ElevatedButton(
+                    onPressed: () async {
+                      final picker = ImagePicker();
+                      final pickedFile =
+                          await picker.pickImage(source: ImageSource.gallery);
+
+                      if (pickedFile != null) {
+                        // เปลี่ยนชื่อไฟล์เป็น "GP_timestamp"
+                        final timestamp =
+                            DateTime.now().millisecondsSinceEpoch.toString();
+                        final directory = await getTemporaryDirectory();
+                        final newFileName =
+                            "GRTOTRA_$timestamp${path.extension(pickedFile.path)}";
+                        final newFilePath =
+                            path.join(directory.path, newFileName);
+
+                        final renamedFile =
+                            await File(pickedFile.path).copy(newFilePath);
+
+                        setState(() {
+                          _image = renamedFile; // ใช้ไฟล์ที่เปลี่ยนชื่อ
+                        });
+                        // อัปโหลดไฟล์
+                        var request = http.MultipartRequest(
+                          'POST',
+                          Uri.parse(
+                              'http://${Global.ip_8080}/gotwo/upload_p.php'),
+                        );
+                        request.files.add(await http.MultipartFile.fromPath(
+                            'image', _image!.path));
+
+                        var response = await request.send();
+                        if (response.statusCode == 200) {
+                          final res = await http.Response.fromStream(response);
+                          final data = json.decode(res.body);
+
+                          if (data['file'] != null) {
+                            setState(() {
+                              _imageUrl =
+                                  data['file']; // ดึง URL ไฟล์ที่อัปโหลด
+                            });
+                          }
+                        } else {
+                          debugPrint('File upload failed');
+                        }
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      (Route<dynamic> route) => false,
-                    );
-                    String pay = "0"; // กำหนดค่าเริ่มต้น
-                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
-                      pay = "1";
-                    } else if (item['pay'].toString() == "0" ||
-                        item['pay'] == 0) {
-                      pay = "0";
-                    }
-                    String no_comment = "No comment";
-                    String action = "accept";
-                    String status = '3';
-                    String status_post_id =
-                        '${item['status_post_id'] ?? 'Unknown'}';
-                    update_status_Accept(
-                        status, status_post_id, action, no_comment, pay);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      )),
-                  child:
-                      const Text("Yes", style: TextStyle(color: Colors.white)),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      )),
-                  child:
-                      const Text("Back", style: TextStyle(color: Colors.white)),
+                    ),
+                    child: const Text("Select Image",
+                        style: TextStyle(color: Color(0xFF1A1C43))),
+                  ),
+                  const SizedBox(height: 20),
+                  _image != null
+                      ? Image.file(
+                          _image!,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ) // แสดงรูปภาพหากเลือกแล้ว
+                      : const Text(
+                          "No image selected"), // แสดงข้อความหากยังไม่ได้เลือกรูป
+                ],
+              ),
+              actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const GotwoSatusrider(),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                        String pay = "0"; // กำหนดค่าเริ่มต้น
+                        if (item['pay'].toString() == "1" || item['pay'] == 1) {
+                          pay = "1";
+                        } else if (item['pay'].toString() == "0" ||
+                            item['pay'] == 0) {
+                          pay = "0";
+                        }
+                        String no_comment = "No comment";
+                        String action = "accept";
+                        String status = '3';
+                        String status_post_id =
+                            '${item['status_post_id'] ?? 'Unknown'}';
+                        update_status_Accept(status, status_post_id, action,
+                            no_comment, pay, _imageUrl!);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          )),
+                      child: const Text("Yes",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          )),
+                      child: const Text("Back",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -195,8 +289,9 @@ class _GotwoConRider extends State<GotwoConRider> {
                     String checkstatus = '0';
                     String status_post_id =
                         '${item['status_post_id'] ?? 'Unknown'}';
+                    String imageUrlNo = 'No imageUrl';
                     update_status_Cancel(status, status_post_id, action,
-                        rejectComment.text, pay);
+                        rejectComment.text, pay, imageUrlNo);
                     check_status(
                       checkstatus,
                       post_id,
@@ -208,8 +303,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  child:
-                      const Text("Cancel", style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -220,8 +315,8 @@ class _GotwoConRider extends State<GotwoConRider> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Back",
-                      style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text("Back", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
