@@ -106,162 +106,170 @@ class _TabConfirmState extends State<TabConfirm> {
       child: SizedBox(
         width: 320,
         height: 500,
-        child: ListView.builder(
-          itemCount: listData.length,
-          itemBuilder: (context, index) {
-            final item = listData[index];
-            if (userId == item['rider_id'].toString() &&
-                    item['status'] == '2' ||
-                item['status'] == 2) {
-              return Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
-                child: SizedBox(
-                  width: 300,
-                  height: 100,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // ไปยังหน้า GotwoConCus เมื่อ status_helmet เป็น 0
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GotwoConRider(
-                            item: item,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await fetchData(); // ดึงข้อมูลใหม่จาก API
+          },
+          color: const Color(0xff1a1c43), // สีของวงกลม Refresh
+          backgroundColor: Colors.white, // สีพื้นหลังของ RefreshIndicator
+          child: ListView.builder(
+            itemCount: listData.length,
+            itemBuilder: (context, index) {
+              final item = listData[index];
+              if (userId == item['rider_id'].toString() &&
+                      item['status'] == '2' ||
+                  item['status'] == 2) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8, right: 8, top: 4, bottom: 8),
+                  child: SizedBox(
+                    width: 300,
+                    height: 100,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // ไปยังหน้า GotwoConCus เมื่อ status_helmet เป็น 0
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GotwoConRider(
+                              item: item,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(const Color(0xfffbf8ff)),
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Color(0xff1a1c43)),
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            WidgetStateProperty.all(const Color(0xfffbf8ff)),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(color: Color(0xff1a1c43)),
+                          ),
                         ),
                       ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.location_on,
+                                      color: Color(0xff1a1c43),
+                                      size: 20.0,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Expanded(
+                                      child: Text(
+                                        "From: ${item['pick_up'] ?? 'Unknown'}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff1a1c43),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Date: ${item['date'] ?? 'Unknown'}",
+                                  softWrap:
+                                      false, // ป้องกันการตัดข้อความเป็นบรรทัดใหม่
+                                  overflow: TextOverflow
+                                      .ellipsis, // ตัดข้อความหากยาวเกินไป
+                                  style: const TextStyle(
+                                    fontSize: 12,
                                     color: Color(0xff1a1c43),
-                                    size: 20.0,
                                   ),
-                                  const SizedBox(width: 5),
-                                  Expanded(
-                                    child: Text(
-                                      "From: ${item['pick_up'] ?? 'Unknown'}",
-                                      overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
+                                  "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xff1a1c43),
+                                  ),
+                                ),
+                                // แสดงค่า status_helmet โดยแปลงเป็น "Paid" หรือ "Unpaid"
+                                Text(
+                                  item['pay'] == '1' || item['pay'] == 1
+                                      ? "Paid"
+                                      : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color:
+                                        item['pay'] == '1' || item['pay'] == 1
+                                            ? Colors.green // Green for "Paid"
+                                            : Colors.red, // Red for "Unpaid"
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Icon(Icons.arrow_forward,
+                              color: Color(0xff1a1c43)),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.tour,
+                                      color: Color(0xff1a1c43),
+                                      size: 20.0,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Expanded(
+                                      child: Text(
+                                        "To: ${item['at_drop'] ?? 'Unknown'}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff1a1c43),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${item['price'] ?? 'N/A'} ",
                                       style: const TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 20,
                                         color: Color(0xff1a1c43),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                "Date: ${item['date'] ?? 'Unknown'}",
-                                softWrap:
-                                    false, // ป้องกันการตัดข้อความเป็นบรรทัดใหม่
-                                overflow: TextOverflow
-                                    .ellipsis, // ตัดข้อความหากยาวเกินไป
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xff1a1c43),
-                                ),
-                              ),
-                              Text(
-                                // แปลงรูปแบบเวลาที่เป็น 'HH:MM:SS' ให้เป็นแค่ 'HH:MM'
-                                "Time: ${item['time']?.substring(0, 5) ?? 'Unknown'}",
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xff1a1c43),
-                                ),
-                              ),
-                              // แสดงค่า status_helmet โดยแปลงเป็น "Paid" หรือ "Unpaid"
-                              Text(
-                                item['pay'] == '1' || item['pay'] == 1
-                                    ? "Paid"
-                                    : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: item['pay'] == '1' || item['pay'] == 1
-                                      ? Colors.green // Green for "Paid"
-                                      : Colors.red, // Red for "Unpaid"
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        const Icon(Icons.arrow_forward,
-                            color: Color(0xff1a1c43)),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.tour,
-                                    color: Color(0xff1a1c43),
-                                    size: 20.0,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Expanded(
-                                    child: Text(
-                                      "To: ${item['at_drop'] ?? 'Unknown'}",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 12,
+                                    const Text(
+                                      "THB",
+                                      style: TextStyle(
+                                        fontSize: 10,
                                         color: Color(0xff1a1c43),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "${item['price'] ?? 'N/A'} ",
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xff1a1c43),
-                                    ),
-                                  ),
-                                  const Text(
-                                    "THB",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Color(0xff1a1c43),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink(); // ไม่แสดงอะไรถ้าไม่ตรงกัน
-            }
-          },
+                );
+              } else {
+                return const SizedBox.shrink(); // ไม่แสดงอะไรถ้าไม่ตรงกัน
+              }
+            },
+          ),
         ),
       ),
     );

@@ -261,159 +261,168 @@ class _GotwoPostPageState extends State<GotwoPostPage> {
             ),
           ),
           Expanded(
-            child: filteredList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: filteredList.length,
-                    itemBuilder: (context, index) {
-                      final item = filteredList[index];
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await fetchData(); // เรียกใช้ฟังก์ชันดึงข้อมูลใหม่
+              },
+              color: const Color(0xff1a1c43), // สีของวงกลม Refresh
+              backgroundColor: Colors.white, // สีพื้นหลังของ RefreshIndicator
+              child: filteredList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        final item = filteredList[index];
 
-                      if (userId == item['rider_id'].toString() &&
-                          (item['check_status'] == '0' ||
-                              item['check_status'] == 0)) {
-                        return Container(
-                          width: 300,
-                          height: 100,
-                          key: ValueKey(item["pick_up"]),
-                          color: Colors.white,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor: const WidgetStatePropertyAll(
-                                    Color(0xfffbf8ff)),
-                                shape: WidgetStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                        side: const BorderSide(
-                                            color: Color(0xff1a1c43))))),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Gotwo_Post_Detail(
-                                      item:
-                                          item), // ส่งข้อมูลไปยัง GotwoTotravel
-                                ),
-                              );
-                              debugPrint("$userId");
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Left Column: Pick Up Information
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.location_on,
+                        if (userId == item['rider_id'].toString() &&
+                            (item['check_status'] == '0' ||
+                                item['check_status'] == 0)) {
+                          return Container(
+                            width: 300,
+                            height: 100,
+                            key: ValueKey(item["pick_up"]),
+                            color: Colors.white,
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: const WidgetStatePropertyAll(
+                                      Color(0xfffbf8ff)),
+                                  shape: WidgetStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                          side: const BorderSide(
+                                              color: Color(0xff1a1c43))))),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Gotwo_Post_Detail(
+                                        item:
+                                            item), // ส่งข้อมูลไปยัง GotwoTotravel
+                                  ),
+                                );
+                                debugPrint("$userId");
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Left Column: Pick Up Information
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.location_on,
+                                              color: Color(0xff1a1c43),
+                                              size: 20.0,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                              // เพิ่ม Expanded เพื่อควบคุมการขยายของข้อความ
+                                              child: Text(
+                                                "Pick Up: ${item['pick_up']}",
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Color(0xff1a1c43),
+                                                ),
+                                                overflow: TextOverflow
+                                                    .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          "Date: ${item['date']} ",
+                                          style: const TextStyle(
+                                            fontSize: 12,
                                             color: Color(0xff1a1c43),
-                                            size: 20.0,
                                           ),
-                                          const SizedBox(width: 5),
-                                          Expanded(
-                                            // เพิ่ม Expanded เพื่อควบคุมการขยายของข้อความ
-                                            child: Text(
-                                              "Pick Up: ${item['pick_up']}",
+                                        ),
+                                        Text(
+                                          "Time: ${item['time'].substring(0, 5)}",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xff1a1c43),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Icon(Icons.arrow_forward,
+                                      color: Color(0xff1a1c43)),
+                                  const SizedBox(width: 10),
+
+                                  // Right Column: Drop Information
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.location_city,
+                                              color: Color(0xff1a1c43),
+                                              size: 20.0,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                              child: Text(
+                                                "Drop: ${item['at_drop']}",
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Color(0xff1a1c43),
+                                                ),
+                                                overflow: TextOverflow
+                                                    .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${item['price']} ",
                                               style: const TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 20,
                                                 color: Color(0xff1a1c43),
                                               ),
-                                              overflow: TextOverflow
-                                                  .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        "Date: ${item['date']} ",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xff1a1c43),
-                                        ),
-                                      ),
-                                      Text(
-                                        "Time: ${item['time'].substring(0, 5)}",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xff1a1c43),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Icon(Icons.arrow_forward,
-                                    color: Color(0xff1a1c43)),
-                                const SizedBox(width: 10),
-
-                                // Right Column: Drop Information
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.location_city,
-                                            color: Color(0xff1a1c43),
-                                            size: 20.0,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Expanded(
-                                            child: Text(
-                                              "Drop: ${item['at_drop']}",
-                                              style: const TextStyle(
-                                                fontSize: 12,
+                                            const Text(
+                                              "THB",
+                                              style: TextStyle(
+                                                fontSize: 10,
                                                 color: Color(0xff1a1c43),
                                               ),
-                                              overflow: TextOverflow
-                                                  .ellipsis, // ใช้ ellipsis เพื่อทำให้ข้อความไม่ล้น
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "${item['price']} ",
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              color: Color(0xff1a1c43),
-                                            ),
-                                          ),
-                                          const Text(
-                                            "THB",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xff1a1c43),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      } else {
-                        return const SizedBox
-                            .shrink(); // ไม่แสดงอะไรถ้าไม่ตรงกัน
-                      }
-                    })
-                : const Text(
-                    'No results found',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Color(0xff1a1c43),
+                          );
+                        } else {
+                          return const SizedBox
+                              .shrink(); // ไม่แสดงอะไรถ้าไม่ตรงกัน
+                        }
+                      })
+                  : const Text(
+                      'No results found',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Color(0xff1a1c43),
+                      ),
                     ),
-                  ),
+            ),
           )
         ],
       ),
