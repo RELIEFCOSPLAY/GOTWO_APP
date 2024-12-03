@@ -18,6 +18,8 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   final storage = const FlutterSecureStorage();
   String? emails;
   String? userId;
+  String? sumPriceRider;
+  int? avgReview;
 
   @override
   void initState() {
@@ -49,6 +51,8 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
         if (data['success']) {
           setState(() {
             userId = data['user_id']; // เก็บ user id ที่ได้มา
+            fetchSumPrice(userId!);
+            fetchAVGRating(userId!);
           });
         } else {
           print('Error: ${data['message']}');
@@ -78,6 +82,58 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
     }
   }
 
+  Future<void> fetchSumPrice(String userid) async {
+    final String url =
+        "http://${Global.ip_8080}/gotwo/sum_Rider_value.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'userid': userid, // ส่ง user id เพื่อค้นหา sum
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            // ตรวจสอบประเภทของ sum_price และแปลงเป็น String หากจำเป็น
+            sumPriceRider = data['sum_price'].toString();
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("F Error: $e");
+    }
+  }
+
+  Future<void> fetchAVGRating(String userid) async {
+    final String url =
+        "http://${Global.ip_8080}/gotwo/avg_RiderRating.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'userid': userid, // ส่ง user id เพื่อค้นหา sum
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            // ตรวจสอบประเภทของ sum_price และแปลงเป็น String หากจำเป็น
+            avgReview = data['avg_review'];
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("F Error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,13 +151,12 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                 itemCount: listData.length,
                 itemBuilder: (context, index) {
                   final item = listData[index];
-                  String uid = item['regis_rider_id'];
+                  // String uid = item['regis_rider_id'];
                   String imgShow =
                       "http://${Global.ip_8080}/${item['img_profile'] ?? ''}";
-
+                  int? _currentRating = avgReview;
                   // แสดงเฉพาะข้อมูลของผู้ใช้ที่ล็อกอินอยู่
-                  if (userId.toString() ==
-                      item['regis_rider_id'].toString()) {
+                  if (userId.toString() == item['regis_rider_id'].toString()) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -154,11 +209,17 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: List.generate(
-                                        1,
-                                        (index) => const Icon(Icons.star,
-                                            color: Colors.amber),
-                                      ),
+                                      children: [
+                                        const SizedBox(width: 5),
+                                        for (var i = 1; i <= 5; i++)
+                                          Icon(
+                                            Icons.star,
+                                            size: 20,
+                                            color: i <= _currentRating!
+                                                ? Colors.yellow
+                                                : Colors.grey,
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -190,7 +251,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                 ),
                                 const Spacer(), // ใช้ Spacer ได้ที่นี่เพราะ Row มีขนาดแน่นอน
                                 Text(
-                                  "${item['wallet'] ?? '0.00'} Baht",
+                                  "${sumPriceRider ?? '00'} Baht",
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -228,7 +289,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                   value: item['number_bank'],
                                 ),
                                 const Divider(),
-                                ProfileDetailRow(
+                                const ProfileDetailRow(
                                   icon: Icons.admin_panel_settings,
                                   title: 'CONTACT ADMIN',
                                   value: '+66 999 45678',
