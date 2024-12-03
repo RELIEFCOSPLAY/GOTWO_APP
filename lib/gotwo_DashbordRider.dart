@@ -391,15 +391,12 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                 ),
                 onPressed: () {
                   debugPrint("Profile");
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => const GotwoProfileRider()),
-                  // );
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const GotwoProfileRider()),
+                      builder: (context) => const GotwoProfileRider(),
+                    ),
+                    (Route<dynamic> route) => false,
                   );
                 },
                 child: const Column(

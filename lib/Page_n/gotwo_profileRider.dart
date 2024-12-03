@@ -1,52 +1,30 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/gotwo_logout.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class GotwoProfileRider extends StatefulWidget {
   const GotwoProfileRider({super.key});
 
   @override
-  _GotwoProfileRiderState createState() => _GotwoProfileRiderState();
+  State<GotwoProfileRider> createState() => _GotwoProfileRiderState();
 }
 
 class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   List<dynamic> listData = [];
-  List<dynamic> filteredList = [];
+  final storage = const FlutterSecureStorage();
+  String? emails;
+  String? userId;
 
   @override
   void initState() {
     super.initState();
-    fetchData();
     loadLoginInfo();
+    fetchData();
   }
-
-  Future<void> fetchData() async {
-    final String url = "http://${Global.ip_8080}/gotwo/status_Rider.php";
-    try {
-      final response = await http.get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      });
-
-      if (response.statusCode == 200) {
-        setState(() {
-          listData = json.decode(response.body);
-          filteredList = listData;
-        });
-      } else {
-        print("Failed to load data");
-      }
-    } catch (e) {
-      print("Error: $e");
-    }
-  }
-
-  final storage = const FlutterSecureStorage();
-  String? emails;
-  String? userId;
 
   Future<void> loadLoginInfo() async {
     String? savedEmail = await storage.read(key: 'email');
@@ -59,17 +37,18 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   }
 
   Future<void> fetchUserId(String email) async {
-    final String url = 'http://${Global.ip_8080}/gotwo/getUserId_rider.php';
+    final String url =
+        "http://${Global.ip_8080}/gotwo/getUserId_rider.php"; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
-        'email': email,
+        'email': email, // ส่ง email เพื่อค้นหา user id
       });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success']) {
           setState(() {
-            userId = data['user_id'];
+            userId = data['user_id']; // เก็บ user id ที่ได้มา
           });
         } else {
           print('Error: ${data['message']}');
@@ -82,210 +61,267 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
     }
   }
 
+  Future<void> fetchData() async {
+    final String url = "http://${Global.ip_8080}/gotwo/profile_dataRider.php";
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          listData = json.decode(response.body);
+        });
+      } else {
+        print("Failed to load data: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Profile',
-          style: TextStyle(
-              color: Color(0xFF1A1C43),
-              fontSize: 22,
-              fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF1A1C43)),
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const GotwoDashbordrider()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit, color: Color(0xFF1A1C43)),
-            onPressed: () {
-              // Add edit profile functionality here
-            },
-          ),
-        ],
-      ),
+      backgroundColor: Colors.grey[300],
       body: listData.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Profile Header
-                  Row(
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xFF1A1C43),
-                        ),
-                        child: const Icon(Icons.account_circle,
-                            size: 60, color: Colors.white),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              listData.isNotEmpty
-                                  ? listData[0]['rider_name'] ?? 'N/A'
-                                  : 'N/A',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF1A1C43)),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+          : RefreshIndicator(
+              onRefresh: () async {
+                await fetchData(); // ดึงข้อมูลใหม่จากเซิร์ฟเวอร์
+              },
+              color: const Color(0xff1a1c43), // สีของวงกลม Refresh
+              backgroundColor: Colors.white, // สีพื้นหลังของ RefreshIndicator
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16.0),
+                itemCount: listData.length,
+                itemBuilder: (context, index) {
+                  final item = listData[index];
+                  String uid = item['regis_rider_id'];
+                  String imgShow =
+                      "http://${Global.ip_8080}/${item['img_profile'] ?? ''}";
+
+                  // แสดงเฉพาะข้อมูลของผู้ใช้ที่ล็อกอินอยู่
+                  if (userId.toString() ==
+                      item['regis_rider_id'].toString()) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Profile Card
+                        Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1A1C43),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            Row(
+                            child: Stack(
                               children: [
-                                for (var i = 0; i < 5; i++)
-                                  const Icon(Icons.star,
-                                      color: Colors.yellow, size: 20),
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  child: _backButton(),
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      minRadius: 25,
+                                      maxRadius: 40,
+                                      backgroundColor: Colors.white,
+                                      child: item['img_profile'] != null
+                                          ? ClipOval(
+                                              child: Image.network(
+                                                imgShow,
+                                                fit: BoxFit.cover,
+                                                width: 70,
+                                                height: 70,
+                                              ),
+                                            )
+                                          : const Icon(Icons.person),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      item['name'] ?? 'Unknown',
+                                      style: const TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: List.generate(
+                                        1,
+                                        (index) => const Icon(Icons.star,
+                                            color: Colors.amber),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  // Wallet Section
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE0E7FF),
-                      border: Border(
-                        top: BorderSide(color: Colors.grey.shade300, width: 1),
-                        bottom:
-                            BorderSide(color: Colors.grey.shade300, width: 1),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          listData.isNotEmpty && listData[0]['price'] != null
-                              ? '${listData[0]['price']} Baht'
-                              : '0.00 Baht',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF1A1C43),
                           ),
                         ),
                         const SizedBox(height: 5),
-                        const Text(
-                          'wallet',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
+                        // Wallet Section
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.account_balance_wallet,
+                                    size: 30, color: Colors.grey),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Wallet',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                const Spacer(), // ใช้ Spacer ได้ที่นี่เพราะ Row มีขนาดแน่นอน
+                                Text(
+                                  "${item['wallet'] ?? '0.00'} Baht",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        // Profile Details Section
+                        Card(
+                          elevation: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ProfileDetailRow(
+                                  icon: Icons.email,
+                                  title: 'EMAIL',
+                                  value: item['email'],
+                                ),
+                                const Divider(),
+                                ProfileDetailRow(
+                                  icon: Icons.phone,
+                                  title: 'PHONE NUMBER',
+                                  value: item['tel'],
+                                ),
+                                const Divider(),
+                                ProfileDetailRow(
+                                  icon: Icons.date_range,
+                                  title: 'EXPIRATION DATE',
+                                  value: item['number_bank'],
+                                ),
+                                const Divider(),
+                                ProfileDetailRow(
+                                  icon: Icons.admin_panel_settings,
+                                  title: 'CONTACT ADMIN',
+                                  value: '+66 999 45678',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        // Logout Button
+                        TextButton.icon(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LogoutPage()),
+                            );
+                          },
+                          icon: const Icon(Icons.logout, color: Colors.red),
+                          label: const Text(
+                            'Log out',
+                            style: TextStyle(color: Colors.red, fontSize: 16),
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Contact Section
-                  Row(
-                    children: [
-                      const Icon(Icons.phone, color: Color(0xFF1A1C43)),
-                      const SizedBox(width: 10),
-                      Text(
-                        listData.isNotEmpty
-                            ? listData[0]['rider_tel'] ?? 'N/A'
-                            : 'N/A',
-                        style: const TextStyle(
-                            fontSize: 16, color: Color(0xFF1A1C43)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  TextButton.icon(
-                    icon: const Icon(Icons.email, color: Color(0xFF1A1C43)),
-                    label: const Text('Email Rider',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF1A1C43),
-                        )),
-                    onPressed: () {
-                      // Add email functionality
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  TextButton.icon(
-                    icon: const Icon(Icons.person, color: Color(0xFF1A1C43)),
-                    label: const Text('Contact Admin',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF1A1C43),
-                        )),
-                    onPressed: () {
-                      // Add contact admin functionality
-                    },
-                  ),
-                  const Spacer(),
-                  // Logout Button with Confirmation
-                  TextButton.icon(
-                    icon: const Icon(Icons.logout, color: Colors.red),
-                    label: const Text(
-                      'Log out',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Confirm Logout'),
-                            content:
-                                const Text('Are you sure you want to log out?'),
-                            actions: [
-                              TextButton(
-                                child: const Text('Cancel',
-                                    style: TextStyle(color: Colors.grey)),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text('Log Out',
-                                    style: TextStyle(color: Colors.red)),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LogoutPage(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
             ),
+    );
+  }
+
+  Widget _backButton() {
+    return GestureDetector(
+      onTap: () {
+        debugPrint("back");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const GotwoDashbordrider(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 30,
+        color: Colors.white,
+      ),
+    );
+  }
+}
+
+class ProfileDetailRow extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String value;
+
+  const ProfileDetailRow({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 24, color: Colors.grey[600]),
+        SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 5),
+              Text(
+                value,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
