@@ -19,7 +19,8 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
   String? emails;
   String? userId;
   String? sumPriceRider;
-  int? avgReview;
+  String? avgReview;
+  int? rating;
 
   @override
   void initState() {
@@ -113,21 +114,28 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
         "http://${Global.ip_8080}/gotwo/avg_RiderRating.php"; // URL API
     try {
       final response = await http.post(Uri.parse(url), body: {
-        'userid': userid, // ส่ง user id เพื่อค้นหา sum
+        'userid': userid, // ส่ง user id เพื่อค้นหา avg
       });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success']) {
           setState(() {
-            // ตรวจสอบประเภทของ sum_price และแปลงเป็น String หากจำเป็น
-            avgReview = data['avg_review'];
+            avgReview = data['avg_review'].toString();
+            // พยายามแปลงเป็น int
+            try {
+              double avgReviewDouble = double.parse(avgReview!);
+              rating = avgReviewDouble.toInt();
+            } catch (e) {
+              print('Error: Unable to parse avg_review to int.');
+              rating = 0; // กำหนดค่าเริ่มต้น
+            }
           });
         } else {
           print('Error: ${data['message']}');
         }
       } else {
-        print("Failed to fetch user id");
+        print("Failed to fetch avg review");
       }
     } catch (e) {
       print("F Error: $e");
@@ -143,6 +151,8 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
           : RefreshIndicator(
               onRefresh: () async {
                 await fetchData(); // ดึงข้อมูลใหม่จากเซิร์ฟเวอร์
+                fetchSumPrice(userId!);
+                fetchAVGRating(userId!);
               },
               color: const Color(0xff1a1c43), // สีของวงกลม Refresh
               backgroundColor: Colors.white, // สีพื้นหลังของ RefreshIndicator
@@ -154,7 +164,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                   // String uid = item['regis_rider_id'];
                   String imgShow =
                       "http://${Global.ip_8080}/${item['img_profile'] ?? ''}";
-                  int? _currentRating = avgReview;
+
                   // แสดงเฉพาะข้อมูลของผู้ใช้ที่ล็อกอินอยู่
                   if (userId.toString() == item['regis_rider_id'].toString()) {
                     return Column(
@@ -211,11 +221,32 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                           MainAxisAlignment.center,
                                       children: [
                                         const SizedBox(width: 5),
+                                        Text(
+                                            item['status_rider'] == 0 ||
+                                                    item['status_rider'] ==
+                                                        '0'
+                                                ? "normal"
+                                                : "unnormal",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: item['status_rider'] ==
+                                                          0 ||
+                                                      item['status_rider'] ==
+                                                          '0'
+                                                  ? Colors.green
+                                                  : Colors
+                                                      .red, // สีต่างกันสำหรับแต่ละสถานะ
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        const SizedBox(width: 5),
                                         for (var i = 1; i <= 5; i++)
                                           Icon(
                                             Icons.star,
                                             size: 20,
-                                            color: i <= _currentRating!
+                                            color: i <=
+                                                    (rating ??
+                                                        0) // ใช้ ?? เพื่อกำหนดค่าเริ่มต้นหาก rating เป็น null
                                                 ? Colors.yellow
                                                 : Colors.grey,
                                           ),
