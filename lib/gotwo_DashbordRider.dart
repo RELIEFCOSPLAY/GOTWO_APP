@@ -21,6 +21,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   String? userId;
   String? imgUrl;
   String? emails;
+  String? statusRider;
 
   Future<void> loadLoginInfo() async {
     String? savedEmail = await storage.read(key: 'email');
@@ -46,6 +47,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
           setState(() {
             userId = data['user_id']; // เก็บ user id ที่ได้มา
             imgUrl = data['imgUrl'];
+            statusRider = data['status_rider'];
           });
         } else {
           print('Error: ${data['message']}');
@@ -65,17 +67,31 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (statusRider != 1) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const GotwoProfileRider(),
+          ),
+        );
+      }
+    });
+
+    // สำหรับสถานะปกติ (statusRider == 1)
     return Container(
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [
-          Color(0xff1a1c43),
-          Color(0xff1a1c43),
-        ],
-      )),
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0xff1a1c43),
+            Color(0xff1a1c43),
+          ],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: _page(),

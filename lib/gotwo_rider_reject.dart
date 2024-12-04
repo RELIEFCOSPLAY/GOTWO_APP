@@ -6,14 +6,14 @@ import 'package:gotwo_app/gotwo_DashbordRider.dart';
 import 'package:gotwo_app/gotwo_logout.dart';
 import 'package:http/http.dart' as http;
 
-class GotwoProfileRider extends StatefulWidget {
-  const GotwoProfileRider({super.key});
+class GotwoRiderReject extends StatefulWidget {
+  const GotwoRiderReject({super.key});
 
   @override
-  State<GotwoProfileRider> createState() => _GotwoProfileRiderState();
+  State<GotwoRiderReject> createState() => _GotwoRiderRejectState();
 }
 
-class _GotwoProfileRiderState extends State<GotwoProfileRider> {
+class _GotwoRiderRejectState extends State<GotwoRiderReject> {
   List<dynamic> listData = [];
   final storage = const FlutterSecureStorage();
   String? emails;
@@ -255,17 +255,6 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(width: 5),
-                                        for (var i = 1; i <= 5; i++)
-                                          Icon(
-                                            Icons.star,
-                                            size: 20,
-                                            color: i <=
-                                                    (rating ??
-                                                        0) // ใช้ ?? เพื่อกำหนดค่าเริ่มต้นหาก rating เป็น null
-                                                ? Colors.yellow
-                                                : Colors.grey,
-                                          ),
                                       ],
                                     ),
                                   ],
@@ -274,78 +263,9 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        // Wallet Section
-                        Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.account_balance_wallet,
-                                    size: 30, color: Colors.grey),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Wallet',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const Spacer(), // ใช้ Spacer ได้ที่นี่เพราะ Row มีขนาดแน่นอน
-                                Text(
-                                  "${sumPriceRider ?? '00'} Baht",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
+
                         // Profile Details Section
-                        Card(
-                          elevation: 4,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ProfileDetailRow(
-                                  icon: Icons.email,
-                                  title: 'EMAIL',
-                                  value: item['email'],
-                                ),
-                                const Divider(),
-                                ProfileDetailRow(
-                                  icon: Icons.phone,
-                                  title: 'PHONE NUMBER',
-                                  value: item['tel'],
-                                ),
-                                const Divider(),
-                                ProfileDetailRow(
-                                  icon: Icons.date_range,
-                                  title: 'EXPIRATION DATE',
-                                  value: item['number_bank'],
-                                ),
-                                const Divider(),
-                                const ProfileDetailRow(
-                                  icon: Icons.admin_panel_settings,
-                                  title: 'CONTACT ADMIN',
-                                  value: '+66 999 45678',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
+
                         // Logout Button
                         TextButton.icon(
                           onPressed: () {
@@ -357,7 +277,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
                           },
                           icon: const Icon(Icons.logout, color: Colors.red),
                           label: const Text(
-                            'Log out',
+                            'Exit',
                             style: TextStyle(color: Colors.red, fontSize: 16),
                           ),
                         ),
