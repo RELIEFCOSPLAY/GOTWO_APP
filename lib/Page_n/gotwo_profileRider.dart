@@ -120,7 +120,7 @@ class _GotwoProfileRiderState extends State<GotwoProfileRider> {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['success']) {
-          setState(() {
+          setState(() {   
             avgReview = data['avg_review'].toString();
             // พยายามแปลงเป็น int
             try {
