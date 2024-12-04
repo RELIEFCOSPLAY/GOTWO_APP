@@ -6,6 +6,7 @@ import 'package:gotwo_app/Page_n/gotwo_profileRider.dart';
 import 'package:gotwo_app/global_ip.dart';
 import 'package:gotwo_app/gotwo_PostPage.dart';
 import 'package:gotwo_app/gotwo_SatusRider.dart';
+import 'package:gotwo_app/gotwo_logout.dart';
 import 'package:http/http.dart' as http;
 
 class GotwoDashbordrider extends StatefulWidget {
@@ -47,7 +48,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
           setState(() {
             userId = data['user_id']; // เก็บ user id ที่ได้มา
             imgUrl = data['imgUrl'];
-            statusRider = data['status_rider'];
+            statusRider = data['statusRider'];
           });
         } else {
           print('Error: ${data['message']}');
@@ -67,20 +68,7 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (statusRider != 1) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const GotwoProfileRider(),
-          ),
-        );
-      }
-    });
-
-    // สำหรับสถานะปกติ (statusRider == 1)
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -94,7 +82,51 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: _page(),
+        body: statusRider != '1'
+            ? _suspendPage() // หน้าแสดงเมื่อ statusRider == 1
+            : statusRider == '1'
+                ? _page()
+                : const Center(
+                    child: CircularProgressIndicator()), // แสดงสถานะโหลด
+      ),
+    );
+  }
+
+  Widget _suspendPage() {
+    return Container(
+      color: Colors.white, // พื้นหลังสีขาว
+      child: Column(
+        children: [
+          if (statusRider == '1')
+            const Center(child: CircularProgressIndicator())
+          else ...[
+            const Spacer(), // เพิ่ม Spacer เพื่อดัน Loader ให้อยู่กลาง
+            const Center(
+                child: CircularProgressIndicator()), // แสดงสถานะโหลดตรงกลาง
+            const Spacer(), // Spacer จะดันปุ่มลงไปล่างสุด
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 16.0), // เพิ่มระยะห่างด้านล่าง
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LogoutPage()),
+                  );
+                },
+                icon: const Icon(Icons.logout, color: Colors.red),
+                label: const Text(
+                  'Exit',
+                  style: TextStyle(color: Colors.red, fontSize: 16),
+                ),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white, // สีพื้นหลังปุ่มเป็นสีขาว
+                  padding: const EdgeInsets.all(12.0), // เพิ่มระยะ Padding
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

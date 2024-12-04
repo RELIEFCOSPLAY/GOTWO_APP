@@ -80,7 +80,7 @@ class _LoginpageState extends State<Loginpage> {
                     const GotwoDashbordrider(), // ส่งค่าไปยังหน้าถัดไป
               ),
             );
-          } else if (statusRider == 2) {
+          } else if (statusRider == 2 || statusRider == 0) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -88,12 +88,20 @@ class _LoginpageState extends State<Loginpage> {
                     const GotwoProfileRider(), // ส่งค่าไปยังหน้าถัดไป
               ),
             );
-          }else if (statusRider == 3) {
+          } else if (statusRider == 3) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) =>
                     const GotwoRiderReject(), // ส่งค่าไปยังหน้าถัดไป
+              ),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    const GotwoProfileRider(), // ส่งค่าไปยังหน้าถัดไป
               ),
             );
           }

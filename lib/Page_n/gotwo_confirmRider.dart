@@ -170,29 +170,32 @@ class _GotwoConRider extends State<GotwoConRider> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () async {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const GotwoSatusrider(),
-                          ),
-                          (Route<dynamic> route) => false,
-                        );
-                        String pay = "0"; // กำหนดค่าเริ่มต้น
-                        if (item['pay'].toString() == "1" || item['pay'] == 1) {
-                          pay = "1";
-                        } else if (item['pay'].toString() == "0" ||
-                            item['pay'] == 0) {
-                          pay = "0";
-                        }
-                        String no_comment = "No comment";
-                        String action = "accept";
-                        String status = '3';
-                        String status_post_id =
-                            '${item['status_post_id'] ?? 'Unknown'}';
-                        update_status_Accept(status, status_post_id, action,
-                            no_comment, pay, _imageUrl!);
-                      },
+                      onPressed: _image != null
+                          ? () async {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const GotwoSatusrider(),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                              String pay = "0"; // กำหนดค่าเริ่มต้น
+                              if (item['pay'].toString() == "1" ||
+                                  item['pay'] == 1) {
+                                pay = "1";
+                              } else if (item['pay'].toString() == "0" ||
+                                  item['pay'] == 0) {
+                                pay = "0";
+                              }
+                              String no_comment = "No comment";
+                              String action = "accept";
+                              String status = '3';
+                              String status_post_id =
+                                  '${item['status_post_id'] ?? 'Unknown'}';
+                              update_status_Accept(status, status_post_id,
+                                  action, no_comment, pay, _imageUrl!);
+                            }
+                          : null, // ปิดการใช้งานปุ่มหากไม่มีรูป
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
