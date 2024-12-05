@@ -170,11 +170,14 @@ class _GotwoRequestState extends State<GotwoRequest> {
                 ElevatedButton(
                   onPressed: () async {
                     String pay = "0"; // กำหนดค่าเริ่มต้น
-                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
-                      pay = "2";
+                    if (item['pay'].toString() == "1" ||
+                        item['pay'] == 1 ||
+                        item['pay'].toString() == "2" ||
+                        item['pay'] == 2) {
+                      pay = "4";
                     } else if (item['pay'].toString() == "0" ||
                         item['pay'] == 0) {
-                      pay = "4";
+                      pay = "6";
                     }
                     String action = "cancel";
                     String status = '5';
@@ -201,8 +204,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child:
-                      const Text("Cancel", style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -213,8 +216,8 @@ class _GotwoRequestState extends State<GotwoRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Back",
-                      style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text("Back", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),

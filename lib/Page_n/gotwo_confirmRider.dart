@@ -180,12 +180,15 @@ class _GotwoConRider extends State<GotwoConRider> {
                                 (Route<dynamic> route) => false,
                               );
                               String pay = "0"; // กำหนดค่าเริ่มต้น
-                              if (item['pay'].toString() == "1" ||
-                                  item['pay'] == 1) {
-                                pay = "1";
-                              } else if (item['pay'].toString() == "0" ||
+                              if (item['pay'].toString() == "0" ||
                                   item['pay'] == 0) {
                                 pay = "0";
+                              } else if (item['pay'].toString() == "1" ||
+                                  item['pay'] == 1) {
+                                pay = "1";
+                              } else if (item['pay'].toString() == "2" ||
+                                  item['pay'] == 2) {
+                                pay = "2";
                               }
                               String no_comment = "No comment";
                               String action = "accept";
@@ -280,11 +283,14 @@ class _GotwoConRider extends State<GotwoConRider> {
                       (Route<dynamic> route) => false,
                     );
                     String pay = "0"; // กำหนดค่าเริ่มต้น
-                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
-                      pay = "2";
+                    if (item['pay'].toString() == "1" ||
+                        item['pay'] == 1 ||
+                        item['pay'].toString() == "2" ||
+                        item['pay'] == 2) {
+                      pay = "4";
                     } else if (item['pay'].toString() == "0" ||
                         item['pay'] == 0) {
-                      pay = "4";
+                      pay = "6";
                     }
                     String action = "cancel";
                     String status = '5';
@@ -457,14 +463,41 @@ class _GotwoConRider extends State<GotwoConRider> {
                   ],
                 ),
                 Text(
-                  item['pay'] == '1' || item['pay'] == 1
-                      ? "Paid"
-                      : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                  item['pay'] == '0'
+                      ? "Unpaid"
+                      : item['pay'] == '1'
+                          ? "Paid"
+                          : item['pay'] == '2'
+                              ? "Verify"
+                              : item['pay'] == '3'
+                                  ? "Pending"
+                                  : item['pay'] == '4'
+                                      ? "Refund"
+                                      : item['pay'] == '5'
+                                          ? "Complete"
+                                          : item['pay'] == '6'
+                                              ? "Cancel"
+                                              : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                   style: TextStyle(
                     fontSize: 12,
-                    color: item['pay'] == '1' || item['pay'] == 1
-                        ? Colors.green // Green for "Paid"
-                        : Colors.red, // Red for "Unpaid"
+                    color: item['pay'] == '0'
+                        ? Colors.red // Red for "Unpaid"
+                        : item['pay'] == '1'
+                            ? Colors.green // Green for "Paid"
+                            : item['pay'] == '2'
+                                ? Colors.green[200] // Green[200] for "Verify"
+                                : item['pay'] == '3'
+                                    ? Colors.blue // Blue for "Pending"
+                                    : item['pay'] == '4'
+                                        ? Colors.orange // orange for "Refund"
+                                        : item['pay'] == '5'
+                                            ? Colors.blue[
+                                                200] // Blue[200] for "Complete"
+                                            : item['pay'] == '6'
+                                                ? Colors.red[
+                                                    400] //Red[400] for "Cancel"
+                                                : Colors
+                                                    .grey, // Grey for "Unknown"
                   ),
                 ),
                 Row(
@@ -603,14 +636,14 @@ class _GotwoConRider extends State<GotwoConRider> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: (item['pay'] == '1' || item['pay'] == 1)
+                      onPressed: (item['pay'] == '2' || item['pay'] == 2)
                           ? () async {
                               _showDialog();
                             }
                           : null, // ปุ่มจะกดไม่ได้เมื่อ onPressed เป็น null
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: (item['pay'] == '1' ||
-                                item['pay'] == 1)
+                        backgroundColor: (item['pay'] == '2' ||
+                                item['pay'] == 2)
                             ? Colors.green
                             : Colors
                                 .grey, // ปุ่มจะเปลี่ยนเป็นสีเทาเมื่อ pay == 0

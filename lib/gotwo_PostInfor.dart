@@ -677,6 +677,10 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
               String checked = isChecked ? "1" : "0";
               String cusId = "1";
               String? riderId = userId;
+              // แปลงข้อความจาก controller เป็น int
+              int priceOG = int.tryParse(priceController.text) ?? 0;
+              int priceAndCommission = priceOG + 10;
+              String priceAndCommissionString = priceAndCommission.toString();
 
               insert(
                   dropdownPickup,
@@ -685,7 +689,7 @@ class _GotwoPostinforState extends State<GotwoPostinfor> {
                   commentController2.text,
                   dateController.text,
                   timeController.text,
-                  priceController.text,
+                  priceAndCommissionString,
                   checked,
                   cusId,
                   riderId!);

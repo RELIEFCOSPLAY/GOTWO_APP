@@ -88,11 +88,14 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                 ElevatedButton(
                   onPressed: () async {
                     String pay = "0"; // กำหนดค่าเริ่มต้น
-                    if (item['pay'].toString() == "1" || item['pay'] == 1) {
-                      pay = "2";
+                    if (item['pay'].toString() == "1" ||
+                        item['pay'] == 1 ||
+                        item['pay'].toString() == "2" ||
+                        item['pay'] == 2) {
+                      pay = "4";
                     } else if (item['pay'].toString() == "0" ||
                         item['pay'] == 0) {
-                      pay = "4";
+                      pay = "6";
                     }
                     String action = "cancel";
                     String status = '5';
@@ -120,8 +123,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  child:
-                      const Text("Cancel", style: TextStyle(color: Colors.white)),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white)),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -132,8 +135,8 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  child: const Text("Back",
-                      style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text("Back", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -271,14 +274,41 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                   ],
                 ),
                 Text(
-                  item['pay'] == '1' || item['pay'] == 1
-                      ? "Paid"
-                      : "Unpaid", // ถ้าเป็น 1 แสดง "Paid", ถ้าเป็น 0 แสดง "Unpaid"
+                  item['pay'] == '0'
+                      ? "Unpaid"
+                      : item['pay'] == '1'
+                          ? "Paid"
+                          : item['pay'] == '2'
+                              ? "Verify"
+                              : item['pay'] == '3'
+                                  ? "Pending"
+                                  : item['pay'] == '4'
+                                      ? "Refund"
+                                      : item['pay'] == '5'
+                                          ? "Complete"
+                                          : item['pay'] == '6'
+                                              ? "Cancel"
+                                              : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                   style: TextStyle(
                     fontSize: 12,
-                    color: item['pay'] == '1' || item['pay'] == 1
-                        ? Colors.green // Green for "Paid"
-                        : Colors.red, // Red for "Unpaid"
+                    color: item['pay'] == '0'
+                        ? Colors.red // Red for "Unpaid"
+                        : item['pay'] == '1'
+                            ? Colors.green // Green for "Paid"
+                            : item['pay'] == '2'
+                                ? Colors.green[200] // Green[200] for "Verify"
+                                : item['pay'] == '3'
+                                    ? Colors.blue // Blue for "Pending"
+                                    : item['pay'] == '4'
+                                        ? Colors.orange // orange for "Refund"
+                                        : item['pay'] == '5'
+                                            ? Colors.blue[
+                                                200] // Blue[200] for "Complete"
+                                            : item['pay'] == '6'
+                                                ? Colors.red[
+                                                    400] //Red[400] for "Cancel"
+                                                : Colors
+                                                    .grey, // Grey for "Unknown"
                   ),
                 ),
                 Row(
@@ -286,14 +316,14 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                      item['pay'] == '1' || item['pay'] == 1
+                      item['pay'] == '2' || item['pay'] == 2
                           ? Icons.email
                           : null,
                       color: const Color(0xFF1A1C43),
                     ),
                     const SizedBox(width: 5), // Space between icon and text
                     Text(
-                      item['pay'] == '1' || item['pay'] == 1
+                      item['pay'] == '2' || item['pay'] == 2
                           ? "${item['rider_email'] ?? 'Unknown'}"
                           : "", // ถ้าเป็น 1 แสดง "'rider_email", ถ้าเป็น 0 ไม่แสดง
                       style: const TextStyle(
@@ -308,14 +338,14 @@ class _GotwoTotravel extends State<GotwoTotravel> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                      item['pay'] == '1' || item['pay'] == 1
+                      item['pay'] == '2' || item['pay'] == 2
                           ? Icons.phone
                           : null,
                       color: const Color(0xFF1A1C43),
                     ),
                     const SizedBox(width: 5), // Space between icon and text
                     Text(
-                      item['pay'] == '1' || item['pay'] == 1
+                      item['pay'] == '2' || item['pay'] == 2
                           ? "${item['rider_tel'] ?? 'Unknown'}"
                           : "", // ถ้าเป็น 1 แสดง "'rider_email", ถ้าเป็น 0 ไม่แสดง
                       style: const TextStyle(

@@ -193,59 +193,79 @@ class _GotwoCancel extends State<GotwoCancel> {
                 SizedBox(
                   height: 30,
                   child: TextButton.icon(
-                    onPressed: item['pay'] == '4' || item['pay'] == 4
+                    onPressed: item['pay'] == '6'
                         ? () {
                             _showPaidPopup(context);
                           }
-                        : null, // ถ้าเป็น "Unpaid" ปุ่มจะกดไม่ได้
-                    icon: item['pay'] == '1' || item['pay'] == 1
+                        : null, // ถ้าไม่ใช่ "Complete" ปุ่มจะกดไม่ได้
+                    icon: item['pay'] == '0'
                         ? const Icon(Icons.visibility_off,
-                            color: Colors.green, size: 16) // ไอคอนสำหรับ "Paid"
-                        : item['pay'] == '0' || item['pay'] == 0
+                            color: Colors.red, size: 16) // "Unpaid"
+                        : item['pay'] == '1'
                             ? const Icon(Icons.visibility_off,
-                                color: Colors.red,
-                                size: 16) // ไอคอนสำหรับ "Unpaid"
-                            : item['pay'] == '2' || item['pay'] == 2
+                                color: Colors.green, size: 16) // "Paid"
+                            : item['pay'] == '2'
                                 ? const Icon(Icons.visibility_off,
-                                    color: Colors.orange,
-                                    size: 16) // ไอคอนสำหรับ "Refund"
-                                : item['pay'] == '3' || item['pay'] == 3
+                                    color: Colors.greenAccent,
+                                    size: 16) // "Verify"
+                                : item['pay'] == '3'
                                     ? const Icon(Icons.visibility_off,
                                         color: Colors.blue,
-                                        size: 16) // ไอคอนสำหรับ "Pending"
-                                    : item['pay'] == '4' || item['pay'] == 4
+                                        size: 16) // "Pending"
+                                    : item['pay'] == '4'
                                         ? const Icon(Icons.visibility,
-                                            color: Colors.red,
-                                            size: 16) // ไอคอนสำหรับ "Completed"
-                                        : const Icon(Icons.visibility_off,
-                                            color: Colors.black,
-                                            size: 16), // Default ไอคอน
+                                            color: Colors.orange,
+                                            size: 16) // "Refund"
+                                        : item['pay'] == '5'
+                                            ? const Icon(Icons.visibility,
+                                                color: Colors.lightBlue,
+                                                size: 16) // "Complete"
+                                            : item['pay'] == '6'
+                                                ? const Icon(Icons.visibility,
+                                                    color: Colors.redAccent,
+                                                    size: 16) // "Cancel"
+                                                : const Icon(
+                                                    Icons.visibility_off,
+                                                    color: Colors.grey,
+                                                    size: 16), // Default ไอคอน
                     label: Text(
-                      item['pay'] == '1' || item['pay'] == 1
-                          ? "Paid"
-                          : item['pay'] == '0' || item['pay'] == 0
-                              ? "Unpaid"
-                              : item['pay'] == '2' || item['pay'] == 2
-                                  ? "Cus Refund"
-                                  : item['pay'] == '3' || item['pay'] == 3
+                      item['pay'] == '0'
+                          ? "Unpaid"
+                          : item['pay'] == '1'
+                              ? "Paid"
+                              : item['pay'] == '2'
+                                  ? "Verify"
+                                  : item['pay'] == '3'
                                       ? "Pending"
-                                      : item['pay'] == '4' || item['pay'] == 4
-                                          ? "Cencel"
-                                          : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
+                                      : item['pay'] == '4'
+                                          ? "Refund"
+                                          : item['pay'] == '5'
+                                              ? "Complete"
+                                              : item['pay'] == '6'
+                                                  ? "Cancel"
+                                                  : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                       style: TextStyle(
                         fontSize: 12,
-                        color: item['pay'] == '1' || item['pay'] == 1
-                            ? Colors.green // Green for "Paid"
-                            : item['pay'] == '0' || item['pay'] == 0
-                                ? Colors.red // Red for "Unpaid"
-                                : item['pay'] == '2' || item['pay'] == 2
-                                    ? Colors.orange // Orange for "Refund"
-                                    : item['pay'] == '3' || item['pay'] == 3
+                        color: item['pay'] == '0'
+                            ? Colors.red // Red for "Unpaid"
+                            : item['pay'] == '1'
+                                ? Colors.green // Green for "Paid"
+                                : item['pay'] == '2'
+                                    ? Colors
+                                        .green[200] // Green[200] for "Verify"
+                                    : item['pay'] == '3'
                                         ? Colors.blue // Blue for "Pending"
-                                        : item['pay'] == '4' || item['pay'] == 4
-                                            ? Colors.red // Grey for "Completed"
-                                            : Colors
-                                                .black, // Black for "Unknown"
+                                        : item['pay'] == '4'
+                                            ? Colors
+                                                .orange // Orange for "Refund"
+                                            : item['pay'] == '5'
+                                                ? Colors.blue[
+                                                    200] // Blue[200] for "Complete"
+                                                : item['pay'] == '6'
+                                                    ? Colors.red[
+                                                        400] // Red[400] for "Cancel"
+                                                    : Colors
+                                                        .grey, // Grey for "Unknown"
                       ),
                     ),
                   ),
@@ -272,29 +292,29 @@ class _GotwoCancel extends State<GotwoCancel> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      item['pay'] == '1' || item['pay'] == 1
-                          ? Icons.phone
-                          : null,
-                      color: const Color(0xFF1A1C43),
-                    ),
-                    const SizedBox(width: 5), // Space between icon and text
-                    Text(
-                      item['pay'] == '1' || item['pay'] == 1
-                          ? "${item['rider_tel'] ?? 'Unknown'}"
-                          : "", // ถ้าเป็น 1 แสดง "'rider_email", ถ้าเป็น 0 ไม่แสดง
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF1A1C43), // Red for "Unpaid"
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     Icon(
+                //       item['pay'] == '1' || item['pay'] == 1
+                //           ? Icons.phone
+                //           : null,
+                //       color: const Color(0xFF1A1C43),
+                //     ),
+                //     const SizedBox(width: 5), // Space between icon and text
+                //     Text(
+                //       item['pay'] == '1' || item['pay'] == 1
+                //           ? "${item['rider_tel'] ?? 'Unknown'}"
+                //           : "", // ถ้าเป็น 1 แสดง "'rider_email", ถ้าเป็น 0 ไม่แสดง
+                //       style: const TextStyle(
+                //         fontSize: 12,
+                //         color: Color(0xFF1A1C43), // Red for "Unpaid"
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -398,20 +418,6 @@ class _GotwoCancel extends State<GotwoCancel> {
                     ],
                   ),
                 ),
-
-                // const SizedBox(height: 10),
-                // Text(
-                //   item['status_helmet'] == '1' || item['status_helmet'] == 1
-                //       ? "There is a helmet for you" // If 1, show this message
-                //       : "Bring your own a helmet", // If 0, show this message
-                //   style: TextStyle(
-                //     fontSize: 14,
-                //     color: item['status_helmet'] == '1' ||
-                //             item['status_helmet'] == 1
-                //         ? Colors.green // Green for "There is a helmet for you"
-                //         : Colors.red, // Red for "Bring your own a helmet"
-                //   ),
-                // ),
               ],
             ),
           ),

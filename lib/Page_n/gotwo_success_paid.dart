@@ -11,6 +11,8 @@ class GotwoSuccessPaid extends StatefulWidget {
 
 class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
   void _showPaidPopup(BuildContext context) {
+    final item = widget.item;
+    String imgMoneyslip = 'http://${Global.ip_8080}/${item['img_qr_admin']}';
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -30,19 +32,15 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
                 ),
               ),
               const SizedBox(height: 10),
-              Container(
-                width: 200,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1A1C43),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(
-                  Icons.image,
-                  size: 100,
-                  color: Colors.white,
-                ),
-              ),
+              item['img_qr_admin'] != null &&
+                      item['img_qr_admin'].trim().isNotEmpty
+                  ? Image.network(
+                      imgMoneyslip,
+                      fit: BoxFit.cover, // ปรับให้รูปภาพเติมเต็มพื้นที่
+                      width: 200, // กำหนดขนาดความกว้าง
+                      height: 200, // กำหนดขนาดความสูง
+                    )
+                  : const Icon(Icons.person),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
@@ -193,60 +191,80 @@ class _GotwoSuccessPaid extends State<GotwoSuccessPaid> {
                 SizedBox(
                   height: 30,
                   child: TextButton.icon(
-                    onPressed: item['pay'] == '4' || item['pay'] == 4
+                    onPressed: item['pay'] == '5'
                         ? () {
                             _showPaidPopup(context);
                           }
-                        : null, // ถ้าเป็น "Unpaid" ปุ่มจะกดไม่ได้
-                    icon: item['pay'] == '1' || item['pay'] == 1
+                        : null, // ถ้าไม่ใช่ "Complete" ปุ่มจะกดไม่ได้
+                    icon: item['pay'] == '0'
                         ? const Icon(Icons.visibility_off,
-                            color: Colors.green, size: 16) // ไอคอนสำหรับ "Paid"
-                        : item['pay'] == '0' || item['pay'] == 0
+                            color: Colors.red, size: 16) // "Unpaid"
+                        : item['pay'] == '1'
                             ? const Icon(Icons.visibility_off,
-                                color: Colors.red,
-                                size: 16) // ไอคอนสำหรับ "Unpaid"
-                            : item['pay'] == '2' || item['pay'] == 2
+                                color: Colors.green, size: 16) // "Paid"
+                            : item['pay'] == '2'
                                 ? const Icon(Icons.visibility_off,
-                                    color: Colors.orange,
-                                    size: 16) // ไอคอนสำหรับ "Refund"
-                                : item['pay'] == '3' || item['pay'] == 3
+                                    color: Colors.greenAccent,
+                                    size: 16) // "Verify"
+                                : item['pay'] == '3'
                                     ? const Icon(Icons.visibility_off,
                                         color: Colors.blue,
-                                        size: 16) // ไอคอนสำหรับ "Pending"
-                                    : item['pay'] == '4' || item['pay'] == 4
-                                        ? Icon(Icons.visibility,
-                                            color: Colors.green[300],
-                                            size: 16) // ไอคอนสำหรับ "Completed"
-                                        : const Icon(Icons.visibility_off,
-                                            color: Colors.black,
-                                            size: 16), // Default ไอคอน
+                                        size: 16) // "Pending"
+                                    : item['pay'] == '4'
+                                        ? const Icon(Icons.visibility,
+                                            color: Colors.orange,
+                                            size: 16) // "Refund"
+                                        : item['pay'] == '5'
+                                            ? const Icon(Icons.visibility,
+                                                color: Colors.lightBlue,
+                                                size: 16) // "Complete"
+                                            : item['pay'] == '6'
+                                                ? const Icon(
+                                                    Icons.visibility_off,
+                                                    color: Colors.redAccent,
+                                                    size: 16) // "Cancel"
+                                                : const Icon(
+                                                    Icons.visibility_off,
+                                                    color: Colors.grey,
+                                                    size: 16), // Default ไอคอน
                     label: Text(
-                      item['pay'] == '1' || item['pay'] == 1
-                          ? "Paid"
-                          : item['pay'] == '0' || item['pay'] == 0
-                              ? "Unpaid"
-                              : item['pay'] == '2' || item['pay'] == 2
-                                  ? "Cus Refund"
-                                  : item['pay'] == '3' || item['pay'] == 3
+                      item['pay'] == '0'
+                          ? "Unpaid"
+                          : item['pay'] == '1'
+                              ? "Paid"
+                              : item['pay'] == '2'
+                                  ? "Verify"
+                                  : item['pay'] == '3'
                                       ? "Pending"
-                                      : item['pay'] == '4' || item['pay'] == 4
-                                          ? "Completed"
-                                          : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
+                                      : item['pay'] == '4'
+                                          ? "Refund"
+                                          : item['pay'] == '5'
+                                              ? "Complete"
+                                              : item['pay'] == '6'
+                                                  ? "Cancel"
+                                                  : "Unknown", // กรณีที่ไม่ตรงกับเงื่อนไขใดๆ
                       style: TextStyle(
                         fontSize: 12,
-                        color: item['pay'] == '1' || item['pay'] == 1
-                            ? Colors.green // Green for "Paid"
-                            : item['pay'] == '0' || item['pay'] == 0
-                                ? Colors.red // Red for "Unpaid"
-                                : item['pay'] == '2' || item['pay'] == 2
-                                    ? Colors.orange // Orange for "Refund"
-                                    : item['pay'] == '3' || item['pay'] == 3
+                        color: item['pay'] == '0'
+                            ? Colors.red // Red for "Unpaid"
+                            : item['pay'] == '1'
+                                ? Colors.green // Green for "Paid"
+                                : item['pay'] == '2'
+                                    ? Colors
+                                        .green[200] // Green[200] for "Verify"
+                                    : item['pay'] == '3'
                                         ? Colors.blue // Blue for "Pending"
-                                        : item['pay'] == '4' || item['pay'] == 4
-                                            ? Colors.green[
-                                                300] // Grey for "Completed"
-                                            : Colors
-                                                .black, // Black for "Unknown"
+                                        : item['pay'] == '4'
+                                            ? Colors
+                                                .orange // Orange for "Refund"
+                                            : item['pay'] == '5'
+                                                ? Colors.blue[
+                                                    200] // Blue[200] for "Complete"
+                                                : item['pay'] == '6'
+                                                    ? Colors.red[
+                                                        400] // Red[400] for "Cancel"
+                                                    : Colors
+                                                        .grey, // Grey for "Unknown"
                       ),
                     ),
                   ),
