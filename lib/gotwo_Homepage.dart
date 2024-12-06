@@ -146,7 +146,7 @@ class _GotwoHomepageState extends State<GotwoHomepage> {
 
   Widget _extraText() {
     return const Text(
-      "by gotwo ride sharing service",
+      "Gotwo Ride sharing service",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 12, color: Colors.grey),
     );

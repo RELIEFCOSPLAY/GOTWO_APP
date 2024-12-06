@@ -66,7 +66,7 @@ class _GotwoCancel extends State<GotwoCancel> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-    String imgShow = 'http://${Global.ip_8080}/${item['img_profile']}';
+    String imgShow = 'http://${Global.ip_8080}/${item['customer_profile']}';
     int _currentRating = int.parse(item['review']);
     return Scaffold(
       backgroundColor: const Color(0xFF1A1C43),
@@ -103,7 +103,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                   minRadius: 25,
                   maxRadius: 40,
                   backgroundColor: Colors.white,
-                  child: item!['img_profile'] != null
+                  child: item!['customer_profile'] != null
                       ? ClipOval(
                           // ใช้ ClipOval เพื่อครอบภาพให้เป็นวงกลม
                           child: Image.network(
@@ -119,7 +119,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                   height: 5,
                 ),
                 Text(
-                  "${item['rider_name'] ?? 'Unknown'}",
+                  "${item['customer_name'] ?? 'Unknown'}",
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -145,21 +145,21 @@ class _GotwoCancel extends State<GotwoCancel> {
                     Row(
                       children: [
                         Icon(
-                          item['rider_gender'] == 'male'
+                          item['customer_gender'] == 'male'
                               ? Icons.male // Icon for Male
-                              : item['rider_gender'] == 'female'
+                              : item['customer_gender'] == 'female'
                                   ? Icons.female // Icon for Female
                                   : Icons
                                       .help_outline, // Default icon if gender is unknown or other
-                          color: item['rider_gender'] == 'male'
+                          color: item['customer_gender'] == 'male'
                               ? Colors.blue
-                              : item['rider_gender'] == 'female'
+                              : item['customer_gender'] == 'female'
                                   ? Colors.pink
                                   : Colors.grey,
                         ),
                         const SizedBox(width: 5), // Space between icon and text
                         Text(
-                          "${item['rider_gender'] ?? 'Unknown'}",
+                          "${item['customer_gender'] ?? 'Unknown'}",
                           style: const TextStyle(fontSize: 16),
                         ),
                       ],
@@ -314,7 +314,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                 //     ),
                 //   ],
                 // ),
-                
+
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
