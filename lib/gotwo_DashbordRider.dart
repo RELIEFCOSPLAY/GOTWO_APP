@@ -23,6 +23,9 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
   String? imgUrl;
   String? emails;
   String? statusRider;
+  String? sumPostRider;
+  String? sumConRider;
+  String? sumReqRider;
 
   Future<void> loadLoginInfo() async {
     String? savedEmail = await storage.read(key: 'email');
@@ -49,6 +52,9 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
             userId = data['user_id']; // เก็บ user id ที่ได้มา
             imgUrl = data['imgUrl'];
             statusRider = data['statusRider'];
+            fetchSumPost(userId!);
+            fetchSumCon(userId!);
+            fetchSumRequest(userId!);
           });
         } else {
           print('Error: ${data['message']}');
@@ -58,6 +64,84 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
       }
     } catch (e) {
       print("Error: $e");
+    }
+  }
+
+  Future<void> fetchSumPost(String userid) async {
+    final String url =
+        "http://${Global.ip_8080}/gotwo/sum_Rider_Post.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'userid': userid, // ส่ง user id เพื่อค้นหา sum
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            // ตรวจสอบประเภทของ sum_price และแปลงเป็น String หากจำเป็น
+            sumPostRider = data['sum_post'].toString();
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("F Error: $e");
+    }
+  }
+
+  Future<void> fetchSumCon(String userid) async {
+    final String url =
+        "http://${Global.ip_8080}/gotwo/sum_Rider_Con.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'userid': userid, // ส่ง user id เพื่อค้นหา sum
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            // ตรวจสอบประเภทของ sum_price และแปลงเป็น String หากจำเป็น
+            sumConRider = data['sum_con'].toString();
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("F Error: $e");
+    }
+  }
+
+  Future<void> fetchSumRequest(String userid) async {
+    final String url =
+        "http://${Global.ip_8080}/gotwo/sum_Rider_Request.php"; // URL API
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        'userid': userid, // ส่ง user id เพื่อค้นหา sum
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success']) {
+          setState(() {
+            // ตรวจสอบประเภทของ sum_price และแปลงเป็น String หากจำเป็น
+            sumReqRider = data['sum_req'].toString();
+          });
+        } else {
+          print('Error: ${data['message']}');
+        }
+      } else {
+        print("Failed to fetch user id");
+      }
+    } catch (e) {
+      print("F Error: $e");
     }
   }
 
@@ -258,18 +342,18 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                     color: const Color(0xffF55168),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "4",
-                        style: TextStyle(
+                        "${sumReqRider}",
+                        style: const TextStyle(
                           fontSize: 30,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Request",
                         style: TextStyle(
                           fontSize: 24,
@@ -307,18 +391,18 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                     color: const Color(0xff17C8B1),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "2",
-                        style: TextStyle(
+                        "${sumConRider}",
+                        style: const TextStyle(
                           fontSize: 30,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Confirm",
                         style: TextStyle(
                           fontSize: 24,
@@ -356,18 +440,21 @@ class _GotwoDashbordriderState extends State<GotwoDashbordrider> {
                   ),
                   fixedSize: const Size(300, 80),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "8",
-                      style: TextStyle(
+                      '${sumPostRider}',
+                      style: const TextStyle(
                         fontSize: 30,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    const Text(
                       "Post    ",
                       style: TextStyle(
                         fontSize: 24,

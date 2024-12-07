@@ -193,7 +193,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                 SizedBox(
                   height: 30,
                   child: TextButton.icon(
-                    onPressed: item['pay'] == '6'
+                    onPressed: item['pay'] == '5'
                         ? () {
                             _showPaidPopup(context);
                           }
@@ -213,7 +213,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                                         color: Colors.blue,
                                         size: 16) // "Pending"
                                     : item['pay'] == '4'
-                                        ? const Icon(Icons.visibility,
+                                        ? const Icon(Icons.visibility_off,
                                             color: Colors.orange,
                                             size: 16) // "Refund"
                                         : item['pay'] == '5'
@@ -221,7 +221,7 @@ class _GotwoCancel extends State<GotwoCancel> {
                                                 color: Colors.lightBlue,
                                                 size: 16) // "Complete"
                                             : item['pay'] == '6'
-                                                ? const Icon(Icons.visibility,
+                                                ? const Icon(Icons.visibility_off,
                                                     color: Colors.redAccent,
                                                     size: 16) // "Cancel"
                                                 : const Icon(
